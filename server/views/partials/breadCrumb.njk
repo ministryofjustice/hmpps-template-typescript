@@ -1,0 +1,32 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% macro breadCrumb(pageTitle, breadCrumbList) %}
+
+  {% set rows = [ {
+    text: "Home",
+    href: '/'
+    } ]
+  %}
+
+  {% for item in breadCrumbList %}
+    {% set rows = (rows.push(
+      {
+        text: item.title,
+        href: item.href
+      }
+    ), rows) %}
+  {% endfor %}
+
+  {% set completedRows = (rows.push(
+    {
+      text: pageTitle
+    }
+  ), rows) %}
+
+{{ govukBreadcrumbs({
+  collapseOnMobile: true,
+  items: completedRows,
+  classes: "govuk-!-display-none-print"
+}) }}
+
+{% endmacro %}

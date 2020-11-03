@@ -1,0 +1,13 @@
+dist
+kubectl_deploy*
+helm_deploy*
+README.md
+node_modules
+npm-debug.log
+README.md
+.*
+**/*.test.js
+scss-report.txt
+eslint-report.html
+test-report.html
+docker-compose.yml

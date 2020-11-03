@@ -1,0 +1,21 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "target": "es2018",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "sourceMap": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "skipLibCheck": true,
+    "noEmit": false,
+    "allowJs": true,
+    "checkJs": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true
+  },
+  "exclude": ["node_modules", "assets/**/*.js", "integration_tests", "dist"],
+  "include": ["**/*.js", "**/*.ts"]
+}

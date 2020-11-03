@@ -1,0 +1,109 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "jest": true
+  },
+
+  "plugins": ["import"],
+
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true
+      },
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx", ".json"]
+      }
+    }
+  },
+
+  "overrides": [
+    {
+      "plugins": ["@typescript-eslint"],
+      "parser": "@typescript-eslint/parser",
+      "files": ["**/*.ts"],
+      "excludedFiles": "*.js",
+      "extends": [
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier/@typescript-eslint",
+        "plugin:prettier/recommended"
+      ],
+      "rules": {
+        "@typescript-eslint/no-use-before-define": 0,
+        "class-methods-use-this": 0,
+        "no-useless-constructor": 0,
+        "@typescript-eslint/no-unused-vars": [
+          1,
+          {
+            "argsIgnorePattern": "res|next|^err|_",
+            "ignoreRestSiblings": true
+          }
+        ],
+        "@typescript-eslint/semi": 0,
+        "import/no-unresolved": "error",
+        "prettier/prettier": [
+          "error",
+          {
+            "trailingComma": "es5",
+            "singleQuote": true,
+            "printWidth": 120,
+            "semi": false,
+            "arrowParens": "avoid"
+          }
+        ]
+      }
+    }
+  ],
+
+  "extends": ["airbnb-base", "plugin:prettier/recommended"],
+
+  "rules": {
+    "no-unused-vars": [
+      1,
+      {
+        "argsIgnorePattern": "res|next|^err|_",
+        "ignoreRestSiblings": true
+      }
+    ],
+    "no-use-before-define": 0,
+    "semi": 0,
+    "import/no-unresolved": "error",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "mjs": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "never"
+      }
+    ],
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": ["**/*.test.js", "**/*.test.ts"] }],
+    "prettier/prettier": [
+      "error",
+      {
+        "trailingComma": "es5",
+        "singleQuote": true,
+        "printWidth": 120,
+        "semi": false,
+        "arrowParens": "avoid"
+      }
+    ]
+  }
+}
