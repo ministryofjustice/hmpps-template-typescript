@@ -5,6 +5,6 @@ import UserService from './services/userService'
 const hmppsAuthClient = new HmppsAuthClient()
 const userService = new UserService(hmppsAuthClient)
 
-const app = createApp({ userService })
+const app = createApp(userService)
 
 export default app

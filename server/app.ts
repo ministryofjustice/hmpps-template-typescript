@@ -29,11 +29,7 @@ const production = process.env.NODE_ENV === 'production'
 const testMode = process.env.NODE_ENV === 'test'
 const RedisStore = connectRedis(session)
 
-interface AppServices {
-  userService: UserService
-}
-
-export default function createApp({ userService }: AppServices): express.Application {
+export default function createApp(userService: UserService): express.Application {
   const app = express()
 
   auth.init()
