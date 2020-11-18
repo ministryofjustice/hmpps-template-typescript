@@ -1,0 +1,148 @@
+version: 2.1
+
+orbs:
+  hmpps: ministryofjustice/hmpps@1.1.2
+
+executors:
+  integration-tests:
+    docker:
+      - image: circleci/node:14-buster-browsers
+      - image: circleci/redis:buster
+    working_directory: ~/app
+  builder:
+    docker:
+      - image: 'circleci/node:14-buster-browsers'
+    working_directory: ~/app   
+  
+
+jobs:
+  build:
+    executor: builder
+    steps:
+      - checkout
+      - run:
+          name: Update npm
+          command: 'sudo npm install -g npm@latest'
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install Dependencies
+          command: npm ci --no-audit
+      - save_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+            - ~/.cache
+      - run:
+          command: |
+            npm run build
+            DATE=$(date '+%Y-%m-%d')
+            export BUILD_NUMBER=${DATE}.${CIRCLE_BUILD_NUM}
+            export GIT_REF="$CIRCLE_SHA1"
+            npm run record-build-info
+      - run: # Run linter after build because the integration test code depend on compiled typescript...
+          name: Linter check
+          command: npm run lint
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules
+            - build-info.json
+            - build
+            - dist
+            - .cache/Cypress
+
+  unit_test:
+    executor: builder
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: unit tests
+          command: npm run test
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: test-results/unit-test-reports.html
+
+  integration_test:
+    executor: integration-tests
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/app
+      - run:
+          name: Install missing OS dependency
+          command: sudo apt-get install libxss1
+      - run:
+          name: Get wiremock
+          command: curl -o wiremock.jar https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.27.1/wiremock-standalone-2.27.1.jar
+      - run:
+          name: Run wiremock
+          command: java -jar wiremock.jar --port 9191
+          background: true
+      - run:
+          name: Run the node app.
+          command: npm run start-feature
+          background: true
+      - run:
+          name: Wait for node app to start
+          command: sleep 5
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: integration tests
+          command: npm run int-test
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: integration-tests/videos
+      - store_artifacts:
+          path: integration-tests/screenshots
+
+workflows:
+  version: 2
+  build-test-and-deploy:
+    jobs:
+      - build:
+        filters:
+          tags:
+            ignore: /.*/
+      - unit_test:
+          requires:
+            - build
+      - integration_test:
+          requires:
+            - build
+      - hmpps/helm_lint:
+          name: helm_lint
+      - hmpps/build_docker:
+          name: build_docker
+          filters:
+            branches:
+              only:
+                - main
+      - hmpps/deploy_env:
+          name: deploy_dev
+          env: "dev"
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - helm_lint
+            - unit_test
+            - integration_test
+            - build_docker
+
+  scheduled:
+    triggers:
+      - schedule:
+          cron: "0 7 * * 1-5"
+          filters:
+            branches:
+              only:
+                - main
+    jobs:
+      - hmpps/npm_security_audit
