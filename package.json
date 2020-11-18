@@ -1,8 +1,8 @@
 {
-  "name": "example-typescript-template",
+  "name": "hmpps-template-typescript",
   "version": "0.0.1",
-  "description": "Example Typescript Template",
-  "repository": "git@github.com:brightonsbox/example-typescript-template.git",
+  "description": "HMPPS Template Typescript",
+  "repository": "git@github.com:ministryofjustice/hmpps-template-typescript.git",
   "license": "MIT",
   "scripts": {
     "copy-views": "cp -R server/views dist/server/",
