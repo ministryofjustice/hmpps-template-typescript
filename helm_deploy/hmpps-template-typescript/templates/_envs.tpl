@@ -5,7 +5,7 @@ Environment variables for web and worker containers
 {{- define "deployment.envs" }}
 env:
   - name: INGRESS_URL
-    value: "https://{{ .Values.ingress.host }}/"
+    value: "https://{{ .Values.ingress.host }}"
 
   - name: API_CLIENT_ID
     valueFrom:
