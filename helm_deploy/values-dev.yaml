@@ -17,15 +17,6 @@ ingress:
   path: /
 
 env:
-  API_ENDPOINT_URL: https://api-dev.prison.service.justice.gov.uk/
-  OAUTH_ENDPOINT_URL: https://sign-in-dev.hmpps.service.justice.gov.uk/auth/
-  NN_ENDPOINT_URL: https://digital-dev.prison.service.justice.gov.uk/
-  API_WHEREABOUTS_ENDPOINT_URL: https://whereabouts-api-dev.service.justice.gov.uk/
-  HMPPS_COOKIE_NAME: hmpps-session-dev
-  REMOTE_AUTH_STRATEGY: "true"
-  WEB_SESSION_TIMEOUT_IN_MINUTES: "60"
-  VIDEO_LINK_ENABLED_FOR: "WWI"
+  HMPPS_AUTH_URL: https://sign-in-dev.hmpps.service.justice.gov.uk/auth/
   TOKENVERIFICATION_API_URL: https://token-verification-api-dev.prison.service.justice.gov.uk
-  TOKENVERIFICATION_API_ENABLED: true
-  REDIS_ENABLED: true
-  SUPPORT_URL: https://support-dev.hmpps.service.justice.gov.uk/
+  TOKEN_VERIFICATION_ENABLED: true
