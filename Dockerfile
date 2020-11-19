@@ -48,13 +48,10 @@ COPY --from=build --chown=appuser:appgroup \
         ./
 
 COPY --from=build --chown=appuser:appgroup \
-        /app/build ./build
+        /app/assets ./assets
 
 COPY --from=build --chown=appuser:appgroup \
         /app/node_modules ./node_modules
-
-COPY --from=build --chown=appuser:appgroup \
-        /app/views ./views
 
 RUN npm prune --production
 
