@@ -18,5 +18,5 @@ ingress:
 
 env:
   HMPPS_AUTH_URL: https://sign-in-dev.hmpps.service.justice.gov.uk/auth/
-  TOKENVERIFICATION_API_URL: https://token-verification-api-dev.prison.service.justice.gov.uk
+  TOKEN_VERIFICATION_API_URL: https://token-verification-api-dev.prison.service.justice.gov.uk
   TOKEN_VERIFICATION_ENABLED: true
