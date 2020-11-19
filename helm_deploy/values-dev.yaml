@@ -12,7 +12,7 @@ image:
 ingress:
   enabled: true
   enable_whitelist: false
-  host: hmpps-template-typescript-dev.prison.service.justice.gov.uk
+  host: hmpps-template-typescript-dev.hmpps.service.justice.gov.uk
   cert_secret: hmpps-template-typescript-cert
   path: /
 
