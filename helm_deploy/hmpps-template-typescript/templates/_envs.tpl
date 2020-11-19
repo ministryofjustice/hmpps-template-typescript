@@ -46,13 +46,13 @@ env:
   - name: REDIS_HOST
     valueFrom:
       secretKeyRef:
-        name: hmpps_template_typescript_elasticache_redis
+        name: hmpps-template-typescript-elasticache-redis
         key: primary_endpoint_address
 
   - name: REDIS_AUTH_TOKEN
     valueFrom:
       secretKeyRef:
-        name: hmpps_template_typescript_elasticache_redis
+        name: hmpps-template-typescript-elasticache-redis
         key: auth_token
 
   - name: REDIS_TLS_ENABLED
