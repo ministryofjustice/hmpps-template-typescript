@@ -1,6 +1,6 @@
 import passport from 'passport'
 import { Strategy } from 'passport-oauth2'
-import type { Request, RequestHandler } from 'express'
+import type { RequestHandler } from 'express'
 
 import config from '../config'
 import generateOauthClientToken from './clientCredentials'
@@ -26,16 +26,6 @@ const authenticationMiddleware: AuthenticationMiddleware = verifyToken => {
     req.session.returnTo = req.originalUrl
     return res.redirect('/login')
   }
-}
-
-export interface UserDetails {
-  username: string
-  token: string
-  authSource: string
-}
-
-export interface UserRequest extends Request {
-  user: UserDetails
 }
 
 function init(): void {
