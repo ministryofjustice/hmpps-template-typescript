@@ -40,7 +40,6 @@ function appSetup(route: Router, production: boolean): Express {
   nunjucksSetup(app, path)
 
   app.use((req, res, next) => {
-    req.user = user
     res.locals = {}
     res.locals.user = req.user
     next()

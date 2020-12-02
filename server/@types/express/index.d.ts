@@ -7,3 +7,15 @@ declare module 'express-session' {
     nowInMinutes: number
   }
 }
+
+export declare global {
+  namespace Express {
+    interface Request {
+      verified?: boolean
+      user: {
+        username: string
+        token: string
+      }
+    }
+  }
+}

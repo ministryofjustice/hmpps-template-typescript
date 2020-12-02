@@ -15,15 +15,7 @@ function getApiClientToken(token: string) {
     })
 }
 
-export interface VerifiableRequest extends Request {
-  verified?: boolean
-  user: {
-    username: string
-    token: string
-  }
-}
-
-export type TokenVerifier = (request: VerifiableRequest) => Promise<boolean | void>
+export type TokenVerifier = (request: Request) => Promise<boolean | void>
 
 const tokenVerifier: TokenVerifier = async request => {
   const { user, verified } = request
