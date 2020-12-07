@@ -17,7 +17,7 @@
     "watch-node-feature": "export $(cat feature.env) && nodemon --watch dist/ $NODE_DEBUG_OPTION dist/server.js | bunyan -o short",
     "start-feature:dev": "npm run build && concurrently -k -p \"[{name}]\" -n \"Views,TypeScript,Node,Sass\" -c \"yellow.bold,cyan.bold,green.bold,blue.bold\" \"npm run watch-views\" \"npm run watch-ts\" \"npm run watch-node-feature\" \"npm run watch-sass\"",
     "record-build-info": "node ./bin/record-build-info",
-    "lint": "eslint . --cache",
+    "lint": "eslint . --cache --max-warnings 0",
     "typecheck": "tsc",
     "test": "jest",
     "security_audit": "npx audit-ci --config audit-ci.json",
