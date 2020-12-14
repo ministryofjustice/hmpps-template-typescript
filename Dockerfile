@@ -1,4 +1,4 @@
-# Build stage 1.
+# Stage: base image
 ARG BUILD_NUMBER
 ARG GIT_REF
 
@@ -17,24 +17,28 @@ WORKDIR /app
 RUN apt-get update && \
     apt-get upgrade -y
 
-# Build stage 2.
+# Stage: build assets
 FROM base as build
 ARG BUILD_NUMBER
 ARG GIT_REF
 
 RUN apt-get install -y make python g++
 
+COPY package*.json ./
+RUN CYPRESS_INSTALL_BINARY=0 npm ci --no-audit
+
 COPY . .
+RUN npm run build
 
 ENV BUILD_NUMBER ${BUILD_NUMBER:-1_0_0}
 ENV GIT_REF ${GIT_REF:-dummy}
-
-RUN CYPRESS_INSTALL_BINARY=0 npm ci --no-audit && npm run build  && \
-    export BUILD_NUMBER=${BUILD_NUMBER} && \
+RUN export BUILD_NUMBER=${BUILD_NUMBER} && \
     export GIT_REF=${GIT_REF} && \
     npm run record-build-info
 
-# Build stage 3.
+RUN npm prune --no-audit --production
+
+# Stage: copy production assets and dependencies
 FROM base
 
 RUN apt-get autoremove -y && \
@@ -43,19 +47,20 @@ RUN apt-get autoremove -y && \
 COPY --from=build --chown=appuser:appgroup \
         /app/package.json \
         /app/package-lock.json \
-        /app/dist \
         /app/build-info.json \
         ./
 
 COPY --from=build --chown=appuser:appgroup \
-        /app/assets ./assets
+       /app/assets ./assets
+
+COPY --from=build --chown=appuser:appgroup \
+        /app/dist ./dist
 
 COPY --from=build --chown=appuser:appgroup \
         /app/node_modules ./node_modules
 
-RUN npm prune --production
-
 EXPOSE 3000
+ENV NODE_ENV='production'
 USER 2000
 
 CMD [ "npm", "start" ]
