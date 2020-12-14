@@ -19,7 +19,7 @@
 
 {% endblock %}
 
-{% block pageTitle %}Example Typescript Template{% endblock %}
+{% block pageTitle %}{{pageTitle | default(applicationName)}}{% endblock %}
 
 {% block header %}
   {% include "./header.njk" %}
