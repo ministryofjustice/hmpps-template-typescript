@@ -37,7 +37,7 @@ export default {
   staticResourceCacheDuration: 20,
   redis: {
     host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT || 6379,
+    port: parseInt(process.env.REDIS_PORT, 10) || 6379,
     password: process.env.REDIS_AUTH_TOKEN,
     tls_enabled: get('REDIS_TLS_ENABLED', 'false'),
   },

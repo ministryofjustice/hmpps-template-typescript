@@ -146,7 +146,7 @@ export default function createApp(userService: UserService): express.Application
     res.locals.user = req.user
     next()
   })
- 
+
   // Don't cache dynamic resources
   app.use(noCache())
 

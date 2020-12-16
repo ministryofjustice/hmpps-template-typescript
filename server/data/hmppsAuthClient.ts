@@ -1,7 +1,6 @@
 import superagent from 'superagent'
 import querystring from 'querystring'
-import redis from 'redis'
-import { promisify } from 'util'
+import type TokenStore from './tokenStore'
 
 import logger from '../../log'
 import config from '../config'
@@ -10,20 +9,6 @@ import RestClient from './restClient'
 
 const timeoutSpec = config.apis.hmppsAuth.timeout
 const hmppsAuthUrl = config.apis.hmppsAuth.url
-const redisClient = redis.createClient({
-  port: config.redis.port,
-  password: config.redis.password,
-  host: config.redis.host,
-  tls: config.redis.tls_enabled === 'true' ? {} : false,
-  prefix: 'systemToken:',
-})
-
-redisClient.on('error', error => {
-  logger.error(error, `Redis error`)
-})
-
-const getRedisAsync = promisify(redisClient.get).bind(redisClient)
-const setRedisAsync = promisify(redisClient.set).bind(redisClient)
 
 function getSystemClientTokenFromHmppsAuth(username?: string): Promise<superagent.Response> {
   const clientToken = generateOauthClientToken(
@@ -47,16 +32,18 @@ function getSystemClientTokenFromHmppsAuth(username?: string): Promise<superagen
     .timeout(timeoutSpec)
 }
 
-interface User {
+export interface User {
   name: string
   activeCaseLoadId: string
 }
 
-interface UserRole {
+export interface UserRole {
   roleCode: string
 }
 
 export default class HmppsAuthClient {
+  constructor(private readonly tokenStore: TokenStore) {}
+
   private restClient(token: string): RestClient {
     return new RestClient('HMPPS Auth Client', config.apis.hmppsAuth, token)
   }
@@ -73,17 +60,17 @@ export default class HmppsAuthClient {
   }
 
   async getSystemClientToken(username?: string): Promise<string> {
-    const redisKey = username || '%ANONYMOUS%'
+    const key = username || '%ANONYMOUS%'
 
-    const tokenFromRedis = await getRedisAsync(redisKey)
-    if (tokenFromRedis) {
-      return tokenFromRedis
+    const token = await this.tokenStore.getToken(key)
+    if (token) {
+      return token
     }
 
     const newToken = await getSystemClientTokenFromHmppsAuth(username)
 
     // set TTL slightly less than expiry of token. Async but no need to wait
-    await setRedisAsync(redisKey, newToken.body.access_token, 'EX', newToken.body.expires_in - 60)
+    await this.tokenStore.setToken(key, newToken.body.access_token, newToken.body.expires_in - 60)
 
     return newToken.body.access_token
   }
