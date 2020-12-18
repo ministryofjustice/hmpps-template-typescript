@@ -1,7 +1,13 @@
 # hmpps-template-typescript
 Template github repo used for new Typescript based projects.
 
-## Getting started
+## Manually branding from template app
+Run the `rename-project.bash` and create a PR.
+
+The rename-project.bash script takes a single argument - the name of the project and calculates from it the project description
+It then performs a search and replace and directory renames so the project is ready to be used.
+
+## Running the app
 The easiest way to run the app is to use docker compose to create the service and all dependencies. 
 
 `docker-compose pull`
@@ -19,8 +25,7 @@ To start the main services excluding the example typescript template app:
 
 `docker-compose up`
 
-Install dependencies using `npm install`, ensuring you are using >= `Node v12.16.x`
-(Circle build/test using node:12.18.2-buster-browsers, Dockerfile using node:12-buster-slim)
+Install dependencies using `npm install`, ensuring you are using >= `Node v14.x`
 
 And then, to build the assets and start the app with nodemon:
 

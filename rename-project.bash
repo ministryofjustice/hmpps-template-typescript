@@ -18,11 +18,9 @@ PROJECT_NAME_LOWER=${PROJECT_INPUT,,}                 # lowercase
 PROJECT_NAME_HYPHENS=${PROJECT_NAME_LOWER// /-}       # spaces to hyphens
 
 PROJECT_NAME=${PROJECT_NAME_HYPHENS//[^a-z0-9-]/}     # remove all other characters
-PACKAGE_NAME=${PROJECT_NAME//-/}                      # remove hyphen
 
 read -ra PROJECT_NAME_ARRAY <<<"${PROJECT_NAME//-/ }" # convert to array
 PROJECT_DESCRIPTION=${PROJECT_NAME_ARRAY[*]^}         # convert array back to string thus capitalising first character
-CLASS_NAME=${PROJECT_DESCRIPTION// /}                 # then remove spaces
 
 echo "Found:      Project of $PROJECT_DESCRIPTION"
 echo "       Project name of $PROJECT_NAME"
