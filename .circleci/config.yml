@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  hmpps: ministryofjustice/hmpps@1.1.2
+  hmpps: ministryofjustice/hmpps@2.2
 
 executors:
   integration-tests:
@@ -126,6 +126,7 @@ workflows:
       - hmpps/deploy_env:
           name: deploy_dev
           env: "dev"
+          context: hmpps-common-vars
           filters:
             branches:
               only:
