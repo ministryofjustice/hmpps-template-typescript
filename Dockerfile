@@ -47,8 +47,10 @@ RUN apt-get autoremove -y && \
 COPY --from=build --chown=appuser:appgroup \
         /app/package.json \
         /app/package-lock.json \
-        /app/build-info.json \
         ./
+
+COPY --from=build --chown=appuser:appgroup \
+        /app/build-info.json ./dist/build-info.json
 
 COPY --from=build --chown=appuser:appgroup \
        /app/assets ./assets
