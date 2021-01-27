@@ -2,7 +2,7 @@ import superagent from 'superagent'
 import querystring from 'querystring'
 import type TokenStore from './tokenStore'
 
-import logger from '../../log'
+import logger from '../../logger'
 import config from '../config'
 import generateOauthClientToken from '../authentication/clientCredentials'
 import RestClient from './restClient'

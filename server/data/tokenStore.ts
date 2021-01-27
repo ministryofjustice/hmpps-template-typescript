@@ -1,7 +1,7 @@
 import redis from 'redis'
 import { promisify } from 'util'
 
-import logger from '../../log'
+import logger from '../../logger'
 import config from '../config'
 
 const createRedisClient = () => {

@@ -1,7 +1,7 @@
 import jwtDecode from 'jwt-decode'
 import { RequestHandler } from 'express'
 
-import logger from '../../log'
+import logger from '../../logger'
 
 export default function authorisationMiddleware(authorisedRoles: string[] = []): RequestHandler {
   return (req, res, next) => {
