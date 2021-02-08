@@ -56,16 +56,16 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
           name: install-npm
           command: 'npm ci --no-audit'
       - run:
           name: Check version
           command: 'npm --version'
-      - run: |
-          npm outdated
-          echo "))  $?  (("
+      - run:
+          name: Run check
+          command: 'npm outdated typescript govuk-frontend'
 
   unit_test:
     executor:
