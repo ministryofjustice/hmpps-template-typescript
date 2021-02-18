@@ -2,7 +2,7 @@
 ARG BUILD_NUMBER
 ARG GIT_REF
 
-FROM node:14-buster-slim as base
+FROM node:14.15-buster-slim as base
 
 LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
 
@@ -53,7 +53,7 @@ COPY --from=build --chown=appuser:appgroup \
         /app/build-info.json ./dist/build-info.json
 
 COPY --from=build --chown=appuser:appgroup \
-       /app/assets ./assets
+        /app/assets ./assets
 
 COPY --from=build --chown=appuser:appgroup \
         /app/dist ./dist
