@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 const production = process.env.NODE_ENV === 'production'
 
-function get(name: string, fallback, options = { requireInProduction: false }) {
+function get<T>(name: string, fallback: T, options = { requireInProduction: false }): T | string {
   if (process.env[name]) {
     return process.env[name]
   }
@@ -43,15 +43,15 @@ export default {
   },
   session: {
     secret: get('SESSION_SECRET', 'app-insecure-default-session', requiredInProduction),
-    expiryMinutes: get('WEB_SESSION_TIMEOUT_IN_MINUTES', '120'),
+    expiryMinutes: Number(get('WEB_SESSION_TIMEOUT_IN_MINUTES', 120)),
   },
   apis: {
     hmppsAuth: {
       url: get('HMPPS_AUTH_URL', 'http://localhost:9090/auth', requiredInProduction),
       externalUrl: get('HMPPS_AUTH_EXTERNAL_URL', get('HMPPS_AUTH_URL', 'http://localhost:9090/auth')),
       timeout: {
-        response: get('HMPPS_AUTH_TIMEOUT_RESPONSE', 10000),
-        deadline: get('HMPPS_AUTH_TIMEOUT_DEADLINE', 10000),
+        response: Number(get('HMPPS_AUTH_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('HMPPS_AUTH_TIMEOUT_DEADLINE', 10000)),
       },
       agent: new AgentConfig(),
       apiClientId: get('API_CLIENT_ID', 'clientid', requiredInProduction),
@@ -62,8 +62,8 @@ export default {
     tokenVerification: {
       url: get('TOKEN_VERIFICATION_API_URL', 'http://localhost:8100', requiredInProduction),
       timeout: {
-        response: get('TOKEN_VERIFICATION_API_TIMEOUT_RESPONSE', 5000),
-        deadline: get('TOKEN_VERIFICATION_API_TIMEOUT_DEADLINE', 5000),
+        response: Number(get('TOKEN_VERIFICATION_API_TIMEOUT_RESPONSE', 5000)),
+        deadline: Number(get('TOKEN_VERIFICATION_API_TIMEOUT_DEADLINE', 5000)),
       },
       agent: new AgentConfig(),
       enabled: get('TOKEN_VERIFICATION_ENABLED', 'false') === 'true',

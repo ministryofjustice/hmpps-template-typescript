@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { Response } from 'express'
+import { Request, Response } from 'express'
 
 import authorisationMiddleware from './authorisationMiddleware'
 
@@ -8,7 +8,7 @@ function createToken(authorities: string[]) {
     user_name: 'USER1',
     scope: ['read', 'write'],
     auth_source: 'nomis',
-    ...authorities,
+    authorities,
     jti: 'a610a10-cca6-41db-985f-e87efb303aaf',
     client_id: 'clientid',
   }
@@ -17,17 +17,17 @@ function createToken(authorities: string[]) {
 }
 
 describe('authorisationMiddleware', () => {
-  let req
+  let req: Request
   const next = jest.fn()
 
-  function createResWithToken(authorities): Response {
+  function createResWithToken({ authorities }: { authorities: string[] }): Response {
     return ({
       locals: {
         user: {
           token: createToken(authorities),
         },
       },
-      redirect: redirectUrl => {
+      redirect: (redirectUrl: string) => {
         return redirectUrl
       },
     } as unknown) as Response

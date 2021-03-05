@@ -14,7 +14,7 @@ interface HealthCheckResult extends Record<string, unknown> {
 }
 
 export type HealthCheckService = () => Promise<HealthCheckStatus>
-type HealthCheckCallback = (result: HealthCheckResult) => void
+export type HealthCheckCallback = (result: HealthCheckResult) => void
 
 function service(name: string, url: string, agentConfig: AgentConfig): HealthCheckService {
   const check = serviceCheckFactory(name, url, agentConfig)
@@ -44,7 +44,7 @@ function getBuild() {
   }
 }
 
-function gatherCheckInfo(aggregateStatus, currentStatus: HealthCheckStatus) {
+function gatherCheckInfo(aggregateStatus: Record<string, unknown>, currentStatus: HealthCheckStatus) {
   return { ...aggregateStatus, [currentStatus.name]: currentStatus.message }
 }
 

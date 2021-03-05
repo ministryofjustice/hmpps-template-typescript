@@ -15,6 +15,20 @@ interface GetRequest {
   raw?: boolean
 }
 
+interface PostRequest {
+  path?: string
+  headers?: Record<string, string>
+  responseType?: string
+  data?: Record<string, unknown>
+  raw?: boolean
+}
+
+interface StreamRequest {
+  path?: string
+  headers?: Record<string, string>
+  errorLogger?: (e: UnsanitisedError) => void
+}
+
 export default class RestClient {
   agent: Agent
 
@@ -58,7 +72,13 @@ export default class RestClient {
     }
   }
 
-  async post({ path = null, headers = {}, responseType = '', data = {}, raw = false } = {}): Promise<unknown> {
+  async post({
+    path = null,
+    headers = {},
+    responseType = '',
+    data = {},
+    raw = false,
+  }: PostRequest = {}): Promise<unknown> {
     logger.info(`Post using user credentials: calling ${this.name}: ${path}`)
     try {
       const result = await superagent
@@ -82,7 +102,11 @@ export default class RestClient {
     }
   }
 
-  async stream({ path = null, headers = {}, errorLogger = this.defaultErrorLogger } = {}): Promise<unknown> {
+  async stream({
+    path = null,
+    headers = {},
+    errorLogger = this.defaultErrorLogger,
+  }: StreamRequest = {}): Promise<unknown> {
     logger.info(`Get using user credentials: calling ${this.name}: ${path}`)
     return new Promise((resolve, reject) => {
       superagent

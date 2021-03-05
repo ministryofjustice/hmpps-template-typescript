@@ -4,7 +4,7 @@ import verifyToken from './tokenVerification'
 import config from '../config'
 
 describe('token verification api tests', () => {
-  let fakeApi
+  let fakeApi: nock.Scope
 
   beforeEach(() => {
     fakeApi = nock(config.apis.tokenVerification.url)
