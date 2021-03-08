@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  hmpps: ministryofjustice/hmpps@2.3
+  hmpps: ministryofjustice/hmpps@3.0
 
 executors:
   integration-tests:
