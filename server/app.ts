@@ -117,6 +117,8 @@ export default function createApp(userService: UserService): express.Application
     '/assets/js',
     '/node_modules/govuk-frontend/govuk/assets',
     '/node_modules/govuk-frontend',
+    '/node_modules/@ministryofjustice/frontend/moj/assets',
+    '/node_modules/@ministryofjustice/frontend',
     '/node_modules/jquery/dist',
   ].forEach(dir => {
     app.use('/assets', express.static(path.join(process.cwd(), dir), cacheControl))
