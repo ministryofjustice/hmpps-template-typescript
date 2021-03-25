@@ -6,7 +6,6 @@ import noCache from 'nocache'
 import csurf from 'csurf'
 import path from 'path'
 import compression from 'compression'
-import bodyParser from 'body-parser'
 import createError from 'http-errors'
 import flash from 'connect-flash'
 import passport from 'passport'
@@ -89,8 +88,8 @@ export default function createApp(userService: UserService): express.Application
   app.use(passport.session())
 
   // Request Processing Configuration
-  app.use(bodyParser.json())
-  app.use(bodyParser.urlencoded({ extended: true }))
+  app.use(express.json())
+  app.use(express.urlencoded({ extended: true }))
 
   app.use(flash())
 
