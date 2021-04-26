@@ -1,6 +1,5 @@
-import * as dotenv from 'dotenv'
+import 'dotenv/config'
 
-dotenv.config()
 const production = process.env.NODE_ENV === 'production'
 
 function get<T>(name: string, fallback: T, options = { requireInProduction: false }): T | string {

@@ -1,5 +1,5 @@
 import superagent from 'superagent'
-import { Request } from 'express'
+import type { Request } from 'express'
 import getSanitisedError from '../sanitisedError'
 import config from '../config'
 import logger from '../../logger'

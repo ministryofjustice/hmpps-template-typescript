@@ -2,7 +2,7 @@ import sanitisedError, { UnsanitisedError } from './sanitisedError'
 
 describe('sanitised error', () => {
   it('it should omit the request headers from the error object ', () => {
-    const error = ({
+    const error = {
       name: '',
       status: 404,
       response: {
@@ -23,7 +23,7 @@ describe('sanitised error', () => {
       },
       message: 'Not Found',
       stack: 'stack description',
-    } as unknown) as UnsanitisedError
+    } as unknown as UnsanitisedError
 
     expect(sanitisedError(error)).toEqual({
       headers: { date: 'Tue, 19 May 2020 15:16:20 GMT' },
@@ -36,18 +36,18 @@ describe('sanitised error', () => {
   })
 
   it('it should return the error message ', () => {
-    const error = ({
+    const error = {
       message: 'error description',
-    } as unknown) as UnsanitisedError
+    } as unknown as UnsanitisedError
     expect(sanitisedError(error)).toEqual({
       message: 'error description',
     })
   })
 
   it('it should return an empty object for an unknown error structure', () => {
-    const error = ({
+    const error = {
       property: 'unknown',
-    } as unknown) as UnsanitisedError
+    } as unknown as UnsanitisedError
     expect(sanitisedError(error)).toEqual({})
   })
 })
