@@ -138,6 +138,11 @@ export default function createApp(userService: UserService): express.Application
       res.json(result)
     })
   })
+  app.get('/ping', (req, res) =>
+    res.send({
+      status: 'UP',
+    })
+  )
 
   // GovUK Template Configuration
   app.locals.asset_path = '/assets/'
