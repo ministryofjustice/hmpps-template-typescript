@@ -1,0 +1,58 @@
+---
+generic-service:
+  nameOverride: hmpps-template-typescript
+
+  replicaCount: 4
+
+  image:
+    repository: quay.io/hmpps/hmpps-template-typescript
+    tag: app_version    # override at deployment time
+    port: 3000
+
+  ingress:
+    enabled: true
+    host: app-hostname.local    # override per environment
+    tlsSecretName: hmpps-template-typescript-cert
+    path: /
+
+  livenessProbe:
+    httpGet:
+      path: /ping
+
+  readinessProbe:
+    httpGet:
+      path: /ping
+
+  # Environment variables to load into the deployment
+  env:
+    NODE_ENV: "production"
+    REDIS_TLS_ENABLED: "true"
+    TOKEN_VERIFICATION_ENABLED: "true"
+
+  # Pre-existing kubernetes secrets to load as environment variables in the deployment.
+  # namespace_secrets:
+  #   [name of kubernetes secret]:
+  #     [name of environment variable as seen by app]: [key of kubernetes secret to load]
+
+  namespace_secrets:
+    hmpps-template-typescript:
+      APPINSIGHTS_INSTRUMENTATIONKEY: "APPINSIGHTS_INSTRUMENTATIONKEY"
+      API_CLIENT_ID: "API_CLIENT_ID"
+      API_CLIENT_SECRET: "API_CLIENT_SECRET"
+      SYSTEM_CLIENT_ID: "SYSTEM_CLIENT_ID"
+      SYSTEM_CLIENT_SECRET: "SYSTEM_CLIENT_SECRET"
+      SESSION_SECRET: "SESSION_SECRET"
+    hmpps-template-typescript-elasticache-redis:
+      REDIS_HOST: "primary_endpoint_address"
+      REDIS_AUTH_TOKEN: "auth_token"
+
+  allowlist:
+    office: "217.33.148.210/32"
+    health-kick: "35.177.252.195/32"
+    mojvpn: "81.134.202.29/32"
+    cloudplatform-live1-1: "35.178.209.113/32"
+    cloudplatform-live1-2: "3.8.51.207/32"
+    cloudplatform-live1-3: "35.177.252.54/32"
+
+generic-prometheus-alerts:
+  targetApplication: hmpps-template-typescript

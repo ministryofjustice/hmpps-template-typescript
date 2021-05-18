@@ -1,22 +1,17 @@
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+---
+# Per environment values which override defaults in hmpps-template-typescript/values.yaml
 
-replicaCount: 2
+generic-service:
+  replicaCount: 2
 
-image:
-  repository: quay.io/hmpps/hmpps-template-typescript
-  tag: latest
-  pullPolicy: IfNotPresent
-  port: 3000
+  ingress:
+    host: hmpps-template-typescript-dev.hmpps.service.justice.gov.uk
 
-ingress:
-  enabled: true
-  enable_whitelist: false
-  host: hmpps-template-typescript-dev.hmpps.service.justice.gov.uk
-  cert_secret: hmpps-template-typescript-cert
-  path: /
+  env:
+    INGRESS_URL: "https://hmpps-template-typescript-dev.hmpps.service.justice.gov.uk"
+    HMPPS_AUTH_URL: "https://sign-in-dev.hmpps.service.justice.gov.uk/auth"
+    TOKEN_VERIFICATION_API_URL: "https://token-verification-api-dev.prison.service.justice.gov.uk"
 
-env:
-  HMPPS_AUTH_URL: https://sign-in-dev.hmpps.service.justice.gov.uk/auth
-  TOKEN_VERIFICATION_API_URL: https://token-verification-api-dev.prison.service.justice.gov.uk
-  TOKEN_VERIFICATION_ENABLED: true
+generic-prometheus-alerts:
+  alertSeverity: digital-prison-service-dev
+
