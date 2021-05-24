@@ -7,6 +7,7 @@ describe('token verification api tests', () => {
   let fakeApi: nock.Scope
 
   beforeEach(() => {
+    config.apis.tokenVerification.url = 'http://localhost:8100'
     fakeApi = nock(config.apis.tokenVerification.url)
   })
 

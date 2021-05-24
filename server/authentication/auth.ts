@@ -13,7 +13,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((user, done) => {
   // Not used but required for Passport
-  done(null, user)
+  done(null, user as Express.User)
 })
 
 export type AuthenticationMiddleware = (tokenVerifier: TokenVerifier) => RequestHandler
