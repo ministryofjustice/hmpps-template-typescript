@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   hmpps: ministryofjustice/hmpps@3.2
+  slack: circleci/slack@4.4.2
 
 executors:
   integration-tests:
