@@ -168,7 +168,9 @@ workflows:
               only:
                 - main
     jobs:
-      - check_outdated
+      - check_outdated:
+          context:
+            - hmpps-common-vars
       - hmpps/npm_security_audit:
           context:
             - hmpps-common-vars
