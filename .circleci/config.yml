@@ -11,6 +11,11 @@ executors:
       - image: circleci/redis:buster
     working_directory: ~/app
 
+parameters:
+  alerts-slack-channel:
+    type: string
+    default: hmpps_typescript_notifications
+
 jobs:
   build:
     executor:
@@ -69,7 +74,7 @@ jobs:
           command: 'npm outdated typescript govuk-frontend'
       - slack/notify:
           event: fail
-          channel: hmpps_typescript_notifications
+          channel: << pipeline.parameters.alerts-slack-channel >>
           template: basic_fail_1
 
   unit_test:
