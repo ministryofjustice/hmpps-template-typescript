@@ -1,26 +1,28 @@
 version: 2.1
 
 orbs:
-  hmpps: ministryofjustice/hmpps@3.2
+  hmpps: ministryofjustice/hmpps@3.4.0
   slack: circleci/slack@4.4.2
-
-executors:
-  integration-tests:
-    docker:
-      - image: cimg/node:14.17-browsers
-      - image: circleci/redis:buster
-    working_directory: ~/app
 
 parameters:
   alerts-slack-channel:
     type: string
     default: hmpps_typescript_notifications
 
+executors:
+  builder:
+    docker:
+      - image: 'cimg/node:14.17-browsers'
+    working_directory: ~/app
+  integration-tests:
+    docker:
+      - image: cimg/node:14.17-browsers
+      - image: circleci/redis:buster
+    working_directory: ~/app
+
 jobs:
   build:
-    executor:
-      name: hmpps/node
-      tag: 14.17-browsers
+    executor: builder
     steps:
       - checkout
       - run:
@@ -56,9 +58,7 @@ jobs:
             - .cache/Cypress
 
   check_outdated:
-    executor:
-      name: hmpps/node
-      tag: 14.17-browsers
+    executor: builder
     steps:
       - checkout
       - restore_cache:
@@ -78,9 +78,7 @@ jobs:
           template: basic_fail_1
 
   unit_test:
-    executor:
-      name: hmpps/node
-      tag: 14.17-browsers
+    executor: builder
     steps:
       - checkout
       - restore_cache:
