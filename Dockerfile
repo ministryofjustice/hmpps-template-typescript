@@ -1,8 +1,8 @@
 # Stage: base image
-ARG BUILD_NUMBER
-ARG GIT_REF
+ARG BUILD_NUMBER=1_0_0
+ARG GIT_REF=not-available
 
-FROM node:14.15-buster-slim as base
+FROM node:14.17-buster-slim as base
 
 LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
 
@@ -30,8 +30,6 @@ RUN CYPRESS_INSTALL_BINARY=0 npm ci --no-audit
 COPY . .
 RUN npm run build
 
-ENV BUILD_NUMBER ${BUILD_NUMBER:-1_0_0}
-ENV GIT_REF ${GIT_REF:-dummy}
 RUN export BUILD_NUMBER=${BUILD_NUMBER} && \
     export GIT_REF=${GIT_REF} && \
     npm run record-build-info

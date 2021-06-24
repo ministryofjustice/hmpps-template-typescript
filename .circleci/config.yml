@@ -7,7 +7,7 @@ orbs:
 executors:
   integration-tests:
     docker:
-      - image: cimg/node:14.15-browsers
+      - image: cimg/node:14.17-browsers
       - image: circleci/redis:buster
     working_directory: ~/app
 
@@ -20,7 +20,7 @@ jobs:
   build:
     executor:
       name: hmpps/node
-      tag: 14.15-browsers
+      tag: 14.17-browsers
     steps:
       - checkout
       - run:
@@ -58,7 +58,7 @@ jobs:
   check_outdated:
     executor:
       name: hmpps/node
-      tag: 14.15-browsers
+      tag: 14.17-browsers
     steps:
       - checkout
       - restore_cache:
@@ -80,7 +80,7 @@ jobs:
   unit_test:
     executor:
       name: hmpps/node
-      tag: 14.15-browsers
+      tag: 14.17-browsers
     steps:
       - checkout
       - restore_cache:
