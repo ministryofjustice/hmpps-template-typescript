@@ -10,10 +10,6 @@ parameters:
     default: hmpps_typescript_notifications
 
 executors:
-  builder:
-    docker:
-      - image: 'cimg/node:14.17-browsers'
-    working_directory: ~/app
   integration-tests:
     docker:
       - image: cimg/node:14.17-browsers
@@ -22,7 +18,7 @@ executors:
 
 jobs:
   build:
-    executor: builder
+    executor: hmpps/node
     steps:
       - checkout
       - run:
@@ -58,7 +54,7 @@ jobs:
             - .cache/Cypress
 
   check_outdated:
-    executor: builder
+    executor: hmpps/node
     steps:
       - checkout
       - restore_cache:
@@ -78,7 +74,7 @@ jobs:
           template: basic_fail_1
 
   unit_test:
-    executor: builder
+    executor: hmpps/node
     steps:
       - checkout
       - restore_cache:
