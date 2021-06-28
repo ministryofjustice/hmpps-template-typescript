@@ -16,7 +16,7 @@ parameters:
 executors:
   integration-tests:
     docker:
-      - image: cimg/node:14.17-browsers
+      - image: cimg/node:<< pipeline.parameters.node-version >>
       - image: circleci/redis:buster
     working_directory: ~/app
 
