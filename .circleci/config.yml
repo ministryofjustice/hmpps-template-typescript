@@ -9,6 +9,10 @@ parameters:
     type: string
     default: hmpps_typescript_notifications
 
+  node-version:
+    type: string
+    default: 14.17-browsers
+
 executors:
   integration-tests:
     docker:
@@ -18,7 +22,9 @@ executors:
 
 jobs:
   build:
-    executor: hmpps/node
+    executor:
+      name: hmpps/node
+      tag: << pipeline.parameters.node-version >>
     steps:
       - checkout
       - run:
@@ -54,7 +60,9 @@ jobs:
             - .cache/Cypress
 
   check_outdated:
-    executor: hmpps/node
+    executor:
+      name: hmpps/node
+      tag: << pipeline.parameters.node-version >>
     steps:
       - checkout
       - restore_cache:
@@ -74,7 +82,9 @@ jobs:
           template: basic_fail_1
 
   unit_test:
-    executor: hmpps/node
+    executor:
+      name: hmpps/node
+      tag: << pipeline.parameters.node-version >>
     steps:
       - checkout
       - restore_cache:
