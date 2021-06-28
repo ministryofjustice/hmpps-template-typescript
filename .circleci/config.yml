@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  hmpps: ministryofjustice/hmpps@3.4.0
+  hmpps: ministryofjustice/hmpps@3.5
   slack: circleci/slack@4.4.2
 
 parameters:
@@ -182,6 +182,9 @@ workflows:
             - hmpps-common-vars
       - hmpps/npm_security_audit:
           slack_channel: << pipeline.parameters.alerts-slack-channel >>
+          context:
+            - hmpps-common-vars
+      - hmpps/trivy_latest_scan:
           context:
             - hmpps-common-vars
       - hmpps/veracode_policy_scan:
