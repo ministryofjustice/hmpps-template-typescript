@@ -1,0 +1,24 @@
+name: rename-project-create-pr
+
+on: [workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run rename-project script
+        run: ./rename-project.bash ${{ github.event.repository.name }}
+
+      - name: Delete this github actions workflow
+        run: rm .github/workflows/rename_template_project*
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: updating project name after deployment from template repository
+          title: Update template project name/references
+          body: Update all references to project name after deploying from template repository
+          branch: rename_template_project
+          base: main

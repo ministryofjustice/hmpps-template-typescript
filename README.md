@@ -3,7 +3,7 @@ Template github repo used for new Typescript based projects.
 
 # Instructions
 
-If this is a Digital Prison Services project then the project will be created as part of bootstrapping - 
+If this is a HMPPS project then the project will be created as part of bootstrapping - 
 see https://github.com/ministryofjustice/dps-project-bootstrap.
 
 ## Creating a CloudPlatform namespace
@@ -16,7 +16,7 @@ This template namespace includes an AWS elasticache setup - which is required by
 
 Copy this folder, update all the existing namespace references, and submit a PR to the CloudPlatform team. Further instructions from the CloudPlatform team can be found here: <https://user-guide.cloud-platform.service.justice.gov.uk/#cloud-platform-user-guide>
 
-## Renaming from HMPPS Template Kotlin - github Actions
+## Renaming from HMPPS Template Typescript - github Actions
 
 Once the new repository is deployed. Navigate to the repository in github, and select the `Actions` tab.
 Click the link to `Enable Actions on this repository`.
