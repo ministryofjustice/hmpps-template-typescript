@@ -6,6 +6,13 @@ Template github repo used for new Typescript based projects.
 If this is a HMPPS project then the project will be created as part of bootstrapping - 
 see https://github.com/ministryofjustice/dps-project-bootstrap.
 
+This bootstrap is community managed by the mojdt `#typescript` slack channel. 
+Please raise any questions or queries there. Contributions welcome!
+
+Our security policy is located [here](https://github.com/ministryofjustice/hmpps-template-typescript/security/policy). 
+
+More information about the template project including features can be found [here](https://dsdmoj.atlassian.net/wiki/spaces/NDSS/pages/3488677932/Typescript+template+project).
+
 ## Creating a CloudPlatform namespace
 
 When deploying to a new namespace, you may wish to use this template typescript project namespace as the basis for your new namespace:
@@ -34,6 +41,10 @@ Run the `rename-project.bash` and create a PR.
 
 The rename-project.bash script takes a single argument - the name of the project and calculates from it the project description
 It then performs a search and replace and directory renames so the project is ready to be used.
+
+## Ensuring slack notifications are raised correctly
+
+To ensure notifications are routed to the correct slack channels, update the `alerts-slack-channel` and `releases-slack-channel` parameters in `.circle/config.yml` to an appropriate channel.
 
 ## Running the app
 The easiest way to run the app is to use docker compose to create the service and all dependencies. 

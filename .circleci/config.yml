@@ -9,6 +9,10 @@ parameters:
     type: string
     default: hmpps_typescript_notifications
 
+  releases-slack-channel:
+    type: string
+    default: hmpps_typescript_notifications
+
   node-version:
     type: string
     default: 14.17-browsers
@@ -163,6 +167,33 @@ workflows:
             - unit_test
             - integration_test
             - build_docker
+
+#      - request-preprod-approval:
+#          type: approval
+#          requires:
+#            - deploy_dev
+#      - hmpps/deploy_env:
+#          name: deploy_preprod
+#          env: "preprod"
+#          context:
+#            - hmpps-common-vars
+#            - hmpps-template-typescript-preprod
+#          requires:
+#            - request-preprod-approval
+#      - request-prod-approval:
+#          type: approval
+#          requires:
+#            - deploy_preprod
+#      - hmpps/deploy_env:
+#          name: deploy_prod
+#          env: "prod"
+#          slack_notification: true
+#          slack_channel_name: << pipeline.parameters.releases-slack-channel >>
+#          context:
+#            - hmpps-common-vars
+#            - hmpps-template-typescript-prod
+#          requires:
+#            - request-prod-approval
 
   security:
     triggers:
