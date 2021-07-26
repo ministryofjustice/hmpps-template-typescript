@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "noEmit": true,
+    "lib": ["es5", "dom", "es2015.promise"],
+    "types": ["cypress"],
+    "esModuleInterop": true
+  },
+  "include": ["**/*.ts"]
+}

@@ -1,7 +1,8 @@
-const jwt = require('jsonwebtoken')
+import jwt from 'jsonwebtoken'
+import { Response } from 'superagent'
 
-const { stubFor, getRequests } = require('./wiremock')
-const tokenVerification = require('./tokenVerification')
+import { stubFor, getRequests } from './wiremock'
+import tokenVerification from './tokenVerification'
 
 const createToken = () => {
   const payload = {
@@ -16,7 +17,7 @@ const createToken = () => {
   return jwt.sign(payload, 'secret', { expiresIn: '1h' })
 }
 
-const getLoginUrl = () =>
+const getLoginUrl = (): Promise<string> =>
   getRequests().then(data => {
     const { requests } = data.body
     const stateParam = requests[0].request.queryParams.state
@@ -135,9 +136,10 @@ const stubUserRoles = () =>
     },
   })
 
-module.exports = {
+export default {
   getLoginUrl,
-  stubPing: () => Promise.all([ping(), tokenVerification.stubPing()]),
-  stubLogin: () => Promise.all([favicon(), redirect(), logout(), token(), tokenVerification.stubVerifyToken()]),
-  stubUser: () => Promise.all([stubUser(), stubUserRoles()]),
+  stubPing: (): Promise<[Response, Response]> => Promise.all([ping(), tokenVerification.stubPing()]),
+  stubLogin: (): Promise<[Response, Response, Response, Response, Response]> =>
+    Promise.all([favicon(), redirect(), logout(), token(), tokenVerification.stubVerifyToken()]),
+  stubUser: (): Promise<[Response, Response]> => Promise.all([stubUser(), stubUserRoles()]),
 }

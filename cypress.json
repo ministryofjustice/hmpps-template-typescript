@@ -1,12 +1,12 @@
 {
     "chromeWebSecurity": false,
     "baseUrl": "http://localhost:3007",
-    "ignoreTestFiles": "**/!(*.spec).js",
+    "ignoreTestFiles": "**/!(*.spec).ts",
     "fixturesFolder": "integration_tests/fixtures",
     "integrationFolder": "integration_tests/integration",
-    "pluginsFile": "integration_tests/plugins/index.js",
+    "pluginsFile": "integration_tests/plugins/index.ts",
     "screenshotsFolder": "integration_tests/screenshots",
-    "supportFile": "integration_tests/support/index.js",
+    "supportFile": "integration_tests/support/index.ts",
     "videosFolder": "integration_tests/videos",
     "reporter": "cypress-multi-reporters",
     "reporterOptions": {

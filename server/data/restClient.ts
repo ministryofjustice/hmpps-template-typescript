@@ -44,10 +44,6 @@ export default class RestClient {
     return this.config.timeout
   }
 
-  defaultErrorLogger(error: UnsanitisedError): void {
-    logger.warn(sanitiseError(error), `Error calling ${this.name}`)
-  }
-
   async get({ path = null, query = '', headers = {}, responseType = '', raw = false }: GetRequest): Promise<unknown> {
     logger.info(`Get using user credentials: calling ${this.name}: ${path} ${query}`)
     try {
@@ -102,11 +98,7 @@ export default class RestClient {
     }
   }
 
-  async stream({
-    path = null,
-    headers = {},
-    errorLogger = this.defaultErrorLogger,
-  }: StreamRequest = {}): Promise<unknown> {
+  async stream({ path = null, headers = {} }: StreamRequest = {}): Promise<unknown> {
     logger.info(`Get using user credentials: calling ${this.name}: ${path}`)
     return new Promise((resolve, reject) => {
       superagent
@@ -121,7 +113,7 @@ export default class RestClient {
         .set(headers)
         .end((error, response) => {
           if (error) {
-            errorLogger(error)
+            logger.warn(sanitiseError(error), `Error calling ${this.name}`)
             reject(error)
           } else if (response) {
             const s = new Readable()

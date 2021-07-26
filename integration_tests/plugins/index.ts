@@ -1,9 +1,9 @@
-const { resetStubs } = require('../mockApis/wiremock')
+import { resetStubs } from '../mockApis/wiremock'
 
-const auth = require('../mockApis/auth')
-const tokenVerification = require('../mockApis/tokenVerification')
+import auth from '../mockApis/auth'
+import tokenVerification from '../mockApis/tokenVerification'
 
-module.exports = on => {
+export default (on: (string, Record) => void): void => {
   on('task', {
     reset: resetStubs,
 

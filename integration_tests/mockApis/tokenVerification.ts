@@ -1,7 +1,8 @@
-const { stubFor } = require('./wiremock')
+import { SuperAgentRequest } from 'superagent'
+import { stubFor } from './wiremock'
 
-module.exports = {
-  stubPing: () => {
+export default {
+  stubPing: (): SuperAgentRequest => {
     return stubFor({
       request: {
         method: 'GET',
@@ -14,7 +15,7 @@ module.exports = {
       },
     })
   },
-  stubVerifyToken: () => {
+  stubVerifyToken: (): SuperAgentRequest => {
     return stubFor({
       request: {
         method: 'POST',
