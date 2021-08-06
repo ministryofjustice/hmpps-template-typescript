@@ -19,24 +19,24 @@ export default function setUpAuth(): Router {
     return res.render('autherror')
   })
 
-  router.get('/login', passport.authenticate('oauth2'))
+  router.get('/sign-in', passport.authenticate('oauth2'))
 
-  router.get('/login/callback', (req, res, next) =>
+  router.get('/sign-in/callback', (req, res, next) =>
     passport.authenticate('oauth2', {
       successReturnToOrRedirect: req.session.returnTo || '/',
       failureRedirect: '/autherror',
     })(req, res, next)
   )
 
-  const authLogoutUrl = `${config.apis.hmppsAuth.externalUrl}/logout?client_id=${config.apis.hmppsAuth.apiClientId}&redirect_uri=${config.domain}`
+  const authSignOutUrl = `${config.apis.hmppsAuth.externalUrl}/sign-out?client_id=${config.apis.hmppsAuth.apiClientId}&redirect_uri=${config.domain}`
 
-  router.use('/logout', (req, res) => {
+  router.use('/sign-out', (req, res) => {
     if (req.user) {
       req.logout()
-      req.session.destroy(() => res.redirect(authLogoutUrl))
+      req.session.destroy(() => res.redirect(authSignOutUrl))
       return
     }
-    res.redirect(authLogoutUrl)
+    res.redirect(authSignOutUrl)
   })
 
   router.use((req, res, next) => {

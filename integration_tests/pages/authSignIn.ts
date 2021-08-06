@@ -1,6 +1,6 @@
 import Page from './page'
 
-export default class AuthLoginPage extends Page {
+export default class AuthSignInPage extends Page {
   constructor() {
     super('Sign in')
   }

@@ -22,7 +22,7 @@ services:
       test: ["CMD", "curl", "-f", "http://localhost:8080/auth/health"]
     environment:
       - SPRING_PROFILES_ACTIVE=dev
-      - DELIUS_ENABLED=false
+      - APPLICATION_AUTHENTICATION_UI_ALLOWLIST=0.0.0.0/0
 
   app:
     build: .

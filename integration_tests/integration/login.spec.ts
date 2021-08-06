@@ -1,29 +1,29 @@
 import IndexPage from '../pages/index'
-import AuthLoginPage from '../pages/authLogin'
+import AuthSignInPage from '../pages/authSignIn'
 import Page from '../pages/page'
 
-context('Login', () => {
+context('SignIn', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubLogin')
+    cy.task('stubSignIn')
     cy.task('stubAuthUser')
   })
 
   it('Unauthenticated user directed to auth', () => {
     cy.visit('/')
-    Page.verifyOnPage(AuthLoginPage)
+    Page.verifyOnPage(AuthSignInPage)
   })
 
   it('User name visible in header', () => {
-    cy.login()
+    cy.signIn()
     const indexPage = Page.verifyOnPage(IndexPage)
     indexPage.headerUserName().should('contain.text', 'J. Smith')
   })
 
   it('User can log out', () => {
-    cy.login()
+    cy.signIn()
     const indexPage = Page.verifyOnPage(IndexPage)
-    indexPage.logout().click()
-    Page.verifyOnPage(AuthLoginPage)
+    indexPage.signOut().click()
+    Page.verifyOnPage(AuthSignInPage)
   })
 })

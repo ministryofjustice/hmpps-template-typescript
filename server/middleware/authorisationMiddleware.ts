@@ -17,6 +17,6 @@ export default function authorisationMiddleware(authorisedRoles: string[] = []):
     }
 
     req.session.returnTo = req.originalUrl
-    return res.redirect('/login')
+    return res.redirect('/sign-in')
   }
 }
