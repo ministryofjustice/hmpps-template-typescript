@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  hmpps: ministryofjustice/hmpps@3.8
+  hmpps: ministryofjustice/hmpps@3.10
   slack: circleci/slack@4.4.2
 
 parameters:
@@ -215,6 +215,20 @@ workflows:
           slack_channel: << pipeline.parameters.alerts-slack-channel >>
           context:
             - hmpps-common-vars
+      - hmpps/veracode_pipeline_scan:
+          slack_channel: << pipeline.parameters.alerts-slack-channel >>
+          context:
+            - veracode-credentials
+            - hmpps-common-vars
+  security-weekly:
+    triggers:
+      - schedule:
+          cron: "0 5 * * 1"
+          filters:
+            branches:
+              only:
+                - main
+    jobs:
       - hmpps/veracode_policy_scan:
           slack_channel: << pipeline.parameters.alerts-slack-channel >>
           context:
