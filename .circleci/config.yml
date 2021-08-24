@@ -101,6 +101,8 @@ jobs:
       redis_tag: buster
     steps:
       - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
       - attach_workspace:
           at: ~/app
       - run:
