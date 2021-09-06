@@ -1,8 +1,8 @@
 # Stage: base image
+FROM node:14.17-buster-slim as base
+
 ARG BUILD_NUMBER=1_0_0
 ARG GIT_REF=not-available
-
-FROM node:14.17-buster-slim as base
 
 LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
 
@@ -19,8 +19,6 @@ RUN apt-get update && \
 
 # Stage: build assets
 FROM base as build
-ARG BUILD_NUMBER
-ARG GIT_REF
 
 RUN apt-get install -y make python g++
 
