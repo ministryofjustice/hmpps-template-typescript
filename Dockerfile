@@ -15,12 +15,18 @@ RUN addgroup --gid 2000 --system appgroup && \
 WORKDIR /app
 
 RUN apt-get update && \
-    apt-get upgrade -y
+    apt-get upgrade -y && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/*
 
 # Stage: build assets
 FROM base as build
 
-RUN apt-get install -y make python g++
+ARG BUILD_NUMBER=1_0_0
+ARG GIT_REF=not-available
+
+RUN apt-get update && \
+    apt-get install -y make python g++
 
 COPY package*.json ./
 RUN CYPRESS_INSTALL_BINARY=0 npm ci --no-audit
@@ -36,9 +42,6 @@ RUN npm prune --no-audit --production
 
 # Stage: copy production assets and dependencies
 FROM base
-
-RUN apt-get autoremove -y && \
-    rm -rf /var/lib/apt/lists/*
 
 COPY --from=build --chown=appuser:appgroup \
         /app/package.json \
