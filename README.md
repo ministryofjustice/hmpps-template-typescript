@@ -58,11 +58,11 @@ The app requires:
 * hmpps-auth - for authentication
 * redis - session store and token caching
 
-### Runing the app for development
+### Running the app for development
 
 To start the main services excluding the example typescript template app: 
 
-`docker-compose up`
+`docker-compose up --scale=app=0`
 
 Install dependencies using `npm install`, ensuring you are using >= `Node v14.x`
 
