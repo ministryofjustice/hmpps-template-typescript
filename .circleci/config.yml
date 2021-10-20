@@ -92,7 +92,7 @@ jobs:
       - store_test_results:
           path: test_results
       - store_artifacts:
-          path: test-results/unit-test-reports.html
+          path: test_results/unit-test-reports.html
 
   integration_test:
     executor:
@@ -137,9 +137,9 @@ workflows:
   build-test-and-deploy:
     jobs:
       - build:
-        filters:
-          tags:
-            ignore: /.*/
+          filters:
+            tags:
+              ignore: /.*/
       - unit_test:
           requires:
             - build
