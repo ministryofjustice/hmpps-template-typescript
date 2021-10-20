@@ -1,83 +1,141 @@
-#header-contents {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.hmpps-header {
+  @include govuk-responsive-padding(3, 'top');
+  @include govuk-responsive-padding(3, 'bottom');
+  background-color: govuk-colour('black');
 
-  padding: 5px 0;
-
-  @include govuk-media-query($until: tablet) {
-    justify-content: space-around;
-    flex-wrap: wrap;
-  }
-}
-
-#site-header-block {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
-
-#logo {
-  img {
-    max-width: 100%;
-    max-height: 100%;
-  }
-  height: 35px;
-  @include govuk-media-query($until: tablet) {
-    height: 30px;
-  }
-}
-
-#hmpps-title {
-  border-right: white solid 1px;
-  padding: 0 15px;
-  font-size: 26px;
-  @include govuk-media-query($until: desktop) {
-    border-right: none;
-    display: none;
-  }
-  @include govuk-media-query($from: desktop ) {
-    display: inline;
-  }
-}
-
-#main-title {
-  text-align: left;
-  font-size: 26px;
-  flex-grow: 1;
-  text-decoration: none;
-  padding-left: 15px;
-  font-weight: normal;
-
-  @include govuk-media-query($until: desktop) {
-    font-size: 22px;
-    padding-left: 15px;
-  }
-}
-
-#user-block {
-  color: white;
-  float: right;
-  display: flex;
-  justify-content: flex-end;
-  height: 30px;
-
-  a {
-    color: white;
+  &__container {
+    @include govuk-width-container;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  div {
-    height: 100%;
-    padding: 0 15px;
+  &__logo {
+    @include govuk-responsive-margin(2, 'right');
+    position: relative;
+    top: -2px;
+    fill: govuk-colour('white');
+  }
+
+  &__title {
+    @include govuk-responsive-padding(3, 'right');
     display: flex;
     align-items: center;
 
-    &:not(:last-child) {
-      border-right: solid white 3px;
+    &__organisation-name {
+      @include govuk-responsive-margin(2, 'right');
+      @include govuk-font($size: 24, $weight: 'bold');
+      display: flex;
+      align-items: center;
     }
 
-    @include govuk-media-query($until: tablet) {
-      text-align: center;
+    &__service-name {
+      display: none;
+      @include govuk-font(24);
+
+      @include govuk-media-query($from: desktop) {
+        display: inline-block;
+      }
     }
+  }
+
+  &__link {
+    @include govuk-link-common;
+    @include govuk-link-style-default;
+
+    &:link,
+    &:visited,
+    &:active {
+      color: govuk-colour('white');
+      text-decoration: none;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:focus {
+      color: govuk-colour('black');
+
+      svg {
+        fill: govuk-colour('black');
+      }
+    }
+
+    &__sub-text {
+      @include govuk-font(16);
+      display: none;
+
+      @include govuk-media-query($from: tablet) {
+        display: block;
+      }
+    }
+  }
+
+  &__navigation {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    @include govuk-media-query($from: tablet) {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    &__item {
+      @include govuk-font(19);
+      margin-bottom: govuk-spacing(1);
+      text-align: right;
+
+      @include govuk-media-query($from: tablet) {
+        @include govuk-responsive-margin(4, 'right');
+        @include govuk-responsive-padding(4, 'right');
+        margin-bottom: 0;
+        border-right: 1px solid govuk-colour('white');
+      }
+
+      a {
+        display: inline-block;
+      }
+
+      &:last-child {
+        margin-right: 0;
+        border-right: 0;
+        padding-right: 0;
+      }
+    }
+  }
+
+  @media print {
+    display: none;
+  }
+}
+
+.location-bar {
+  @include govuk-width-container;
+  @include govuk-responsive-margin(3, 'bottom');
+  @include govuk-responsive-padding(3, 'top');
+  @include govuk-responsive-padding(3, 'bottom');
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 1px solid $govuk-border-colour;
+
+  &__location {
+    @include govuk-font($size: 19, $weight: 'bold');
+    @include govuk-responsive-margin(3, 'right');
+  }
+
+  &__link {
+    @include govuk-link-common;
+    @include govuk-link-style-default;
+    @include govuk-font($size: 19, $weight: 'normal');
+  }
+
+  @media print {
+    display: none;
   }
 }
