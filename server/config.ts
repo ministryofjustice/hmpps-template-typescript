@@ -67,6 +67,7 @@ export default {
       agent: new AgentConfig(),
       enabled: get('TOKEN_VERIFICATION_ENABLED', 'false') === 'true',
     },
+    dpsUrl: get('DPS_URL', 'http://localhost:3001', requiredInProduction),
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
 }
