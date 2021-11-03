@@ -78,6 +78,21 @@ const signOut = () =>
     },
   })
 
+const manageDetails = () =>
+  stubFor({
+    request: {
+      method: 'GET',
+      urlPattern: '/auth/account-details.*',
+    },
+    response: {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/html',
+      },
+      body: '<html><body><h1>Your account details</h1></body></html>',
+    },
+  })
+
 const token = () =>
   stubFor({
     request: {
@@ -139,7 +154,7 @@ const stubUserRoles = () =>
 export default {
   getSignInUrl,
   stubPing: (): Promise<[Response, Response]> => Promise.all([ping(), tokenVerification.stubPing()]),
-  stubSignIn: (): Promise<[Response, Response, Response, Response, Response]> =>
-    Promise.all([favicon(), redirect(), signOut(), token(), tokenVerification.stubVerifyToken()]),
+  stubSignIn: (): Promise<[Response, Response, Response, Response, Response, Response]> =>
+    Promise.all([favicon(), redirect(), signOut(), manageDetails(), token(), tokenVerification.stubVerifyToken()]),
   stubUser: (): Promise<[Response, Response]> => Promise.all([stubUser(), stubUserRoles()]),
 }
