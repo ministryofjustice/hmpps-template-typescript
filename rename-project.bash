@@ -39,6 +39,15 @@ echo "Performing directory renames"
 # move helm stuff to new name
 mv "helm_deploy/hmpps-template-typescript" "helm_deploy/$PROJECT_NAME"
 
+# change cron job to be random time otherwise we hit rate limiting with veracode
+RANDOM_HOUR=$((RANDOM % (9 - 3 + 1) + 3))
+RANDOM_MINUTE=$(($RANDOM%60))
+RANDOM_MINUTE2=$(($RANDOM%60))
+sed -i -z -E \
+  -e "s/security:\n    triggers:\n      - schedule:\n          cron: \"30 5/security:\n    triggers:\n      - schedule:\n          cron: \"$RANDOM_MINUTE $RANDOM_HOUR/" \
+  -e "s/security-weekly:\n    triggers:\n      - schedule:\n          cron: \"0 5/security-weekly:\n    triggers:\n      - schedule:\n          cron: \"$RANDOM_MINUTE2 $RANDOM_HOUR/" \
+  .circleci/config.yml
+
 # lastly remove ourselves
 rm rename-project.bash
 

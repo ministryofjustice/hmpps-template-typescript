@@ -28,7 +28,7 @@ Copy this folder, update all the existing namespace references, and submit a PR 
 Once the new repository is deployed. Navigate to the repository in github, and select the `Actions` tab.
 Click the link to `Enable Actions on this repository`.
 
-Find the Action workflow named: `rename-project-create-pr` and click `Run workflow`.  This workflow will will
+Find the Action workflow named: `rename-project-create-pr` and click `Run workflow`.  This workflow will
 execute the `rename-project.bash` and create Pull Request for you to review.  Review the PR and merge.
 
 Note: ideally this workflow would run automatically however due to a recent change github Actions are not
