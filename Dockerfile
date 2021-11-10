@@ -1,5 +1,5 @@
 # Stage: base image
-FROM node:14.17-buster-slim as base
+FROM node:16.13-bullseye-slim as base
 
 ARG BUILD_NUMBER=1_0_0
 ARG GIT_REF=not-available

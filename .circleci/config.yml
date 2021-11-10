@@ -15,7 +15,7 @@ parameters:
 
   node-version:
     type: string
-    default: 14.17-browsers
+    default: 16.13-browsers
 
 jobs:
   build:
