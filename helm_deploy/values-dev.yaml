@@ -6,6 +6,7 @@ generic-service:
 
   ingress:
     host: hmpps-template-typescript-dev.hmpps.service.justice.gov.uk
+    contextColour: green
 
   env:
     INGRESS_URL: "https://hmpps-template-typescript-dev.hmpps.service.justice.gov.uk"
