@@ -1,25 +1,20 @@
-import redis from 'redis'
 import session from 'express-session'
-import connectRedis from 'connect-redis'
+import connectRedis, { Client } from 'connect-redis'
 import addRequestId from 'express-request-id'
 import express, { Router } from 'express'
-
+import { createRedisClient } from '../data/redisClient'
 import config from '../config'
 
 const RedisStore = connectRedis(session)
 
-const client = redis.createClient({
-  port: config.redis.port,
-  password: config.redis.password,
-  host: config.redis.host,
-  tls: config.redis.tls_enabled === 'true' ? {} : false,
-})
-
 export default function setUpWebSession(): Router {
+  const client = createRedisClient(true)
+  client.connect()
+
   const router = express.Router()
   router.use(
     session({
-      store: new RedisStore({ client }),
+      store: new RedisStore({ client: client as unknown as Client }),
       cookie: { secure: config.https, sameSite: 'lax', maxAge: config.session.expiryMinutes * 60 * 1000 },
       secret: config.session.secret,
       resave: false, // redis implements touch so shouldn't need this
