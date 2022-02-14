@@ -48,6 +48,8 @@ generic-service:
   allowlist:
     office: "217.33.148.210/32"
     health-kick: "35.177.252.195/32"
+    petty-france-wifi: "213.121.161.112/28"
+    global-protect: "35.176.93.186/32"
     mojvpn: "81.134.202.29/32"
     cloudplatform-live1-1: "35.178.209.113/32"
     cloudplatform-live1-2: "3.8.51.207/32"
