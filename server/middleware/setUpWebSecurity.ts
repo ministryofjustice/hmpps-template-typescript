@@ -18,6 +18,7 @@ export default function setUpWebSecurity(): Router {
           fontSrc: ["'self'"],
         },
       },
+      crossOriginEmbedderPolicy: true,
     })
   )
   return router
