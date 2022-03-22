@@ -98,6 +98,7 @@
     "dotenv": "^16.0.0",
     "eslint-plugin-no-only-tests": "^2.6.0",
     "express": "^4.17.3",
+    "express-prom-bundle": "^6.4.1",
     "express-session": "^1.17.2",
     "govuk-frontend": "^4.0.1",
     "helmet": "^5.0.2",
@@ -108,8 +109,10 @@
     "nunjucks": "^3.2.3",
     "passport": "^0.5.2",
     "passport-oauth2": "^1.6.1",
+    "prom-client": "^14.0.1",
     "redis": "^4.0.4",
     "superagent": "^7.1.1",
+    "url-value-parser": "^2.1.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
