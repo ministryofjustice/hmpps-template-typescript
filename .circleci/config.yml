@@ -1,16 +1,19 @@
 version: 2.1
 
 orbs:
-  hmpps: ministryofjustice/hmpps@3.14
+  hmpps: ministryofjustice/hmpps@dev:alpha
   slack: circleci/slack@4.4.2
 
 parameters:
   alerts-slack-channel:
     type: string
+    # Normally team specific alert channel e.g. hmpps_tech_alerts, syscon-alerts, dps_sed_alerts
+    # This is to avoid a general alert dumping ground that no-one then monitors
     default: hmpps_typescript_notifications
 
   releases-slack-channel:
     type: string
+    # Normally dps-releases for most teams / projects
     default: hmpps_typescript_notifications
 
   node-version:
@@ -96,9 +99,9 @@ jobs:
 
   integration_test:
     executor:
-      name: hmpps/node_redis
+      name: hmpps/node_redis_cimg
       node_tag: << pipeline.parameters.node-version >>
-      redis_tag: buster
+      redis_tag: "6.2"
     steps:
       - checkout
       - attach_workspace:
