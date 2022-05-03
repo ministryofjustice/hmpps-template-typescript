@@ -27,33 +27,38 @@ describe('authorisationMiddleware', () => {
           token: createToken(authorities),
         },
       },
-      redirect: (redirectUrl: string) => {
-        return redirectUrl
-      },
+      redirect: jest.fn(),
     } as unknown as Response
   }
 
-  it('should return next when no required roles', () => {
-    const res = createResWithToken({ authorities: [] })
-
-    const authorisationResponse = authorisationMiddleware()(req, res, next)
-
-    expect(authorisationResponse).toEqual(next())
+  beforeEach(() => {
+    jest.resetAllMocks()
   })
 
-  it('should redirect when user has no authorised roles', () => {
+  it('should return next when no required roles', async () => {
     const res = createResWithToken({ authorities: [] })
 
-    const authorisationResponse = authorisationMiddleware(['SOME_REQUIRED_ROLE'])(req, res, next)
+    await authorisationMiddleware()(req, res, next)
 
-    expect(authorisationResponse).toEqual('/authError')
+    expect(next).toHaveBeenCalled()
+    expect(res.redirect).not.toHaveBeenCalled()
   })
 
-  it('should return next when user has authorised role', () => {
+  it('should redirect when user has no authorised roles', async () => {
+    const res = createResWithToken({ authorities: [] })
+
+    await authorisationMiddleware(['SOME_REQUIRED_ROLE'])(req, res, next)
+
+    expect(next).not.toHaveBeenCalled()
+    expect(res.redirect).toHaveBeenCalledWith('/authError')
+  })
+
+  it('should return next when user has authorised role', async () => {
     const res = createResWithToken({ authorities: ['SOME_REQUIRED_ROLE'] })
 
-    const authorisationResponse = authorisationMiddleware(['SOME_REQUIRED_ROLE'])(req, res, next)
+    await authorisationMiddleware(['SOME_REQUIRED_ROLE'])(req, res, next)
 
-    expect(authorisationResponse).toEqual(next())
+    expect(next).toHaveBeenCalled()
+    expect(res.redirect).not.toHaveBeenCalled()
   })
 })
