@@ -1,7 +1,7 @@
 import superagent from 'superagent'
-import querystring from 'querystring'
-import type TokenStore from './tokenStore'
+import { URLSearchParams } from 'url'
 
+import type TokenStore from './tokenStore'
 import logger from '../../logger'
 import config from '../config'
 import generateOauthClientToken from '../authentication/clientCredentials'
@@ -16,19 +16,17 @@ function getSystemClientTokenFromHmppsAuth(username?: string): Promise<superagen
     config.apis.hmppsAuth.systemClientSecret
   )
 
-  const authRequest = username
-    ? querystring.stringify({ grant_type: 'client_credentials', username })
-    : querystring.stringify({ grant_type: 'client_credentials' })
+  const grantRequest = { grant_type: 'client_credentials', ...(username && { username }) }
 
   logger.info(
-    `HMPPS Auth request '${authRequest}' for client id '${config.apis.hmppsAuth.systemClientId}' and user '${username}'`
+    `HMPPS Auth request '${grantRequest}' for client id '${config.apis.hmppsAuth.systemClientId}' and user '${username}'`
   )
 
   return superagent
     .post(`${hmppsAuthUrl}/oauth/token`)
     .set('Authorization', clientToken)
     .set('content-type', 'application/x-www-form-urlencoded')
-    .send(authRequest)
+    .send(new URLSearchParams(grantRequest).toString())
     .timeout(timeoutSpec)
 }
 
@@ -44,17 +42,17 @@ export interface UserRole {
 export default class HmppsAuthClient {
   constructor(private readonly tokenStore: TokenStore) {}
 
-  private restClient(token: string): RestClient {
+  private static restClient(token: string): RestClient {
     return new RestClient('HMPPS Auth Client', config.apis.hmppsAuth, token)
   }
 
   getUser(token: string): Promise<User> {
     logger.info(`Getting user details: calling HMPPS Auth`)
-    return this.restClient(token).get({ path: '/api/user/me' }) as Promise<User>
+    return HmppsAuthClient.restClient(token).get({ path: '/api/user/me' }) as Promise<User>
   }
 
   getUserRoles(token: string): Promise<string[]> {
-    return this.restClient(token)
+    return HmppsAuthClient.restClient(token)
       .get({ path: '/api/user/me/roles' })
       .then(roles => (<UserRole[]>roles).map(role => role.roleCode)) as Promise<string[]>
   }
