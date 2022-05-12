@@ -16,17 +16,18 @@ function getSystemClientTokenFromHmppsAuth(username?: string): Promise<superagen
     config.apis.hmppsAuth.systemClientSecret
   )
 
-  const grantRequest = { grant_type: 'client_credentials', ...(username && { username }) }
+  const grantRequest = new URLSearchParams({
+    grant_type: 'client_credentials',
+    ...(username && { username }),
+  }).toString()
 
-  logger.info(
-    `HMPPS Auth request '${grantRequest}' for client id '${config.apis.hmppsAuth.systemClientId}' and user '${username}'`
-  )
+  logger.info(`${grantRequest} HMPPS Auth request for client id '${config.apis.hmppsAuth.systemClientId}''`)
 
   return superagent
     .post(`${hmppsAuthUrl}/oauth/token`)
     .set('Authorization', clientToken)
     .set('content-type', 'application/x-www-form-urlencoded')
-    .send(new URLSearchParams(grantRequest).toString())
+    .send(grantRequest)
     .timeout(timeoutSpec)
 }
 
