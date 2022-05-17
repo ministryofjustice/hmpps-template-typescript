@@ -17,7 +17,7 @@ More information about the template project including features can be found [her
 
 When deploying to a new namespace, you may wish to use this template typescript project namespace as the basis for your new namespace:
 
-<https://github.com/ministryofjustice/cloud-platform-environments/tree/main/namespaces/live-1.cloud-platform.service.justice.gov.uk/hmpps-template-typescript>
+<https://github.com/ministryofjustice/cloud-platform-environments/tree/main/namespaces/live.cloud-platform.service.justice.gov.uk/hmpps-template-typescript>
 
 This template namespace includes an AWS elasticache setup - which is required by this template project.
 
