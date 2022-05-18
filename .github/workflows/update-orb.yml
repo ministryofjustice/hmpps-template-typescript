@@ -1,0 +1,126 @@
+name: Update Orb
+
+on:
+  # schedule:
+  #   - cron: "0 1 * * *"
+
+  workflow_dispatch:
+    inputs:
+      depth:
+        description: "Which SemVer depth do you wish to go to? MAJOR.MINOR.PATCH"
+        required: false
+        default: "MINOR"
+
+env:
+  ORB_NAME: "hmpps"
+  ORBS_FILE: "orbs.json"
+  LATEST_ORB_FILE: "hmpps_latest_orb.json"
+  CONFIG_FILE: ".circle/config.yml"
+  # Make these inputs to override?
+
+jobs:
+  orb:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get Latest Orb Version
+        run: |
+          curl -X GET \
+            -H "circle-token: ${{ secrets.CIRCLE_CI_TOKEN }}" \
+            -H "Content-type: application/json" \
+            'https://circleci.com/api/private/orb?org-id=${{ secrets.CIRCLE_CI_ORG_ID }}' \
+            > ${{ env.ORBS_FILE }}
+
+          jq . ${{ env.ORBS_FILE }} | jq '.orbs' | jq -c '.[] | select( .orb_name == "${{ env.ORB_NAME }}")' > ${{ env.LATEST_ORB_FILE }}
+
+          latest=$(jq . ${{ env.LATEST_ORB_FILE }} | jq " .latest_version_number" | sed "s/\"//g")
+          echo $latest
+
+          echo "LATEST=$(echo $latest)" >> $GITHUB_ENV
+          echo "::set-output name=latest::${{ env.LATEST }}"
+      
+      - name: Get Current Orb Version
+        run: |
+          current=$(awk '/hmpps/ {print $2}' ${{ env.CONFIG_FILE }} | cut -d @ -f 2)
+          echo $current
+
+          echo "CURRENT=$(echo $current)" >> $GITHUB_ENV
+          echo "::set-output name=current::${{ env.CURRENT }}"
+
+      - name: Check Depth
+        run: |
+          VERSION="${{ env.LATEST }}"
+          VERSION="${VERSION#[vV]}"
+          VERSION_MAJOR="${VERSION%%\.*}"
+          VERSION_MINOR="${VERSION#*.}"
+          VERSION_MINOR="${VERSION_MINOR%.*}"
+          VERSION_PATCH="${VERSION##*.}"
+
+          case ${{ github.event.inputs.depth }} in
+            MAJOR)
+              latest=${VERSION_MAJOR}
+            ;;
+            MINOR)
+              latest=${VERSION_MAJOR}.${VERSION_MINOR}
+            ;;
+            PATCH)
+              latest=${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
+            ;;
+            *)
+              latest=${VERSION_MAJOR}.${VERSION_MINOR}
+            ;;
+            esac
+
+          echo $latest
+          
+          echo "LATEST=$(echo $latest)" >> $GITHUB_ENV
+          echo "::set-output name=latest::${{ env.LATEST }}"
+
+      - name: Check Versions
+        if: env.CURRENT == env.LATEST
+        run: exit 1
+      
+      - name: Update Version
+        # if: env.CURRENT != env.LATEST
+        run: |
+          sed -i 's,'"$CURRENT"','"$LATEST"',' $CONFIG_FILE
+          cat ${{ env.CONFIG_FILE }}
+      
+      - name: Setup Git Config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+      
+      - name: Create a new branch, update the file and push
+        run: |
+          git checkout -b "orb/$LATEST"
+          git add ${{ env.CONFIG_FILE }}
+          git commit -m "⬆️ Bump Orb from $CURRENT to $LATEST"
+          git push --set-upstream origin "orb/$LATEST"
+      
+      - name: Create Pull Request
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { CURRENT, LATEST, ORB_NAME } = process.env
+            const { repo, owner } = context.repo;
+            const result = await github.rest.pulls.create({
+              title: `Bump ${ORB_NAME} Orb from ${CURRENT} to ${LATEST}`,
+              owner,
+              repo,
+              head: `orb/${LATEST}`,
+              base: 'main',
+              body: [
+                `Bump ${ORB_NAME} Orb from ${CURRENT} to ${LATEST}`,
+                `- [${LATEST}](https://circleci.com/developer/orbs/orb/ministryofjustice/${ORB_NAME}?version=${LATEST}).`
+              ].join('\n')
+            });
+            github.rest.issues.addLabels({
+              owner,
+              repo,
+              issue_number: result.data.number,
+              labels: ['dependencies']
+            });
