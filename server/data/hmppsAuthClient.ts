@@ -55,7 +55,7 @@ export default class HmppsAuthClient {
   getUserRoles(token: string): Promise<string[]> {
     return HmppsAuthClient.restClient(token)
       .get({ path: '/api/user/me/roles' })
-      .then(roles => (<UserRole[]>roles).map(role => role.roleCode)) as Promise<string[]>
+      .then(roles => (<UserRole[]>roles).map(role => role.roleCode))
   }
 
   async getSystemClientToken(username?: string): Promise<string> {
