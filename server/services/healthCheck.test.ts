@@ -36,22 +36,18 @@ describe('Healthcheck', () => {
 
 function successfulCheck(name: string): HealthCheckService {
   return () =>
-    new Promise((resolve, _reject) => {
-      resolve({
-        name: `${name}`,
-        status: 'ok',
-        message: 'some message',
-      })
+    Promise.resolve({
+      name: `${name}`,
+      status: 'ok',
+      message: 'some message',
     })
 }
 
 function erroredCheck(name: string): HealthCheckService {
   return () =>
-    new Promise((resolve, _reject) => {
-      resolve({
-        name: `${name}`,
-        status: 'ERROR',
-        message: 'some error',
-      })
+    Promise.resolve({
+      name: `${name}`,
+      status: 'ERROR',
+      message: 'some error',
     })
 }
