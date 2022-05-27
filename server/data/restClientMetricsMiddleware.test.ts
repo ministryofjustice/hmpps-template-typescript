@@ -20,7 +20,7 @@ describe('restClientMetricsMiddleware', () => {
 
     it('normalises recall ids', () => {
       const result = normalizePath(
-        'https://manage-recalls-dev.hmpps.service.justice.gov.uk/recalls/15e4cccf-cc7b-4946-aa22-a82086735ec2/view-recall'
+        'https://manage-recalls-dev.hmpps.service.justice.gov.uk/recalls/15e4cccf-cc7b-4946-aa22-a82086735ec2/view-recall',
       )
       expect(result).toBe('/recalls/#val/view-recall')
     })

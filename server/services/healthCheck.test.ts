@@ -10,7 +10,7 @@ describe('Healthcheck', () => {
         expect.objectContaining({
           healthy: true,
           checks: { check1: 'some message', check2: 'some message' },
-        })
+        }),
       )
       done()
     }
@@ -25,7 +25,7 @@ describe('Healthcheck', () => {
         expect.objectContaining({
           healthy: false,
           checks: { check1: 'some message', check2: 'some error' },
-        })
+        }),
       )
       done()
     }

@@ -13,7 +13,7 @@ const hmppsAuthUrl = config.apis.hmppsAuth.url
 function getSystemClientTokenFromHmppsAuth(username?: string): Promise<superagent.Response> {
   const clientToken = generateOauthClientToken(
     config.apis.hmppsAuth.systemClientId,
-    config.apis.hmppsAuth.systemClientSecret
+    config.apis.hmppsAuth.systemClientSecret,
   )
 
   const grantRequest = new URLSearchParams({

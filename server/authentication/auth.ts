@@ -41,7 +41,7 @@ function init(): void {
     },
     (token, refreshToken, params, profile, done) => {
       return done(null, { token, username: params.user_name, authSource: params.auth_source })
-    }
+    },
   )
 
   passport.use(strategy)

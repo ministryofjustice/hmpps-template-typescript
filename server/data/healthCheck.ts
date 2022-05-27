@@ -15,7 +15,7 @@ export function serviceCheckFactory(
   name: string,
   url: string,
   agentOptions: AgentConfig,
-  serviceTimeout: ServiceTimeout = new ServiceTimeout()
+  serviceTimeout: ServiceTimeout = new ServiceTimeout(),
 ): ServiceCheck {
   const keepaliveAgent = url.startsWith('https') ? new HttpsAgent(agentOptions) : new Agent(agentOptions)
 

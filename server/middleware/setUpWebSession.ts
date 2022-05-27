@@ -21,7 +21,7 @@ export default function setUpWebSession(): Router {
       resave: false, // redis implements touch so shouldn't need this
       saveUninitialized: false,
       rolling: true,
-    })
+    }),
   )
 
   // Update a value in the cookie so that the set-cookie will be sent.

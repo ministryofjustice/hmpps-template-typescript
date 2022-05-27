@@ -19,7 +19,7 @@ export default function setUpWebSecurity(): Router {
         },
       },
       crossOriginEmbedderPolicy: true,
-    })
+    }),
   )
   return router
 }

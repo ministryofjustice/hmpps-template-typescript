@@ -34,7 +34,7 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
     {
       autoescape: true,
       express: app,
-    }
+    },
   )
 
   njkEnv.addFilter('initialiseName', (fullName: string) => {
