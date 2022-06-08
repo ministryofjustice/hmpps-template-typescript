@@ -37,7 +37,7 @@
       "server/**/*.{ts,js,jsx,mjs}"
     ],
     "testMatch": [
-      "<rootDir>/(server|job)/**/?(*.)(spec|test).{ts,js,jsx,mjs}"
+      "<rootDir>/(server|job)/**/?(*.)(cy|test).{ts,js,jsx,mjs}"
     ],
     "testEnvironment": "node",
     "reporters": [
@@ -124,20 +124,20 @@
     "@types/csurf": "^1.11.2",
     "@types/express-session": "^1.17.4",
     "@types/http-errors": "^1.8.2",
-    "@types/jest": "^27.5.1",
+    "@types/jest": "^27.5.2",
     "@types/jsonwebtoken": "^8.5.8",
-    "@types/node": "^16.11.36",
+    "@types/node": "^16.11.39",
     "@types/nunjucks": "^3.2.1",
     "@types/passport": "^1.0.8",
     "@types/passport-oauth2": "^1.4.11",
     "@types/superagent": "^4.1.15",
     "@types/supertest": "^2.0.12",
     "@types/uuid": "^8.3.4",
-    "@typescript-eslint/eslint-plugin": "^5.27.0",
-    "@typescript-eslint/parser": "^5.27.0",
+    "@typescript-eslint/eslint-plugin": "^5.27.1",
+    "@typescript-eslint/parser": "^5.27.1",
     "concurrently": "^7.2.1",
     "cookie-session": "^2.0.0",
-    "cypress": "^9.7.0",
+    "cypress": "^10.0.3",
     "cypress-multi-reporters": "^1.6.0",
     "eslint": "^8.17.0",
     "eslint-config-airbnb-base": "^15.0.0",
