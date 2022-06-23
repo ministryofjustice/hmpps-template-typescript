@@ -135,6 +135,7 @@
     "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.28.0",
     "@typescript-eslint/parser": "^5.28.0",
+    "audit-ci": "^6.3.0",
     "concurrently": "^7.2.2",
     "cookie-session": "^2.0.0",
     "cypress": "^10.1.0",

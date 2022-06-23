@@ -2,5 +2,7 @@
   "low": true,
   "package-manager": "auto",
   "registry": "https://registry.npmjs.org",
-  "allowlist": [1075647]
+  "allowlist": [
+    "GHSA-pfrx-2q88-qq97|nodemon>update-notifier>latest-version>package-json>got"
+  ]
 }
