@@ -1,60 +1,59 @@
-import express, { Router, Express } from 'express'
+import express, { Express } from 'express'
 import cookieSession from 'cookie-session'
 import createError from 'http-errors'
 import path from 'path'
 
-import allRoutes from '../index'
+import routes from '../index'
 import nunjucksSetup from '../../utils/nunjucksSetup'
 import errorHandler from '../../errorHandler'
-import standardRouter from '../standardRouter'
-import UserService from '../../services/userService'
 import * as auth from '../../authentication/auth'
+import { Services } from '../../services'
 
-const user = {
-  name: 'john smith',
-  firstName: 'john',
-  lastName: 'smith',
+export const user = {
+  firstName: 'first',
+  lastName: 'last',
+  userId: 'id',
+  token: 'token',
   username: 'user1',
-  displayName: 'John Smith',
+  displayName: 'First Last',
+  activeCaseLoadId: 'MDI',
+  authSource: 'NOMIS',
 }
 
-class MockUserService extends UserService {
-  constructor() {
-    super(undefined)
-  }
+export const flashProvider = jest.fn()
 
-  async getUser(token: string) {
-    return {
-      token,
-      ...user,
-    }
-  }
-}
-
-function appSetup(route: Router, production: boolean): Express {
+function appSetup(services: Services, production: boolean, userSupplier: () => Express.User): Express {
   const app = express()
 
   app.set('view engine', 'njk')
 
   nunjucksSetup(app, path)
-
+  app.use(cookieSession({ keys: [''] }))
   app.use((req, res, next) => {
+    req.user = userSupplier()
+    req.flash = flashProvider
     res.locals = {}
-    res.locals.user = user
+    res.locals.user = { ...req.user }
     next()
   })
-
-  app.use(cookieSession({ keys: [''] }))
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
-  app.use('/', route)
+  app.use(routes(services))
   app.use((req, res, next) => next(createError(404, 'Not found')))
   app.use(errorHandler(production))
 
   return app
 }
 
-export default function appWithAllRoutes({ production = false }: { production?: boolean }): Express {
+export function appWithAllRoutes({
+  production = false,
+  services = {},
+  userSupplier = () => user,
+}: {
+  production?: boolean
+  services?: Partial<Services>
+  userSupplier?: () => Express.User
+}): Express {
   auth.default.authenticationMiddleware = () => (req, res, next) => next()
-  return appSetup(allRoutes(standardRouter(new MockUserService())), production)
+  return appSetup(services as Services, production, userSupplier)
 }

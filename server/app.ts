@@ -3,22 +3,24 @@ import express from 'express'
 import path from 'path'
 import createError from 'http-errors'
 
-import indexRoutes from './routes'
 import nunjucksSetup from './utils/nunjucksSetup'
 import errorHandler from './errorHandler'
-import standardRouter from './routes/standardRouter'
-import type UserService from './services/userService'
-
-import setUpWebSession from './middleware/setUpWebSession'
-import setUpStaticResources from './middleware/setUpStaticResources'
-import setUpWebSecurity from './middleware/setUpWebSecurity'
-import setUpAuthentication from './middleware/setUpAuthentication'
-import setUpHealthChecks from './middleware/setUpHealthChecks'
-import setUpWebRequestParsing from './middleware/setupRequestParsing'
 import authorisationMiddleware from './middleware/authorisationMiddleware'
 import { metricsMiddleware } from './monitoring/metricsApp'
 
-export default function createApp(userService: UserService): express.Application {
+import setUpAuthentication from './middleware/setUpAuthentication'
+import setUpCsrf from './middleware/setUpCsrf'
+import setUpCurrentUser from './middleware/setUpCurrentUser'
+import setUpHealthChecks from './middleware/setUpHealthChecks'
+import setUpStaticResources from './middleware/setUpStaticResources'
+import setUpWebRequestParsing from './middleware/setupRequestParsing'
+import setUpWebSecurity from './middleware/setUpWebSecurity'
+import setUpWebSession from './middleware/setUpWebSession'
+
+import routes from './routes'
+import type { Services } from './services'
+
+export default function createApp(services: Services): express.Application {
   const app = express()
 
   app.set('json spaces', 2)
@@ -34,8 +36,10 @@ export default function createApp(userService: UserService): express.Application
   nunjucksSetup(app, path)
   app.use(setUpAuthentication())
   app.use(authorisationMiddleware())
+  app.use(setUpCsrf())
+  app.use(setUpCurrentUser(services))
 
-  app.use('/', indexRoutes(standardRouter(userService)))
+  app.use(routes(services))
 
   app.use((req, res, next) => next(createError(404, 'Not found')))
   app.use(errorHandler(process.env.NODE_ENV === 'production'))
