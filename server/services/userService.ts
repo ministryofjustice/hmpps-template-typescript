@@ -1,4 +1,4 @@
-import convertToTitleCase from '../utils/utils'
+import { convertToTitleCase } from '../utils/utils'
 import type HmppsAuthClient from '../data/hmppsAuthClient'
 
 interface UserDetails {
