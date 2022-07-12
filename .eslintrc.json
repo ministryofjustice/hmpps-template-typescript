@@ -5,7 +5,7 @@
     "jest": true
   },
 
-  "plugins": ["import"],
+  "plugins": ["import", "no-only-tests"],
 
   "settings": {
     "import/parsers": {
@@ -87,6 +87,7 @@
       "error",
       { "devDependencies": ["**/*.test.js", "**/*.test.ts", "**/testutils/**", "cypress.config.ts"] }
     ],
+    "no-only-tests/no-only-tests": "error",
     "prettier/prettier": [
       "error",
       {
