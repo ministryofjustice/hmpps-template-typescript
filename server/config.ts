@@ -32,6 +32,7 @@ export interface ApiConfig {
 }
 
 export default {
+  production,
   https: production,
   staticResourceCacheDuration: 20,
   redis: {
