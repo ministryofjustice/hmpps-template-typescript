@@ -33,7 +33,6 @@
     "npm": "^8"
   },
   "jest": {
-    "preset": "ts-jest",
     "transform": {
       "^.+\\.tsx?$": [
         "ts-jest",

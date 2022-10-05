@@ -28,7 +28,7 @@ echo "       Project name of $PROJECT_NAME"
 echo "Performing search and replace"
 
 # exclude files that get in the way and don't make any difference
-EXCLUDES="( -path ./dist -o -path ./node_modules -o -path ./assets -o -path ./.git -o -path ./rename-project.bash -o -path ./README.md )"
+EXCLUDES="( -path ./dist -o -path ./node_modules -o -path ./assets -o -path ./.git -o -path ./rename-project.bash )"
 # shellcheck disable=SC2086
 find . $EXCLUDES -prune -o -type f -exec /usr/bin/sed -i.bak \
   -e "s/hmpps-template-typescript/$PROJECT_NAME/g" \
