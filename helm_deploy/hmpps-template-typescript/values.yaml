@@ -11,8 +11,9 @@ generic-service:
 
   ingress:
     enabled: true
-    hosts:
-      - app-hostname.local    # override per environment
+    v1_2_enabled: true
+    v0_47_enabled: false
+    host: app-hostname.local    # override per environment
     tlsSecretName: hmpps-template-typescript-cert
 
   livenessProbe:
@@ -59,9 +60,9 @@ generic-service:
     petty-france-wifi: "213.121.161.112/28"
     global-protect: "35.176.93.186/32"
     mojvpn: "81.134.202.29/32"
-    cloudplatform-live1-1: "35.178.209.113/32"
-    cloudplatform-live1-2: "3.8.51.207/32"
-    cloudplatform-live1-3: "35.177.252.54/32"
+    cloudplatform-live-1: "35.178.209.113/32"
+    cloudplatform-live-2: "3.8.51.207/32"
+    cloudplatform-live-3: "35.177.252.54/32"
 
 generic-prometheus-alerts:
   targetApplication: hmpps-template-typescript
