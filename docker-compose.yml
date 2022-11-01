@@ -2,10 +2,10 @@ version: '3.1'
 services:
 
   redis:
-    image: 'bitnami/redis:5.0'
+    image: 'redis:6.2'
     networks:
       - hmpps
-    container_name: redis 
+    container_name: redis
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     ports:
@@ -15,7 +15,7 @@ services:
     image: quay.io/hmpps/hmpps-auth:latest
     networks:
       - hmpps
-    container_name: hmpps-auth 
+    container_name: hmpps-auth
     ports:
       - "9090:8080"
     healthcheck:
