@@ -116,7 +116,7 @@
     "passport-oauth2": "^1.6.1",
     "prom-client": "^14.1.0",
     "redis": "^4.5.1",
-    "superagent": "^8.0.5",
+    "superagent": "^8.0.6",
     "url-value-parser": "^2.2.0",
     "uuid": "^9.0.0"
   },
@@ -141,7 +141,7 @@
     "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.45.1",
     "@typescript-eslint/parser": "^5.45.1",
-    "audit-ci": "^6.3.0",
+    "audit-ci": "^6.4.0",
     "concurrently": "^7.6.0",
     "cookie-session": "^2.0.0",
     "cypress": "^12.0.1",
@@ -164,10 +164,10 @@
     "mocha-junit-reporter": "^2.2.0",
     "nock": "^13.2.9",
     "nodemon": "^2.0.20",
-    "prettier": "^2.8.0",
+    "prettier": "^2.8.1",
     "sass": "^1.56.1",
-    "supertest": "^6.3.2",
+    "supertest": "^6.3.3",
     "ts-jest": "^29.0.3",
-    "typescript": "^4.9.3"
+    "typescript": "^4.9.4"
   }
 }
