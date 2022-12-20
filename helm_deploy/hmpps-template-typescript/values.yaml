@@ -6,14 +6,14 @@ generic-service:
 
   image:
     repository: quay.io/hmpps/hmpps-template-typescript
-    tag: app_version    # override at deployment time
+    tag: app_version # override at deployment time
     port: 3000
 
   ingress:
     enabled: true
     v1_2_enabled: true
     v0_47_enabled: false
-    host: app-hostname.local    # override per environment
+    host: app-hostname.local # override per environment
     tlsSecretName: hmpps-template-typescript-cert
 
   livenessProbe:
@@ -32,10 +32,12 @@ generic-service:
 
   # Environment variables to load into the deployment
   env:
-    NODE_ENV: "production"
-    REDIS_TLS_ENABLED: "true"
-    TOKEN_VERIFICATION_ENABLED: "true"
-    APPLICATIONINSIGHTS_CONNECTION_STRING: "InstrumentationKey=$(APPINSIGHTS_INSTRUMENTATIONKEY);IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/"
+    NODE_ENV: 'production'
+    REDIS_TLS_ENABLED: 'true'
+    TOKEN_VERIFICATION_ENABLED: 'true'
+    APPLICATIONINSIGHTS_CONNECTION_STRING: 'InstrumentationKey=$(APPINSIGHTS_INSTRUMENTATIONKEY);IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/'
+    RATE_LIMITER_AUTHENTICATION_WINDOW_TIME_IN_MINUTES: '10'
+    RATE_LIMITER_AUTHENTICATION_MAX_REQUESTS: '10'
 
   # Pre-existing kubernetes secrets to load as environment variables in the deployment.
   # namespace_secrets:
@@ -44,25 +46,25 @@ generic-service:
 
   namespace_secrets:
     hmpps-template-typescript:
-      APPINSIGHTS_INSTRUMENTATIONKEY: "APPINSIGHTS_INSTRUMENTATIONKEY"
-      API_CLIENT_ID: "API_CLIENT_ID"
-      API_CLIENT_SECRET: "API_CLIENT_SECRET"
-      SYSTEM_CLIENT_ID: "SYSTEM_CLIENT_ID"
-      SYSTEM_CLIENT_SECRET: "SYSTEM_CLIENT_SECRET"
-      SESSION_SECRET: "SESSION_SECRET"
+      APPINSIGHTS_INSTRUMENTATIONKEY: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+      API_CLIENT_ID: 'API_CLIENT_ID'
+      API_CLIENT_SECRET: 'API_CLIENT_SECRET'
+      SYSTEM_CLIENT_ID: 'SYSTEM_CLIENT_ID'
+      SYSTEM_CLIENT_SECRET: 'SYSTEM_CLIENT_SECRET'
+      SESSION_SECRET: 'SESSION_SECRET'
     elasticache-redis:
-      REDIS_HOST: "primary_endpoint_address"
-      REDIS_AUTH_TOKEN: "auth_token"
+      REDIS_HOST: 'primary_endpoint_address'
+      REDIS_AUTH_TOKEN: 'auth_token'
 
   allowlist:
-    office: "217.33.148.210/32"
-    health-kick: "35.177.252.195/32"
-    petty-france-wifi: "213.121.161.112/28"
-    global-protect: "35.176.93.186/32"
-    mojvpn: "81.134.202.29/32"
-    cloudplatform-live-1: "35.178.209.113/32"
-    cloudplatform-live-2: "3.8.51.207/32"
-    cloudplatform-live-3: "35.177.252.54/32"
+    office: '217.33.148.210/32'
+    health-kick: '35.177.252.195/32'
+    petty-france-wifi: '213.121.161.112/28'
+    global-protect: '35.176.93.186/32'
+    mojvpn: '81.134.202.29/32'
+    cloudplatform-live-1: '35.178.209.113/32'
+    cloudplatform-live-2: '3.8.51.207/32'
+    cloudplatform-live-3: '35.177.252.54/32'
 
 generic-prometheus-alerts:
   targetApplication: hmpps-template-typescript

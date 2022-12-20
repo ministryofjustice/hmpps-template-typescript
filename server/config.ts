@@ -68,4 +68,11 @@ export default {
     },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
+  rateLimits: {
+    authentication: {
+      windowTime:
+        Number(get('RATE_LIMITER_AUTHENTICATION_WINDOW_TIME_IN_MINUTES', 1, requiredInProduction)) * 60 * 1000,
+      maxRequests: Number(get('RATE_LIMITER_AUTHENTICATION_MAX_REQUESTS', 100, requiredInProduction)),
+    },
+  },
 }
