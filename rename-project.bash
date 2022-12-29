@@ -46,6 +46,7 @@ RANDOM_MINUTE2=$(($RANDOM%60))
 sed -i -z -E \
   -e "s/security:\n    triggers:\n      - schedule:\n          cron: \"30 5/security:\n    triggers:\n      - schedule:\n          cron: \"$RANDOM_MINUTE $RANDOM_HOUR/" \
   -e "s/security-weekly:\n    triggers:\n      - schedule:\n          cron: \"0 5/security-weekly:\n    triggers:\n      - schedule:\n          cron: \"$RANDOM_MINUTE2 $RANDOM_HOUR/" \
+  -e "s/hmpps_typescript_notifications/<< INSERT SLACK CHANNEL HERE >>/" \
   .circleci/config.yml
 
 # lastly remove ourselves
