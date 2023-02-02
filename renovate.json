@@ -23,21 +23,6 @@
       "matchPackageNames": ["@types/node"],
       "matchUpdateTypes": ["major"],
       "enabled": false
-    },
-    {
-      "matchDatasources": ["docker-compose"],
-      "matchPackageNames": ["redis"],
-      "allowedVersions": "6.2"
-    },
-    {
-      "matchDatasources": ["orb"],
-      "matchPackageNames": ["cimg/node"],
-      "allowedVersions": "18.12-browsers"
-    },
-    {
-      "matchDatasources": ["orb"],
-      "matchPackageNames": ["cimg/redis"],
-      "allowedVersions": "6.2"
     }
   ],
   "vulnerabilityAlerts": {
