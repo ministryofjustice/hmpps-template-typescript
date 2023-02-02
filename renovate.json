@@ -1,6 +1,46 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base"
-  ]
+  "extends": ["github>ministryofjustice/hmpps-renovate-config:node"],
+  "packageRules": [
+    {
+      "matchManagers": ["npm"],
+      "rangeStrategy": "bump"
+    },
+    {
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "all non major NPM dependencies",
+      "groupSlug": "all-npm-minor-patch",
+      "stabilityDays": 3
+    },
+    {
+      "matchPackageNames": ["typescript", "govuk-frontend"],
+      "rangeStrategy": "bump",
+      "stabilityDays": 0
+    },
+    {
+      "matchManagers": ["npm"],
+      "matchPackageNames": ["@types/node"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "matchDatasources": ["docker-compose"],
+      "matchPackageNames": ["redis"],
+      "allowedVersions": "6.2"
+    },
+    {
+      "matchDatasources": ["orb"],
+      "matchPackageNames": ["cimg/node"],
+      "allowedVersions": "18.12-browsers"
+    },
+    {
+      "matchDatasources": ["orb"],
+      "matchPackageNames": ["cimg/redis"],
+      "allowedVersions": "6.2"
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "stabilityDays": 0
+  }
 }
