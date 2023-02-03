@@ -67,7 +67,9 @@ To start the main services excluding the example typescript template app:
 
 `docker-compose up --scale=app=0`
 
-Install dependencies using `npm install`, ensuring you are using >= `Node v14.x`
+Install dependencies using `npm install`, ensuring you are using `node v18.x` and `npm v9.x`
+
+Note: Using `nvm` (or [fnm](https://github.com/Schniz/fnm)), run `nvm install --latest-npm` within the repository folder to use the correct version of node, and the latest version of npm. This matches the `engines` config in `package.json` and the CircleCI build config.
 
 And then, to build the assets and start the app with nodemon:
 
