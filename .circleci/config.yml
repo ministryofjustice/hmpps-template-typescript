@@ -129,7 +129,7 @@ workflows:
             - build
       - hmpps/helm_lint:
           name: helm_lint
-      - hmpps/build_multiplatform_docker:
+      - hmpps/build_docker:
           name: build_docker
           filters:
             branches:
