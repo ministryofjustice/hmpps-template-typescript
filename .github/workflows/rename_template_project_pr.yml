@@ -15,7 +15,7 @@ jobs:
         run: rm .github/workflows/rename_template_project*
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v4
         with:
           commit-message: updating project name after deployment from template repository
           title: Update template project name/references
