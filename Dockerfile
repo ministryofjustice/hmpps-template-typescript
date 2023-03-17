@@ -41,7 +41,7 @@ RUN export BUILD_NUMBER=${BUILD_NUMBER} && \
         export GIT_REF=${GIT_REF} && \
         npm run record-build-info
 
-RUN npm prune --no-audit --production
+RUN npm prune --no-audit --omit=dev
 
 # Stage: copy production assets and dependencies
 FROM base
