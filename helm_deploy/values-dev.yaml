@@ -6,9 +6,6 @@ generic-service:
 
   ingress:
     host: hmpps-template-typescript-dev.hmpps.service.justice.gov.uk
-    contextColour: green
-    v1_2_enabled: true
-    v0_47_enabled: false
 
   env:
     INGRESS_URL: "https://hmpps-template-typescript-dev.hmpps.service.justice.gov.uk"
@@ -17,4 +14,3 @@ generic-service:
 
 generic-prometheus-alerts:
   alertSeverity: digital-prison-service-dev
-
