@@ -29,7 +29,7 @@
     "clean": "rm -rf dist build node_modules stylesheets"
   },
   "engines": {
-    "node": "^18",
+    "node": "^v18.15.0",
     "npm": "^9"
   },
   "jest": {
