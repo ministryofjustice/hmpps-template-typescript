@@ -141,7 +141,7 @@
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
     "audit-ci": "^6.6.1",
-    "concurrently": "^7.6.0",
+    "concurrently": "^8.0.1",
     "cookie-session": "^2.0.0",
     "cypress": "^12.8.1",
     "cypress-multi-reporters": "^1.6.3",
