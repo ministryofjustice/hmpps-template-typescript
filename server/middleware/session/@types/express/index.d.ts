@@ -3,7 +3,6 @@ export default {}
 declare module 'express-session' {
   // Declare that the session will potentially contain these additional fields
   interface SessionData {
-    passport: Record<string, unknown>
     returnTo: string
     nowInMinutes: number
   }
