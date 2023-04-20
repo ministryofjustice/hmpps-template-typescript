@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
+import { hmppsSession } from 'hmpps-central-session'
 import session from 'express-session'
 import RedisStore from 'connect-redis'
 import express, { Router } from 'express'
@@ -11,14 +12,17 @@ export default function setUpWebSession(): Router {
   client.connect().catch((err: Error) => logger.error(`Error connecting to Redis`, err))
 
   const router = express.Router()
+
   router.use(
-    session({
-      store: new RedisStore({ client }),
-      cookie: { secure: config.https, sameSite: 'lax', maxAge: config.session.expiryMinutes * 60 * 1000 },
-      secret: config.session.secret,
-      resave: false, // redis implements touch so shouldn't need this
-      saveUninitialized: false,
-      rolling: true,
+    hmppsSession(client, {
+      https: config.https,
+      session: { secret: config.session.secret },
+      sharedSession: {
+        host: config.sharedRedis.host,
+        password: '',
+        port: config.sharedRedis.port,
+        tls_enabled: 'false',
+      },
     }),
   )
 

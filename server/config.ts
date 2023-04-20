@@ -39,6 +39,12 @@ export default {
     password: process.env.REDIS_AUTH_TOKEN,
     tls_enabled: get('REDIS_TLS_ENABLED', 'false'),
   },
+  sharedRedis: {
+    host: get('SHARED_REDIS_HOST', 'localhost'),
+    port: parseInt(process.env.SHARED_RADIS_PORT, 10) || 6379,
+    password: process.env.SHARED_REDIS_AUTH_TOKEN,
+    tls_enabled: get('REDIS_TLS_ENABLED', 'false'),
+  },
   session: {
     secret: get('SESSION_SECRET', 'app-insecure-default-session', requiredInProduction),
     expiryMinutes: Number(get('WEB_SESSION_TIMEOUT_IN_MINUTES', 120)),
@@ -52,9 +58,9 @@ export default {
         deadline: Number(get('HMPPS_AUTH_TIMEOUT_DEADLINE', 10000)),
       },
       agent: new AgentConfig(Number(get('HMPPS_AUTH_TIMEOUT_RESPONSE', 10000))),
-      apiClientId: get('API_CLIENT_ID', 'clientid', requiredInProduction),
+      apiClientId: get('API_CLIENT_ID', 'hmpps-prisoner-profile', requiredInProduction),
       apiClientSecret: get('API_CLIENT_SECRET', 'clientsecret', requiredInProduction),
-      systemClientId: get('SYSTEM_CLIENT_ID', 'clientid', requiredInProduction),
+      systemClientId: get('SYSTEM_CLIENT_ID', 'hmpps-prisoner-profile-system', requiredInProduction),
       systemClientSecret: get('SYSTEM_CLIENT_SECRET', 'clientsecret', requiredInProduction),
     },
     tokenVerification: {

@@ -12,5 +12,9 @@ export default function routes(service: Services): Router {
     res.render('pages/index')
   })
 
+  get('/test', (req, res, next) => {
+    res.send('Rendering from the template app - route /test')
+  })
+
   return router
 }
