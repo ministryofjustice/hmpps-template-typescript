@@ -111,7 +111,7 @@
     "jquery": "^3.6.4",
     "jwt-decode": "^3.1.2",
     "nocache": "^3.0.4",
-    "nunjucks": "^3.2.3",
+    "nunjucks": "^3.2.4",
     "passport": "^0.6.0",
     "passport-oauth2": "^1.7.0",
     "prom-client": "^14.2.0",
