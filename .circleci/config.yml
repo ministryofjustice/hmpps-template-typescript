@@ -79,7 +79,7 @@ jobs:
     executor:
       name: hmpps/node_redis
       node_tag: << pipeline.parameters.node-version >>
-      redis_tag: "6.2"
+      redis_tag: "7.0"
     steps:
       - checkout
       - attach_workspace:

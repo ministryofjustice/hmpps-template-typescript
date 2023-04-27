@@ -2,7 +2,7 @@ version: '3.1'
 services:
 
   redis:
-    image: 'redis:6.2'
+    image: 'redis:7.0'
     networks:
       - hmpps
     container_name: redis
