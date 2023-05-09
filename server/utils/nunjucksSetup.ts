@@ -3,6 +3,7 @@ import nunjucks from 'nunjucks'
 import express from 'express'
 import * as pathModule from 'path'
 import { initialiseName } from './utils'
+import applicationVersion from '../applicationVersion'
 
 const production = process.env.NODE_ENV === 'production'
 
@@ -14,8 +15,8 @@ export default function nunjucksSetup(app: express.Express, path: pathModule.Pla
 
   // Cachebusting version string
   if (production) {
-    // Version only changes on reboot
-    app.locals.version = Date.now().toString()
+    // Version only changes with new commits
+    app.locals.version = applicationVersion.shortHash
   } else {
     // Version changes every request
     app.use((req, res, next) => {
