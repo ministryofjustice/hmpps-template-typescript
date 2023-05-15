@@ -2,7 +2,7 @@ import promClient from 'prom-client'
 import { serviceCheckFactory } from '../data/healthCheck'
 import config from '../config'
 import type { AgentConfig } from '../config'
-import applicationInfo from '../applicationInfo'
+import type { ApplicationInfo } from '../applicationInfo'
 
 const healthCheckGauge = new promClient.Gauge({
   name: 'upstream_healthcheck',
@@ -32,7 +32,7 @@ function service(name: string, url: string, agentConfig: AgentConfig): HealthChe
       .catch(err => ({ name, status: 'ERROR', message: err }))
 }
 
-function addAppInfo(result: HealthCheckResult): HealthCheckResult {
+function addAppInfo(result: HealthCheckResult, applicationInfo: ApplicationInfo): HealthCheckResult {
   const buildInfo = {
     uptime: process.uptime(),
     build: {
@@ -62,7 +62,11 @@ const apiChecks = [
     : []),
 ]
 
-export default function healthCheck(callback: HealthCheckCallback, checks = apiChecks): void {
+export default function healthCheck(
+  applicationInfo: ApplicationInfo,
+  callback: HealthCheckCallback,
+  checks = apiChecks,
+): void {
   Promise.all(checks.map(fn => fn())).then(checkResults => {
     const allOk = checkResults.every(item => item.status === 'ok')
 
@@ -76,6 +80,6 @@ export default function healthCheck(callback: HealthCheckCallback, checks = apiC
       healthCheckGauge.labels(item.name).set(val)
     })
 
-    callback(addAppInfo(result))
+    callback(addAppInfo(result, applicationInfo))
   })
 }

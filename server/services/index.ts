@@ -2,11 +2,12 @@ import { dataAccess } from '../data'
 import UserService from './userService'
 
 export const services = () => {
-  const { hmppsAuthClient } = dataAccess()
+  const { hmppsAuthClient, applicationInfo } = dataAccess()
 
   const userService = new UserService(hmppsAuthClient)
 
   return {
+    applicationInfo,
     userService,
   }
 }
