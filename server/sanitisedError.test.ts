@@ -36,19 +36,21 @@ describe('sanitised error', () => {
     expect(sanitisedError(error)).toEqual(e)
   })
 
-  it('it should return the error message ', () => {
+  it('it should return the error message', () => {
     const error = {
       message: 'error description',
     } as unknown as UnsanitisedError
-    expect(sanitisedError(error)).toEqual({
-      message: 'error description',
-    })
+
+    expect(sanitisedError(error)).toBeInstanceOf(Error)
+    expect(sanitisedError(error)).toHaveProperty('message', 'error description')
   })
 
-  it('it should return an empty object for an unknown error structure', () => {
+  it('it should return an empty Error instance for an unknown error structure', () => {
     const error = {
       property: 'unknown',
     } as unknown as UnsanitisedError
-    expect(sanitisedError(error)).toEqual({})
+
+    expect(sanitisedError(error)).toBeInstanceOf(Error)
+    expect(sanitisedError(error)).not.toHaveProperty('property')
   })
 })
