@@ -9,12 +9,19 @@ import * as auth from '../../authentication/auth'
 import type { Services } from '../../services'
 import type { ApplicationInfo } from '../../applicationInfo'
 
-const testAppInfo: ApplicationInfo = {
-  applicationName: 'test',
-  buildNumber: '1',
-  gitRef: 'long ref',
-  gitShortHash: 'short ref',
-}
+jest.mock('../../applicationInfo.ts', () => {
+  return {
+    __esModule: true,
+    default: jest.fn(() => {
+      return {
+        applicationName: 'test',
+        buildNumber: '1',
+        gitRef: 'long ref',
+        gitShortHash: 'short ref',
+      } as ApplicationInfo
+    }),
+  }
+})
 
 export const user = {
   firstName: 'first',
@@ -34,7 +41,7 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
 
   app.set('view engine', 'njk')
 
-  nunjucksSetup(app, testAppInfo)
+  nunjucksSetup(app, services.applicationInfo)
   app.use(cookieSession({ keys: [''] }))
   app.use((req, res, next) => {
     req.user = userSupplier()
