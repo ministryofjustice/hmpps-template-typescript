@@ -131,21 +131,21 @@
     "@types/jest": "^29.5.2",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/node": "^18.16.18",
-    "@types/nunjucks": "^3.2.2",
+    "@types/nunjucks": "^3.2.3",
     "@types/passport": "^1.0.12",
     "@types/passport-oauth2": "^1.4.12",
     "@types/superagent": "^4.1.18",
     "@types/supertest": "^2.0.12",
     "@types/uuid": "^9.0.2",
-    "@typescript-eslint/eslint-plugin": "^5.60.1",
-    "@typescript-eslint/parser": "^5.60.1",
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "@typescript-eslint/parser": "^5.61.0",
     "audit-ci": "^6.6.1",
     "concurrently": "^8.2.0",
     "cookie-session": "^2.0.0",
     "cypress": "^12.16.0",
     "cypress-multi-reporters": "^1.6.3",
     "dotenv": "^16.3.1",
-    "eslint": "^8.43.0",
+    "eslint": "^8.44.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-import-resolver-typescript": "^3.5.5",
@@ -166,7 +166,10 @@
     "prettier-plugin-jinja-template": "^0.5.0",
     "sass": "^1.63.6",
     "supertest": "^6.3.3",
-    "ts-jest": "^29.1.0",
+    "ts-jest": "^29.1.1",
     "typescript": "^5.1.6"
+  },
+  "overrides": {
+    "semver": "^7.5.3"
   }
 }
