@@ -22,3 +22,14 @@ describe('GET /', () => {
       })
   })
 })
+
+describe('GET /info', () => {
+  it('should render index page', () => {
+    return request(app)
+      .get('/info')
+      .expect('Content-Type', /application\/json/)
+      .expect(res => {
+        expect(res.text).toContain('productId')
+      })
+  })
+})
