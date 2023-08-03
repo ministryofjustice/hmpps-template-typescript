@@ -24,7 +24,7 @@ describe('GET /', () => {
 })
 
 describe('GET /info', () => {
-  it('should render index page', () => {
+  it('should render info endpoint information', () => {
     return request(app)
       .get('/info')
       .expect('Content-Type', /application\/json/)
