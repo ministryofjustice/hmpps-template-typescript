@@ -51,7 +51,7 @@ To ensure notifications are routed to the correct slack channels, update the `al
 
 ## Filling in the `productId`
 
-To allow easy identification of an application, the product Id of the overall product should be set in `values.yaml`. The Service Catalogue contains a list of these IDs and is currently in development here https://developer-portal-dev.hmpps.service.justice.gov.uk/products
+To allow easy identification of an application, the product Id of the overall product should be set in `values.yaml`. The Service Catalogue contains a list of these IDs and is currently in development here https://developer-portal.hmpps.service.justice.gov.uk/products
 
 ## Running the app
 The easiest way to run the app is to use docker compose to create the service and all dependencies. 
