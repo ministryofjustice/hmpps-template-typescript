@@ -1,5 +1,5 @@
-import superagent from 'superagent'
 import { URLSearchParams } from 'url'
+import superagent from 'superagent'
 
 import type TokenStore from './tokenStore'
 import logger from '../../logger'
