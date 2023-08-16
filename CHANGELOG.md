@@ -1,5 +1,16 @@
 # Change log
 
+**August 3rd 2023** - Add /info endpoint and expose product ids  
+
+As part of the work on the [service catalogue](https://hmpps-developer-portal.hmpps.service.justice.gov.uk/products) we are giving all applications there own product id.
+This change adds a new info endpoint to expose this id in a consistent place. 
+
+For more details ask on the `#hmpps-service-catalogue channel`.
+
+PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/212)
+
+---
+
 **June 9th 2023** - Do not retry POST requests by default
 
 It's not safe to retry idempotent calls as this introduces the risk of creating multiple resources. This fix changes the default to not carry out any retries but allows switching on retrying if desired.

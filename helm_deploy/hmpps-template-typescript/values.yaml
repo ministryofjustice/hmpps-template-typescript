@@ -1,6 +1,7 @@
 ---
 generic-service:
   nameOverride: hmpps-template-typescript
+  productId: "UNASSIGNED"   # productId for the product that this belongs too, i.e. DPS001, see README.md for details
 
   replicaCount: 4
 
