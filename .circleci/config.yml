@@ -52,7 +52,7 @@ jobs:
             - node_modules
             - build
             - dist
-            - .cache/Cypress
+            - assets/stylesheets
 
   unit_test:
     executor:
