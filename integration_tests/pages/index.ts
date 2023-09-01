@@ -5,5 +5,9 @@ export default class IndexPage extends Page {
     super('This site is under construction...')
   }
 
-  headerUserName = (): PageElement => cy.get('[data-qa=header-user-name]')
+  fallbackHeaderUserName = (): PageElement => cy.get('[data-qa=header-user-name]')
+
+  commonComponentsHeader = (): PageElement => cy.get('h1').contains('Common Components Header')
+
+  commonComponentsFooter = (): PageElement => cy.get('h1').contains('Common Components Footer')
 }

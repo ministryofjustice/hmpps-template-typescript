@@ -11,6 +11,8 @@ generic-service:
     INGRESS_URL: "https://hmpps-template-typescript-preprod.hmpps.service.justice.gov.uk"
     HMPPS_AUTH_URL: "https://sign-in-preprod.hmpps.service.justice.gov.uk/auth"
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api-preprod.prison.service.justice.gov.uk"
+    COMPONENT_API_URL: "https://frontend-components-preprod.hmpps.service.justice.gov.uk"
+    COMMON_COMPONENTS_ENABLED: 'true'
 
 generic-prometheus-alerts:
   alertSeverity: digital-prison-service-dev
