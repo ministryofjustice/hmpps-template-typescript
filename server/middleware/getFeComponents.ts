@@ -12,10 +12,8 @@ export default function getFrontendComponents({ feComponentsService }: Services)
     }
 
     try {
-      const [header, footer] = await Promise.all([
-        feComponentsService.getComponent('header', res.locals.user.token),
-        feComponentsService.getComponent('footer', res.locals.user.token),
-      ])
+      const { header, footer } = await feComponentsService.getComponents(['header', 'footer'], res.locals.user.token)
+
       res.locals.feComponents = {
         header: header.html,
         footer: footer.html,

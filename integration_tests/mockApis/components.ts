@@ -1,11 +1,10 @@
-import { Response } from 'superagent'
 import { stubFor } from './wiremock'
 
-const stubHeader = () =>
+const stubComponents = () =>
   stubFor({
     request: {
       method: 'GET',
-      urlPattern: '/components/header',
+      urlPattern: '/components/components\\?component=header&component=footer',
     },
     response: {
       status: 200,
@@ -13,51 +12,25 @@ const stubHeader = () =>
         'Content-Type': 'application/json;charset=UTF-8',
       },
       jsonBody: {
-        html: '<header><h1>Common Components Header</h1></header>',
-        javascript: ['/common-components/header.js'],
-        css: ['/common-components/header.css'],
+        header: {
+          html: '<header><h1>Common Components Header</h1></header>',
+          javascript: ['/common-components/header.js'],
+          css: ['/common-components/header.css'],
+        },
+        footer: {
+          html: '<footer><h1>Common Components Footer</h1></footer>',
+          javascript: ['/common-components/footer.js'],
+          css: ['/common-components/footer.css'],
+        },
       },
     },
   })
 
-const stubHeaderFail = () =>
+const stubComponentsFail = () =>
   stubFor({
     request: {
       method: 'GET',
       urlPattern: '/components/header',
-    },
-    response: {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    },
-  })
-
-const stubFooter = () =>
-  stubFor({
-    request: {
-      method: 'GET',
-      urlPattern: '/components/footer',
-    },
-    response: {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      jsonBody: {
-        html: '<header><h1>Common Components Footer</h1></header>',
-        javascript: ['/common-components/footer.js'],
-        css: ['/common-components/footer.css'],
-      },
-    },
-  })
-
-const stubFooterFail = () =>
-  stubFor({
-    request: {
-      method: 'GET',
-      urlPattern: '/components/footer',
     },
     response: {
       status: 500,
@@ -68,6 +41,6 @@ const stubFooterFail = () =>
   })
 
 export default {
-  stubComponents: (): Promise<[Response, Response]> => Promise.all([stubHeader(), stubFooter()]),
-  stubComponentsFail: (): Promise<[Response, Response]> => Promise.all([stubHeaderFail(), stubFooterFail()]),
+  stubComponents,
+  stubComponentsFail,
 }

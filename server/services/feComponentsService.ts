@@ -3,7 +3,10 @@ import FeComponentsClient, { AvailableComponent, Component } from '../data/feCom
 export default class FeComponentsService {
   constructor(private readonly feComponentsClient: FeComponentsClient) {}
 
-  async getComponent(component: AvailableComponent, token: string): Promise<Component> {
-    return this.feComponentsClient.getComponent(component, token)
+  async getComponents<T extends AvailableComponent[]>(
+    components: T,
+    token: string,
+  ): Promise<Record<T[number], Component>> {
+    return this.feComponentsClient.getComponents(components, token)
   }
 }

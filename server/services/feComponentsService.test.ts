@@ -1,5 +1,5 @@
 import FeComponentsService from './feComponentsService'
-import FeComponentsClient, { Component } from '../data/feComponentsClient'
+import FeComponentsClient, { AvailableComponent, Component } from '../data/feComponentsClient'
 
 jest.mock('../data/feComponentsClient')
 
@@ -16,23 +16,30 @@ describe('Components service', () => {
     })
 
     it('Retrieves and returns requested component', async () => {
-      const componentValue: Component = {
-        html: '<header></header>',
-        css: [],
-        javascript: [],
+      const componentValue: Record<AvailableComponent, Component> = {
+        header: {
+          html: '<header></header>',
+          css: [],
+          javascript: [],
+        },
+        footer: {
+          html: '<footer></footer>',
+          css: [],
+          javascript: [],
+        },
       }
 
-      componentsClient.getComponent.mockResolvedValue(componentValue)
+      componentsClient.getComponents.mockResolvedValue(componentValue)
 
-      const result = await componentsService.getComponent('header', token)
+      const result = await componentsService.getComponents(['header'], token)
 
       expect(result).toEqual(componentValue)
     })
 
     it('Propagates error', async () => {
-      componentsClient.getComponent.mockRejectedValue(new Error('some error'))
+      componentsClient.getComponents.mockRejectedValue(new Error('some error'))
 
-      await expect(componentsService.getComponent('header', token)).rejects.toEqual(new Error('some error'))
+      await expect(componentsService.getComponents(['header'], token)).rejects.toEqual(new Error('some error'))
     })
   })
 })

@@ -19,19 +19,24 @@ describe('feComponentsClient', () => {
     nock.cleanAll()
   })
 
-  describe('getComponent', () => {
+  describe('getComponents', () => {
     it('should return data from api', async () => {
-      const response: { data: Component } = {
+      const response: { data: { header: Component } } = {
         data: {
-          html: '<header></header>',
-          css: [],
-          javascript: [],
+          header: {
+            html: '<header></header>',
+            css: [],
+            javascript: [],
+          },
         },
       }
 
-      fakeComponentsApi.get('/header').matchHeader('x-user-token', token.access_token).reply(200, response)
+      fakeComponentsApi
+        .get('/components?component=header')
+        .matchHeader('x-user-token', token.access_token)
+        .reply(200, response)
 
-      const output = await componentsClient.getComponent('header', token.access_token)
+      const output = await componentsClient.getComponents(['header'], token.access_token)
       expect(output).toEqual(response)
     })
   })
