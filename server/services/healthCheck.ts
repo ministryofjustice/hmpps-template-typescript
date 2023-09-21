@@ -76,7 +76,7 @@ export default function healthCheck(
     }
 
     checkResults.forEach(item => {
-      const val = item.status === 'ok' ? 1 : 0
+      const val = item.status === 'UP' ? 1 : 0
       healthCheckGauge.labels(item.name).set(val)
     })
 

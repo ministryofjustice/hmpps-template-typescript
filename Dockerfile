@@ -3,10 +3,12 @@ FROM node:18.17-bullseye-slim as base
 
 ARG BUILD_NUMBER=1_0_0
 ARG GIT_REF=not-available
+ARG GIT_BRANCH=main
 
 LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
 
 ENV TZ=Europe/London
+ENV GIT_BRANCH ${GIT_BRANCH}
 RUN ln -snf "/usr/share/zoneinfo/$TZ" /etc/localtime && echo "$TZ" > /etc/timezone
 
 RUN addgroup --gid 2000 --system appgroup && \
@@ -28,6 +30,8 @@ FROM base as build
 
 ARG BUILD_NUMBER=1_0_0
 ARG GIT_REF=not-available
+ARG GIT_BRANCH=main
+ENV GIT_BRANCH ${GIT_BRANCH}
 
 RUN apt-get update && \
         apt-get install -y make python g++
