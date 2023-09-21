@@ -8,7 +8,7 @@ export default function setUpHealthChecks(applicationInfo: ApplicationInfo): Rou
 
   router.get('/health', (req, res, next) => {
     healthcheck(applicationInfo, result => {
-      if (!result.healthy) {
+      if (result.status !== 'UP') {
         res.status(503)
       }
       res.json(result)
