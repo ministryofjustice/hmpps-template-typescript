@@ -1,8 +1,16 @@
 # Change log
 
+**September 22nd 2023** - Ensure health/info endpoints are the same information as the Kotlin templates
+
+As part of the work on the [service catalogue](https://hmpps-developer-portal.hmpps.service.justice.gov.uk/products) we are trying to ensure all services and applications present standard `/health` and `/info` endpoints. As the Kotlin template is provided with a standard set of information as part of Spring Boot, it made sense to make sure the Typrscript template was made to match. This ensures these endpoints can be processed programmatically without needing to know what format the information is being presented.
+
+For more details ask on the `#hmpps-service-catalogue channel`.
+
+PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/231)
+
 **August 3rd 2023** - Add /info endpoint and expose product ids  
 
-As part of the work on the [service catalogue](https://hmpps-developer-portal.hmpps.service.justice.gov.uk/products) we are giving all applications there own product id.
+As part of the work on the [service catalogue](https://hmpps-developer-portal.hmpps.service.justice.gov.uk/products) we are giving all applications their own product id.
 This change adds a new info endpoint to expose this id in a consistent place. 
 
 For more details ask on the `#hmpps-service-catalogue channel`.
