@@ -20,10 +20,12 @@ describe('Healthcheck', () => {
           status: 'UP',
           components: {
             check1: {
-              status: 'some message',
+              status: 'UP',
+              details: 'some message',
             },
             check2: {
-              status: 'some message',
+              status: 'UP',
+              details: 'some message',
             },
           },
         }),
@@ -43,10 +45,12 @@ describe('Healthcheck', () => {
           status: 'DOWN',
           components: {
             check1: {
-              status: 'some message',
+              status: 'UP',
+              details: 'some message',
             },
             check2: {
-              status: 'some error',
+              status: 'DOWN',
+              details: 'some error',
             },
           },
         }),

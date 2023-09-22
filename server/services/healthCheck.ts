@@ -46,7 +46,7 @@ function addAppInfo(result: HealthCheckResult, applicationInfo: ApplicationInfo)
 }
 
 function gatherCheckInfo(aggregateStatus: Record<string, unknown>, currentStatus: HealthCheckStatus) {
-  return { ...aggregateStatus, [currentStatus.name]: { status: currentStatus.message } }
+  return { ...aggregateStatus, [currentStatus.name]: { status: currentStatus.status, details: currentStatus.message } }
 }
 
 const apiChecks = [
