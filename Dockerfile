@@ -21,9 +21,9 @@ RUN test -n "$GIT_REF" || (echo "GIT_REF not set" && false)
 RUN test -n "$GIT_BRANCH" || (echo "GIT_BRANCH not set" && false)
 
 # Define env variables for runtime health / info
-ENV BUILD_NUMBER ${BUILD_NUMBER}
-ENV GIT_REF ${GIT_REF}
-ENV GIT_BRANCH ${GIT_BRANCH}
+ENV BUILD_NUMBER=${BUILD_NUMBER}
+ENV GIT_REF=${GIT_REF}
+ENV GIT_BRANCH=${GIT_BRANCH}
 
 RUN apt-get update && \
         apt-get upgrade -y && \
