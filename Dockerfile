@@ -1,9 +1,9 @@
 # Stage: base image
 FROM node:18.18-bullseye-slim as base
 
-ARG BUILD_NUMBER=1_0_0
-ARG GIT_REF=not-available
-ARG GIT_BRANCH=not-available
+ARG BUILD_NUMBER
+ARG GIT_REF
+ARG GIT_BRANCH
 
 LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
 
@@ -28,9 +28,10 @@ RUN apt-get update && \
 # Stage: build assets
 FROM base as build
 
-ARG BUILD_NUMBER=1_0_0
-ARG GIT_REF=not-available
-ARG GIT_BRANCH=not-available
+ARG BUILD_NUMBER
+ARG GIT_REF
+ARG GIT_BRANCH
+
 ENV GIT_BRANCH=${GIT_BRANCH}
 
 RUN apt-get update && \
