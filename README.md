@@ -56,9 +56,9 @@ To allow easy identification of an application, the product Id of the overall pr
 ## Running the app
 The easiest way to run the app is to use docker compose to create the service and all dependencies. 
 
-`docker-compose pull`
+`docker compose pull`
 
-`docker-compose up`
+`docker compose up`
 
 ### Dependencies
 The app requires: 
@@ -69,7 +69,7 @@ The app requires:
 
 To start the main services excluding the example typescript template app: 
 
-`docker-compose up --scale=app=0`
+`docker compose up --scale=app=0`
 
 Install dependencies using `npm install`, ensuring you are using `node v18.x` and `npm v9.x`
 
@@ -91,7 +91,7 @@ And then, to build the assets and start the app with nodemon:
 
 For local running, start a test db, redis, and wiremock instance by:
 
-`docker-compose -f docker-compose-test.yml up`
+`docker compose -f docker-compose-test.yml up`
 
 Then run the server in test mode by:
 
