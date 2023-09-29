@@ -1,4 +1,8 @@
 # Change log
+**September 28th 2023** - Add in environment name to the header
+
+For dev and pre-prod we now display the environment name in the header to let people know that the service isn't
+production.  This brings the template into line with the new micro frontend components header.
 
 **September 22nd 2023** - Ensure health/info endpoints are the same information as the Kotlin templates
 
