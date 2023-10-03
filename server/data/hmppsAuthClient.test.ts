@@ -67,7 +67,7 @@ describe('hmppsAuthClient', () => {
       tokenStore.getToken.mockResolvedValue(null)
 
       fakeHmppsAuthApi
-        .post(`/oauth/token`, 'grant_type=client_credentials&username=Bob')
+        .post('/oauth/token', 'grant_type=client_credentials&username=Bob')
         .basicAuth({ user: config.apis.hmppsAuth.systemClientId, pass: config.apis.hmppsAuth.systemClientSecret })
         .matchHeader('Content-Type', 'application/x-www-form-urlencoded')
         .reply(200, token)
@@ -82,7 +82,7 @@ describe('hmppsAuthClient', () => {
       tokenStore.getToken.mockResolvedValue(null)
 
       fakeHmppsAuthApi
-        .post(`/oauth/token`, 'grant_type=client_credentials')
+        .post('/oauth/token', 'grant_type=client_credentials')
         .basicAuth({ user: config.apis.hmppsAuth.systemClientId, pass: config.apis.hmppsAuth.systemClientSecret })
         .matchHeader('Content-Type', 'application/x-www-form-urlencoded')
         .reply(200, token)

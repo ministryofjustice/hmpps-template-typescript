@@ -1,8 +1,8 @@
 import { convertToTitleCase } from '../utils/utils'
 import type HmppsAuthClient from '../data/hmppsAuthClient'
+import type { User } from '../data/hmppsAuthClient'
 
-interface UserDetails {
-  name: string
+export interface UserDetails extends User {
   displayName: string
 }
 

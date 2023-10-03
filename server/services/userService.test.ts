@@ -1,5 +1,5 @@
 import UserService from './userService'
-import HmppsAuthClient, { User } from '../data/hmppsAuthClient'
+import HmppsAuthClient, { type User } from '../data/hmppsAuthClient'
 
 jest.mock('../data/hmppsAuthClient')
 
@@ -14,6 +14,7 @@ describe('User service', () => {
       hmppsAuthClient = new HmppsAuthClient(null) as jest.Mocked<HmppsAuthClient>
       userService = new UserService(hmppsAuthClient)
     })
+
     it('Retrieves and formats user name', async () => {
       hmppsAuthClient.getUser.mockResolvedValue({ name: 'john smith' } as User)
 
@@ -21,6 +22,7 @@ describe('User service', () => {
 
       expect(result.displayName).toEqual('John Smith')
     })
+
     it('Propagates error', async () => {
       hmppsAuthClient.getUser.mockRejectedValue(new Error('some error'))
 

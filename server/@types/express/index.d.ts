@@ -1,3 +1,5 @@
+import type { UserDetails } from '../../services/userService'
+
 export default {}
 
 declare module 'express-session' {
@@ -10,8 +12,7 @@ declare module 'express-session' {
 
 export declare global {
   namespace Express {
-    interface User {
-      username: string
+    interface User extends Partial<UserDetails> {
       token: string
       authSource: string
     }
@@ -20,6 +21,10 @@ export declare global {
       verified?: boolean
       id: string
       logout(done: (err: unknown) => void): void
+    }
+
+    interface Locals {
+      user: Express.User
     }
   }
 }

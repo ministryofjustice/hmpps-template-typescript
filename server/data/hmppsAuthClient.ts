@@ -1,4 +1,5 @@
 import { URLSearchParams } from 'url'
+
 import superagent from 'superagent'
 
 import type TokenStore from './tokenStore'
@@ -32,8 +33,14 @@ function getSystemClientTokenFromHmppsAuth(username?: string): Promise<superagen
 }
 
 export interface User {
-  name: string
-  activeCaseLoadId: string
+  username: string
+  name?: string
+  active?: boolean
+  authSource?: string
+  uuid?: string
+  userId?: string
+  staffId?: number // deprecated, use userId
+  activeCaseLoadId?: string // deprecated, use user roles api
 }
 
 export interface UserRole {
@@ -48,14 +55,14 @@ export default class HmppsAuthClient {
   }
 
   getUser(token: string): Promise<User> {
-    logger.info(`Getting user details: calling HMPPS Auth`)
-    return HmppsAuthClient.restClient(token).get({ path: '/api/user/me' }) as Promise<User>
+    logger.info('Getting user details: calling HMPPS Auth')
+    return HmppsAuthClient.restClient(token).get<User>({ path: '/api/user/me' })
   }
 
   getUserRoles(token: string): Promise<string[]> {
     return HmppsAuthClient.restClient(token)
-      .get({ path: '/api/user/me/roles' })
-      .then(roles => (<UserRole[]>roles).map(role => role.roleCode))
+      .get<UserRole[]>({ path: '/api/user/me/roles' })
+      .then(roles => roles.map(role => role.roleCode))
   }
 
   async getSystemClientToken(username?: string): Promise<string> {
