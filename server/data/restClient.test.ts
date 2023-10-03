@@ -1,9 +1,10 @@
 import nock from 'nock'
-import RestClient from './restClient'
+
 import { AgentConfig } from '../config'
+import RestClient from './restClient'
 
 const restClient = new RestClient(
-  'name-1',
+  'api-name',
   {
     url: 'http://localhost:8080/api',
     timeout: {
@@ -15,15 +16,15 @@ const restClient = new RestClient(
   'token-1',
 )
 
-describe('POST', () => {
-  it('Should return response body', async () => {
+describe.each(['get', 'patch', 'post', 'put', 'delete'] as const)('Method: %s', method => {
+  it('should return response body', async () => {
     nock('http://localhost:8080', {
       reqheaders: { authorization: 'Bearer token-1' },
     })
-      .post('/api/test')
+      [method]('/api/test')
       .reply(200, { success: true })
 
-    const result = await restClient.post({
+    const result = await restClient[method]({
       path: '/test',
     })
 
@@ -34,14 +35,14 @@ describe('POST', () => {
     })
   })
 
-  it('Should return raw response body', async () => {
+  it('should return raw response body', async () => {
     nock('http://localhost:8080', {
       reqheaders: { authorization: 'Bearer token-1' },
     })
-      .post('/api/test')
+      [method]('/api/test')
       .reply(200, { success: true })
 
-    const result = await restClient.post({
+    const result = await restClient[method]({
       path: '/test',
       headers: { header1: 'headerValue1' },
       raw: true,
@@ -50,63 +51,86 @@ describe('POST', () => {
     expect(nock.isDone()).toBe(true)
 
     expect(result).toMatchObject({
-      req: { method: 'POST' },
+      req: { method: method.toUpperCase() },
       status: 200,
       text: '{"success":true}',
     })
   })
 
-  it('Should not retry by default', async () => {
-    nock('http://localhost:8080', {
-      reqheaders: { authorization: 'Bearer token-1' },
+  if (method === 'get' || method === 'delete') {
+    it('should retry by default', async () => {
+      nock('http://localhost:8080', {
+        reqheaders: { authorization: 'Bearer token-1' },
+      })
+        [method]('/api/test')
+        .reply(500)
+        [method]('/api/test')
+        .reply(500)
+        [method]('/api/test')
+        .reply(500)
+
+      await expect(
+        restClient[method]({
+          path: '/test',
+          headers: { header1: 'headerValue1' },
+        }),
+      ).rejects.toThrow('Internal Server Error')
+
+      expect(nock.isDone()).toBe(true)
     })
-      .post('/api/test')
-      .reply(500)
+  } else {
+    it('should not retry by default', async () => {
+      nock('http://localhost:8080', {
+        reqheaders: { authorization: 'Bearer token-1' },
+      })
+        [method]('/api/test')
+        .reply(500)
 
-    await expect(
-      restClient.post({
-        path: '/test',
-        headers: { header1: 'headerValue1' },
-      }),
-    ).rejects.toThrow('Internal Server Error')
+      await expect(
+        restClient[method]({
+          path: '/test',
+          headers: { header1: 'headerValue1' },
+        }),
+      ).rejects.toThrow('Internal Server Error')
 
-    expect(nock.isDone()).toBe(true)
-  })
-
-  it('retries if configured to do so', async () => {
-    nock('http://localhost:8080', {
-      reqheaders: { authorization: 'Bearer token-1' },
+      expect(nock.isDone()).toBe(true)
     })
-      .post('/api/test')
-      .reply(500)
-      .post('/api/test')
-      .reply(500)
-      .post('/api/test')
-      .reply(500)
 
-    await expect(
-      restClient.post({
-        path: '/test',
-        headers: { header1: 'headerValue1' },
-        retry: true,
-      }),
-    ).rejects.toThrow('Internal Server Error')
+    it('should retry if configured to do so', async () => {
+      nock('http://localhost:8080', {
+        reqheaders: { authorization: 'Bearer token-1' },
+      })
+        [method]('/api/test')
+        .reply(500)
+        [method]('/api/test')
+        .reply(500)
+        [method]('/api/test')
+        .reply(500)
 
-    expect(nock.isDone()).toBe(true)
-  })
+      await expect(
+        restClient[method]({
+          path: '/test',
+          headers: { header1: 'headerValue1' },
+          retry: true,
+        }),
+      ).rejects.toThrow('Internal Server Error')
+
+      expect(nock.isDone()).toBe(true)
+    })
+  }
 
   it('can recover through retries', async () => {
     nock('http://localhost:8080', {
       reqheaders: { authorization: 'Bearer token-1' },
     })
-      .post('/api/test')
+      [method]('/api/test')
       .reply(500)
-      .post('/api/test')
+      [method]('/api/test')
       .reply(500)
-      .post('/api/test')
+      [method]('/api/test')
       .reply(200, { success: true })
 
-    const result = await restClient.post({
+    const result = await restClient[method]({
       path: '/test',
       headers: { header1: 'headerValue1' },
       retry: true,
