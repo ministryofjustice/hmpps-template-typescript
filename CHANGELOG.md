@@ -1,4 +1,15 @@
 # Change log
+
+**October 4th 2023** – Improve REST client and propagate user types into `res.locals`
+
+The base REST client now supports GET, DELETE, PATCH, POST, PUT methods all allowing query parameters
+and generic response types.
+
+The user object built by `setUpCurrentUser` middleware is exposed in `res.locals` of request handlers
+preventing the need for type assertions.
+
+PR: [#238](https://github.com/ministryofjustice/hmpps-template-typescript/pull/238)
+
 **September 28th 2023** - Add in environment name to the header
 
 For dev and pre-prod we now display the environment name in the header to let people know that the service isn't
