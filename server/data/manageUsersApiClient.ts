@@ -1,4 +1,3 @@
-import type TokenStore from './tokenStore'
 import logger from '../../logger'
 import config from '../config'
 import RestClient from './restClient'
@@ -19,7 +18,7 @@ export interface UserRole {
 }
 
 export default class ManageUsersApiClient {
-  constructor(private readonly tokenStore: TokenStore) {}
+  constructor() {}
 
   private static restClient(token: string): RestClient {
     return new RestClient('Manage Users Api Client', config.apis.manageUsersApi, token)

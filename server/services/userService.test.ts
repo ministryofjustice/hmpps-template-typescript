@@ -11,7 +11,7 @@ describe('User service', () => {
 
   describe('getUser', () => {
     beforeEach(() => {
-      manageUsersApiClient = new ManageUsersApiClient(null) as jest.Mocked<ManageUsersApiClient>
+      manageUsersApiClient = new ManageUsersApiClient() as jest.Mocked<ManageUsersApiClient>
       userService = new UserService(manageUsersApiClient)
     })
 
