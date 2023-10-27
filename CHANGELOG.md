@@ -1,16 +1,31 @@
 # Change log
 
+---
+
 **October 27th 2023** – Update to 4.0.0 of `jwt-decode` module
 
 This had breaking changes and required an update to the import statement
 
 PR: [#252](https://github.com/ministryofjustice/hmpps-template-typescript/pull/252)
 
+---
+
 **October 27th 2023** – Update application to use node.js version 20 and npm version 10
 
 Application updated to node 20.8 along with one minor node module tweaks
 
 PR: [#249](https://github.com/ministryofjustice/hmpps-template-typescript/pull/249)
+
+---
+
+**October 25th 2023** – Replace deprecated HMPPS Auth API endpoints with calls to HMPPS Manage Users API
+
+`/api/user/me` -> `/users/me` <br>
+`/api/user/me/roles` -> `/users/me/roles`
+
+PR: [#247](https://github.com/ministryofjustice/hmpps-template-typescript/pull/247)
+
+---
 
 **October 4th 2023** – Improve REST client and propagate user types into `res.locals`
 
@@ -22,10 +37,14 @@ preventing the need for type assertions.
 
 PR: [#238](https://github.com/ministryofjustice/hmpps-template-typescript/pull/238)
 
+---
+
 **September 28th 2023** - Add in environment name to the header
 
 For dev and pre-prod we now display the environment name in the header to let people know that the service isn't
 production.  This brings the template into line with the new micro frontend components header.
+
+---
 
 **September 22nd 2023** - Ensure health/info endpoints are the same information as the Kotlin templates
 
@@ -34,6 +53,8 @@ As part of the work on the [service catalogue](https://hmpps-developer-portal.hm
 For more details ask on the `#hmpps-service-catalogue channel`.
 
 PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/231)
+
+---
 
 **August 3rd 2023** - Add /info endpoint and expose product ids  
 
