@@ -4,7 +4,7 @@
 
 Application updated to node 20.8 along with one minor node module tweaks
 
-PR: [#238](https://github.com/ministryofjustice/hmpps-template-typescript/pull/249)
+PR: [#249](https://github.com/ministryofjustice/hmpps-template-typescript/pull/249)
 
 **October 4th 2023** – Improve REST client and propagate user types into `res.locals`
 
