@@ -4,7 +4,7 @@
 
 This had breaking changes and required an update to the import statement
 
-PR: [#251](https://github.com/ministryofjustice/hmpps-template-typescript/pull/251)
+PR: [#252](https://github.com/ministryofjustice/hmpps-template-typescript/pull/252)
 
 **October 27th 2023** – Update application to use node.js version 20 and npm version 10
 
