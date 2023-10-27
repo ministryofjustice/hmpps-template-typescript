@@ -1,5 +1,11 @@
 # Change log
 
+**October 27th 2023** – Update to 4.0.0 of `jwt-decode` module
+
+This had breaking changes and required an update to the import statement
+
+PR: [#251](https://github.com/ministryofjustice/hmpps-template-typescript/pull/251)
+
 **October 27th 2023** – Update application to use node.js version 20 and npm version 10
 
 Application updated to node 20.8 along with one minor node module tweaks
