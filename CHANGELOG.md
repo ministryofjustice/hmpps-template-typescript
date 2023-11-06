@@ -2,6 +2,12 @@
 
 ---
 
+**November 6th 2023** – Add HMPPS Manage Users API to health checks
+
+PR: [#255](https://github.com/ministryofjustice/hmpps-template-typescript/pull/255)
+
+---
+
 **October 27th 2023** – Update to 4.0.0 of `jwt-decode` module
 
 This had breaking changes and required an update to the import statement
