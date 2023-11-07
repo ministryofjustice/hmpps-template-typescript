@@ -24,6 +24,23 @@ services:
       - SPRING_PROFILES_ACTIVE=dev
       - APPLICATION_AUTHENTICATION_UI_ALLOWLIST=0.0.0.0/0
 
+  manage-users-api:
+    image: quay.io/hmpps/hmpps-manage-users-api:latest
+    networks:
+      - hmpps
+    container_name: manage-users-api_mhaa
+    depends_on:
+      - hmpps-auth
+    ports:
+      - "9091:8080"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
+    environment:
+      - SERVER_PORT=8080
+      - SPRING_PROFILES_ACTIVE=dev
+      - HMPPS_AUTH_ENDPOINT_URL=http://hmpps-auth:8080/auth
+      - EXTERNAL_USERS_ENDPOINT_URL=http://hmpps-external-users-api:8080
+
   app:
     build:
       context: .
