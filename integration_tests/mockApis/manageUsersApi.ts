@@ -1,8 +1,6 @@
-import { Response } from 'superagent'
-
 import { stubFor } from './wiremock'
 
-const stubUser = (name: string) =>
+const stubUser = (name: string = 'john smith') =>
   stubFor({
     request: {
       method: 'GET',
@@ -49,7 +47,7 @@ const ping = () =>
   })
 
 export default {
-  stubManageUser: (name = 'john smith'): Promise<[Response, Response]> =>
-    Promise.all([stubUser(name), stubUserRoles()]),
+  stubManageUser: stubUser,
   stubManageUsersPing: ping,
+  stubManageUserRoles: stubUserRoles,
 }

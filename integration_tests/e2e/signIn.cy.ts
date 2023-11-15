@@ -3,7 +3,7 @@ import AuthSignInPage from '../pages/authSignIn'
 import Page from '../pages/page'
 import AuthManageDetailsPage from '../pages/authManageDetails'
 
-context('SignIn', () => {
+context('Sign In', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
@@ -32,7 +32,7 @@ context('SignIn', () => {
     indexPage.headerPhaseBanner().should('contain.text', 'dev')
   })
 
-  it('User can log out', () => {
+  it('User can sign out', () => {
     cy.signIn()
     const indexPage = Page.verifyOnPage(IndexPage)
     indexPage.signOut().click()
@@ -41,6 +41,7 @@ context('SignIn', () => {
 
   it('User can manage their details', () => {
     cy.signIn()
+    cy.task('stubAuthManageDetails')
     const indexPage = Page.verifyOnPage(IndexPage)
 
     indexPage.manageDetails().get('a').invoke('removeAttr', 'target')
