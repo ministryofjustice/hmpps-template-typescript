@@ -3,7 +3,7 @@ import nock from 'nock'
 import config from '../config'
 import ManageUsersApiClient from './manageUsersApiClient'
 
-jest.mock('./tokenStore')
+jest.mock('./tokenStore/redisTokenStore')
 
 const token = { access_token: 'token-1', expires_in: 300 }
 

@@ -1,5 +1,5 @@
-import { RedisClient } from './redisClient'
-import TokenStore from './tokenStore'
+import { RedisClient } from '../redisClient'
+import TokenStore from './redisTokenStore'
 
 const redisClient = {
   get: jest.fn(),
