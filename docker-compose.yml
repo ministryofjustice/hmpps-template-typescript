@@ -23,7 +23,6 @@ services:
         GIT_BRANCH: main
     networks:
       - hmpps
-    depends_on: [redis]
     ports:
       - "3000:3000"
     environment:
