@@ -28,10 +28,4 @@ export default class ManageUsersApiClient {
     logger.info('Getting user details: calling HMPPS Manage Users Api')
     return ManageUsersApiClient.restClient(token).get<User>({ path: '/users/me' })
   }
-
-  getUserRoles(token: string): Promise<string[]> {
-    return ManageUsersApiClient.restClient(token)
-      .get<UserRole[]>({ path: '/users/me/roles' })
-      .then(roles => roles.map(role => role.roleCode))
-  }
 }

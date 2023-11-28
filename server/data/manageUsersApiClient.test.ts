@@ -34,16 +34,4 @@ describe('manageUsersApiClient', () => {
       expect(output).toEqual(response)
     })
   })
-
-  describe('getUserRoles', () => {
-    it('should return data from api', async () => {
-      fakeManageUsersApiClient
-        .get('/users/me/roles')
-        .matchHeader('authorization', `Bearer ${token.access_token}`)
-        .reply(200, [{ roleCode: 'role1' }, { roleCode: 'role2' }])
-
-      const output = await manageUsersApiClient.getUserRoles(token.access_token)
-      expect(output).toEqual(['role1', 'role2'])
-    })
-  })
 })
