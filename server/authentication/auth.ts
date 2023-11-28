@@ -1,10 +1,10 @@
-import passport from 'passport'
-import { Strategy } from 'passport-oauth2'
+import passport, { Strategy } from 'passport'
+import { Strategy as OAuth2Strategy } from 'passport-oauth2'
 import type { RequestHandler } from 'express'
-
 import config from '../config'
 import generateOauthClientToken from './clientCredentials'
 import type { TokenVerifier } from '../data/tokenVerification'
+import createUserToken from '../testutils/createUserToken'
 
 passport.serializeUser((user, done) => {
   // Not used but required for Passport
@@ -29,7 +29,7 @@ const authenticationMiddleware: AuthenticationMiddleware = verifyToken => {
 }
 
 function init(): void {
-  const strategy = new Strategy(
+  const oauth2Strategy = new OAuth2Strategy(
     {
       authorizationURL: `${config.apis.hmppsAuth.externalUrl}/oauth/authorize`,
       tokenURL: `${config.apis.hmppsAuth.url}/oauth/token`,
@@ -43,8 +43,24 @@ function init(): void {
       return done(null, { token, username: params.user_name, authSource: params.auth_source })
     },
   )
+  passport.use('oauth2', oauth2Strategy)
 
-  passport.use(strategy)
+  const localStrategy = new (class extends Strategy {
+    authenticate() {
+      const payload = {
+        user_name: 'user1',
+        name: 'Test User',
+        displayName: 'Test User',
+        authorities: ['ROLE_USER'],
+        authSource: 'nomis',
+        active: true,
+      }
+      const token = createUserToken(payload)
+      const roles = payload.authorities.map(authority => authority.replace(/^ROLE_/, ''))
+      this.success({ token, roles, ...payload })
+    }
+  })()
+  passport.use('local', localStrategy)
 }
 
 export default {

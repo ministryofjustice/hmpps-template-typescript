@@ -1,19 +1,5 @@
 version: '3.1'
 services:
-
-  hmpps-auth:
-    image: quay.io/hmpps/hmpps-auth:latest
-    networks:
-      - hmpps
-    container_name: hmpps-auth
-    ports:
-      - "9090:8080"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/auth/health"]
-    environment:
-      - SPRING_PROFILES_ACTIVE=dev
-      - APPLICATION_AUTHENTICATION_UI_ALLOWLIST=0.0.0.0/0
-
   app:
     build:
       context: .
@@ -27,18 +13,52 @@ services:
       - "3000:3000"
     environment:
       - PRODUCT_ID=UNASSIGNED
-      - REDIS_ENABLED=false
+      - REDIS_ENABLED=true
+      - REDIS_HOST=redis
+      - HMPPS_AUTH_ENABLED=true
+      - HMPPS_AUTH_URL=http://hmpps-auth:8080
       - HMPPS_AUTH_EXTERNAL_URL=http://localhost:9090/auth
-      - HMPPS_AUTH_URL=http://hmpps-auth:8080/auth
-      # These will need to match new creds in the seed auth service auth
-      - API_CLIENT_ID=client-id
-      - API_CLIENT_SECRET=client-secret
-      - SYSTEM_CLIENT_ID=system-client-id
-      - SYSTEM_CLIENT_SECRET=system-client-secret
-      - SESSION_SECRET=somesecretvalue
-      - TOKEN_VERIFICATION_API_URL=http://hmpps-auth:8080/auth
+      - MANAGE_USERS_API_URL=http://manage-users-api:8080
       - TOKEN_VERIFICATION_ENABLED=false
+      - TOKEN_VERIFICATION_API_URL=disabled
+      - API_CLIENT_ID=clientid
+      - API_CLIENT_SECRET=clientsecret
+      - SYSTEM_CLIENT_ID=clientid
+      - SYSTEM_CLIENT_SECRET=clientsecret
+      - SESSION_SECRET=somesecretvalue
       - INGRESS_URL=http://localhost:3000
+
+  hmpps-auth:
+    image: quay.io/hmpps/hmpps-auth:latest
+    networks:
+      - hmpps
+    ports:
+      - "9090:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/auth/health/ping"]
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - APPLICATION_AUTHENTICATION_UI_ALLOWLIST=0.0.0.0/0
+
+  manage-users-api:
+    image: quay.io/hmpps/hmpps-manage-users-api:latest
+    restart: on-failure
+    networks:
+      - hmpps
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health/ping"]
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - HMPPS-AUTH_ENDPOINT_URL=http://hmpps-auth:8080/auth
+
+  redis:
+    image: "redis:7.2"
+    networks:
+      - hmpps
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6379:6379"
 
 networks:
   hmpps:

@@ -1,5 +1,5 @@
 # Stage: base image
-FROM node:20.8-bullseye-slim as base
+FROM node:20.8-bullseye-slim AS base
 
 ARG BUILD_NUMBER
 ARG GIT_REF
@@ -31,7 +31,7 @@ RUN apt-get update && \
         rm -rf /var/lib/apt/lists/*
 
 # Stage: build assets
-FROM base as build
+FROM base AS build
 
 ARG BUILD_NUMBER
 ARG GIT_REF

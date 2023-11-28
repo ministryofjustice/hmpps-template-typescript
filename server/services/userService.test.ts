@@ -15,7 +15,7 @@ describe('User service', () => {
     })
 
     it('Retrieves and formats user name', async () => {
-      const token = createUserToken([])
+      const token = createUserToken({ authorities: [] })
       manageUsersApiClient.getUser.mockResolvedValue({ name: 'john smith' } as User)
 
       const result = await userService.getUser(token)
@@ -24,7 +24,7 @@ describe('User service', () => {
     })
 
     it('Retrieves and formats roles', async () => {
-      const token = createUserToken(['ROLE_ONE', 'ROLE_TWO'])
+      const token = createUserToken({ authorities: ['ROLE_ONE', 'ROLE_TWO'] })
       manageUsersApiClient.getUser.mockResolvedValue({ name: 'john smith' } as User)
 
       const result = await userService.getUser(token)
@@ -33,7 +33,7 @@ describe('User service', () => {
     })
 
     it('Propagates error', async () => {
-      const token = createUserToken([])
+      const token = createUserToken({ authorities: [] })
       manageUsersApiClient.getUser.mockRejectedValue(new Error('some error'))
 
       await expect(userService.getUser(token)).rejects.toEqual(new Error('some error'))

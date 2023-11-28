@@ -53,31 +53,57 @@ To ensure notifications are routed to the correct slack channels, update the `al
 
 To allow easy identification of an application, the product Id of the overall product should be set in `values.yaml`. The Service Catalogue contains a list of these IDs and is currently in development here https://developer-portal.hmpps.service.justice.gov.uk/products
 
-## Running the app
-The easiest way to run the app is to use docker compose to create the service and all dependencies. 
+## Dependencies
 
-`docker compose pull`
-
-`docker compose up`
-
-### Dependencies
 The app requires: 
+
 * hmpps-auth - for authentication
+* manage-users-api - to provide user details
 * redis - session store and token caching
 
-### Running the app for development
+## Development
 
-To start the main services excluding the example typescript template app: 
+Follow the steps below to get the app up and running in your local environment.
 
-`docker compose up --scale=app=0`
+### Pre-requisites
 
-Install dependencies using `npm install`, ensuring you are using `node v18.x` and `npm v9.x`
+You'll need to install:
 
-Note: Using `nvm` (or [fnm](https://github.com/Schniz/fnm)), run `nvm install --latest-npm` within the repository folder to use the correct version of node, and the latest version of npm. This matches the `engines` config in `package.json` and the CircleCI build config.
+* [Node 20.x](https://nodejs.org/download/release/latest-v20.x)
 
-And then, to build the assets and start the app with nodemon:
+If you're already using [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm), run:
+`nvm install --latest-npm` at the project root to install the correct Node version automatically.
 
-`npm run start:dev`
+Then, install the NPM dependencies:
+
+```shell
+npm install
+```
+
+### Start the app
+
+To start the app in dev mode, run:
+
+```shell
+npm run start:dev
+```
+
+The app will be available at http://localhost:3000. Nodemon will restart the app on file changes.
+
+Running in dev mode uses an in-memory session store and a local user account.
+To change the local user account details or roles, update the `localStrategy` in [server/authentication/auth.ts](server/authentication/auth.ts).
+
+### Start the app with dependencies
+
+To start the app with dependencies in Docker, run:
+
+```shell
+docker-compose up --build
+```
+
+This will start a HMPPS Auth, Manage Users API, and a Redis container. You will need to add valid client credentials to the docker-compose.yml file.
+
+Note: this method does not support live reloading with nodemon.
 
 ### Run linter
 

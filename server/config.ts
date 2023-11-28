@@ -50,6 +50,7 @@ export default {
   },
   apis: {
     hmppsAuth: {
+      enabled: get('HMPPS_AUTH_ENABLED', 'false', requiredInProduction) === 'true',
       url: get('HMPPS_AUTH_URL', 'http://localhost:9090/auth', requiredInProduction),
       externalUrl: get('HMPPS_AUTH_EXTERNAL_URL', get('HMPPS_AUTH_URL', 'http://localhost:9090/auth')),
       timeout: {

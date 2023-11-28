@@ -19,30 +19,39 @@ export default function setUpAuth(): Router {
     return res.render('autherror')
   })
 
-  router.get('/sign-in', passport.authenticate('oauth2'))
+  if (config.apis.hmppsAuth.enabled) {
+    const authUrl = config.apis.hmppsAuth.externalUrl
+    const authSignOutUrl = `${authUrl}/sign-out?client_id=${config.apis.hmppsAuth.apiClientId}&redirect_uri=${config.domain}`
 
-  router.get('/sign-in/callback', (req, res, next) =>
-    passport.authenticate('oauth2', {
-      successReturnToOrRedirect: req.session.returnTo || '/',
-      failureRedirect: '/autherror',
-    })(req, res, next),
-  )
+    router.get('/sign-in', passport.authenticate('oauth2'))
 
-  const authUrl = config.apis.hmppsAuth.externalUrl
-  const authSignOutUrl = `${authUrl}/sign-out?client_id=${config.apis.hmppsAuth.apiClientId}&redirect_uri=${config.domain}`
+    router.get('/sign-in/callback', (req, res, next) =>
+      passport.authenticate('oauth2', {
+        successReturnToOrRedirect: req.session.returnTo || '/',
+        failureRedirect: '/autherror',
+      })(req, res, next),
+    )
 
-  router.use('/sign-out', (req, res, next) => {
-    if (req.user) {
-      req.logout(err => {
-        if (err) return next(err)
-        return req.session.destroy(() => res.redirect(authSignOutUrl))
-      })
-    } else res.redirect(authSignOutUrl)
-  })
+    router.use('/sign-out', (req, res, next) => {
+      if (req.user) {
+        req.logout(err => {
+          if (err) return next(err)
+          return req.session.destroy(() => res.redirect(authSignOutUrl))
+        })
+      } else res.redirect(authSignOutUrl)
+    })
 
-  router.use('/account-details', (req, res) => {
-    res.redirect(`${authUrl}/account-details`)
-  })
+    router.use('/account-details', (req, res) => {
+      res.redirect(`${authUrl}/account-details`)
+    })
+  } else {
+    router.get('/sign-in', (req, res, next) =>
+      passport.authenticate('local', {
+        successReturnToOrRedirect: req.session.returnTo || '/',
+        failureRedirect: '/autherror',
+      })(req, res, next),
+    )
+  }
 
   router.use((req, res, next) => {
     res.locals.user = req.user
