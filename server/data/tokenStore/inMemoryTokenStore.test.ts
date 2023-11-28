@@ -1,6 +1,6 @@
-import TokenStore from './testingTokenStore'
+import TokenStore from './inMemoryTokenStore'
 
-describe('testingTokenStore', () => {
+describe('inMemoryTokenStore', () => {
   let tokenStore: TokenStore
 
   beforeEach(() => {

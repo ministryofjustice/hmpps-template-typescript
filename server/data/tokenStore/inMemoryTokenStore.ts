@@ -1,6 +1,6 @@
 import TokenStore from './tokenStore'
 
-export default class TestingTokenStore implements TokenStore {
+export default class InMemoryTokenStore implements TokenStore {
   map = new Map<string, { token: string; expiry: Date }>()
 
   public async setToken(key: string, token: string, durationSeconds: number): Promise<void> {
