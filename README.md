@@ -105,6 +105,28 @@ This will start a HMPPS Auth, Manage Users API, and a Redis container. You will 
 
 Note: this method does not support live reloading with nodemon.
 
+### Integrate with the dev environment
+
+To connect your local app to the services deployed in the dev environment, create a `.env` file at the root of your project:
+```properties
+NODE_ENV=development
+ENVIRONMENT_NAME=dev
+HMPPS_AUTH_ENABLED=true
+HMPPS_AUTH_URL=https://sign-in-dev.hmpps.service.justice.gov.uk/auth
+MANAGE_USERS_API_URL=https://manage-users-api-dev.hmpps.service.justice.gov.uk
+
+# Replace these values with your dev client credentials
+API_CLIENT_ID=clientid
+API_CLIENT_SECRET=clientsecret
+SYSTEM_CLIENT_ID=clientid
+SYSTEM_CLIENT_SECRET=clientsecret
+```
+
+Then run
+```shell
+npm run start:dev
+```
+
 ### Run linter
 
 `npm run lint`
