@@ -1,13 +1,6 @@
 version: '3.1'
 services:
 
-  redis:
-    image: 'redis:7.2'
-    networks:
-      - hmpps_int
-    ports:
-      - '6379:6379'
-
   wiremock:
     image: wiremock/wiremock
     networks:
