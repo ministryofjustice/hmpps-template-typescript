@@ -1,6 +1,13 @@
 name: rename-project-create-pr
 
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+    inputs:
+      slack_releases_channel:
+        description: 'Slack channel where release notification will be delivered to.'
+        required: true
+        default: ''
+
 
 jobs:
   build:
@@ -9,7 +16,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Run rename-project script
-        run: ./rename-project.bash ${{ github.event.repository.name }}
+        run: ./rename-project.bash ${{ github.event.repository.name }}  ${{ github.event.inputs.slack_releases_channel }}
 
       - name: Delete this github actions workflow
         run: rm .github/workflows/rename_template_project*

@@ -10,6 +10,7 @@ fi
 
 if [[ $# -ge 1 ]]; then
   PROJECT_INPUT=$1
+  SLACK_RELEASES_CHANNEL=$2
 else
   read -rp "New project name e.g. prison-visits >" PROJECT_INPUT
 fi
@@ -46,7 +47,7 @@ RANDOM_MINUTE2=$(($RANDOM%60))
 sed -i -z -E \
   -e "s/security:\n    triggers:\n      - schedule:\n          cron: \"30 5/security:\n    triggers:\n      - schedule:\n          cron: \"$RANDOM_MINUTE $RANDOM_HOUR/" \
   -e "s/security-weekly:\n    triggers:\n      - schedule:\n          cron: \"0 5/security-weekly:\n    triggers:\n      - schedule:\n          cron: \"$RANDOM_MINUTE2 $RANDOM_HOUR/" \
-  -e "s/hmpps_typescript_notifications/<< INSERT SLACK CHANNEL HERE >>/" \
+  -e "s/hmpps_typescript_notifications/$SLACK_RELEASES_CHANNEL/" \
   .circleci/config.yml
 
 # lastly remove ourselves
