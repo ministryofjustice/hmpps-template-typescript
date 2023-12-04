@@ -1,4 +1,4 @@
-import sanitisedError, { UnsanitisedError } from './sanitisedError'
+import sanitisedError, { UnsanitisedError, SanitisedError } from './sanitisedError'
 
 describe('sanitised error', () => {
   it('it should omit the request headers from the error object ', () => {
@@ -25,29 +25,32 @@ describe('sanitised error', () => {
       stack: 'stack description',
     } as unknown as UnsanitisedError
 
-    expect(sanitisedError(error)).toEqual({
-      headers: { date: 'Tue, 19 May 2020 15:16:20 GMT' },
-      message: 'Not Found',
-      stack: 'stack description',
-      status: 404,
-      text: { details: 'details' },
-      data: { content: 'hello' },
-    })
+    const e = new Error() as SanitisedError
+    e.message = 'Not Found'
+    e.text = 'details'
+    e.status = 404
+    e.headers = { date: 'Tue, 19 May 2020 15:16:20 GMT' }
+    e.data = { content: 'hello' }
+    e.stack = 'stack description'
+
+    expect(sanitisedError(error)).toEqual(e)
   })
 
-  it('it should return the error message ', () => {
+  it('it should return the error message', () => {
     const error = {
       message: 'error description',
     } as unknown as UnsanitisedError
-    expect(sanitisedError(error)).toEqual({
-      message: 'error description',
-    })
+
+    expect(sanitisedError(error)).toBeInstanceOf(Error)
+    expect(sanitisedError(error)).toHaveProperty('message', 'error description')
   })
 
-  it('it should return an empty object for an unknown error structure', () => {
+  it('it should return an empty Error instance for an unknown error structure', () => {
     const error = {
       property: 'unknown',
     } as unknown as UnsanitisedError
-    expect(sanitisedError(error)).toEqual({})
+
+    expect(sanitisedError(error)).toBeInstanceOf(Error)
+    expect(sanitisedError(error)).not.toHaveProperty('property')
   })
 })

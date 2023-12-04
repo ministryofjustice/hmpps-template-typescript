@@ -3,11 +3,11 @@ import AuthSignInPage from '../pages/authSignIn'
 import Page from '../pages/page'
 import AuthManageDetailsPage from '../pages/authManageDetails'
 
-context('SignIn', () => {
+context('Sign In', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
-    cy.task('stubAuthUser')
+    cy.task('stubManageUser')
   })
 
   it('Unauthenticated user directed to auth', () => {
@@ -26,7 +26,13 @@ context('SignIn', () => {
     indexPage.headerUserName().should('contain.text', 'J. Smith')
   })
 
-  it('User can log out', () => {
+  it('Phase banner visible in header', () => {
+    cy.signIn()
+    const indexPage = Page.verifyOnPage(IndexPage)
+    indexPage.headerPhaseBanner().should('contain.text', 'dev')
+  })
+
+  it('User can sign out', () => {
     cy.signIn()
     const indexPage = Page.verifyOnPage(IndexPage)
     indexPage.signOut().click()
@@ -35,6 +41,7 @@ context('SignIn', () => {
 
   it('User can manage their details', () => {
     cy.signIn()
+    cy.task('stubAuthManageDetails')
     const indexPage = Page.verifyOnPage(IndexPage)
 
     indexPage.manageDetails().get('a').invoke('removeAttr', 'target')
@@ -60,7 +67,7 @@ context('SignIn', () => {
     cy.request('/').its('body').should('contain', 'Sign in')
 
     cy.task('stubVerifyToken', true)
-    cy.task('stubAuthUser', 'bobby brown')
+    cy.task('stubManageUser', 'bobby brown')
     cy.signIn()
 
     indexPage.headerUserName().contains('B. Brown')

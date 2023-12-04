@@ -1,0 +1,15 @@
+---
+# Per environment values which override defaults in hmpps-template-typescript/values.yaml
+
+generic-service:
+  ingress:
+    host: hmpps-template-typescript.hmpps.service.justice.gov.uk
+
+  env:
+    INGRESS_URL: "https://hmpps-template-typescript.hmpps.service.justice.gov.uk"
+    HMPPS_AUTH_URL: "https://sign-in.hmpps.service.justice.gov.uk/auth"
+    MANAGE_USERS_API_URL: "https://manage-users-api.hmpps.service.justice.gov.uk"
+    TOKEN_VERIFICATION_API_URL: "https://token-verification-api.prison.service.justice.gov.uk"
+
+generic-prometheus-alerts:
+  alertSeverity: digital-prison-service

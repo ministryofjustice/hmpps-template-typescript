@@ -1,17 +1,5 @@
 import { setup, defaultClient, TelemetryClient, DistributedTracingModes } from 'applicationinsights'
-import applicationVersion from '../applicationVersion'
-
-function defaultName(): string {
-  const {
-    packageData: { name },
-  } = applicationVersion
-  return name
-}
-
-function version(): string {
-  const { buildNumber } = applicationVersion
-  return buildNumber
-}
+import type { ApplicationInfo } from '../applicationInfo'
 
 export function initialiseAppInsights(): void {
   if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
@@ -22,10 +10,13 @@ export function initialiseAppInsights(): void {
   }
 }
 
-export function buildAppInsightsClient(name = defaultName()): TelemetryClient {
+export function buildAppInsightsClient(
+  { applicationName, buildNumber }: ApplicationInfo,
+  overrideName?: string,
+): TelemetryClient {
   if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
-    defaultClient.context.tags['ai.cloud.role'] = name
-    defaultClient.context.tags['ai.application.ver'] = version()
+    defaultClient.context.tags['ai.cloud.role'] = overrideName || applicationName
+    defaultClient.context.tags['ai.application.ver'] = buildNumber
     return defaultClient
   }
   return null

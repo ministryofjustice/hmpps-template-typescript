@@ -1,6 +1,5 @@
 import express from 'express'
 
-import path from 'path'
 import createError from 'http-errors'
 
 import nunjucksSetup from './utils/nunjucksSetup'
@@ -28,12 +27,12 @@ export default function createApp(services: Services): express.Application {
   app.set('port', process.env.PORT || 3000)
 
   app.use(metricsMiddleware)
-  app.use(setUpHealthChecks())
+  app.use(setUpHealthChecks(services.applicationInfo))
   app.use(setUpWebSecurity())
   app.use(setUpWebSession())
   app.use(setUpWebRequestParsing())
   app.use(setUpStaticResources())
-  nunjucksSetup(app, path)
+  nunjucksSetup(app, services.applicationInfo)
   app.use(setUpAuthentication())
   app.use(authorisationMiddleware())
   app.use(setUpCsrf())

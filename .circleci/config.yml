@@ -1,8 +1,8 @@
 version: 2.1
 
 orbs:
-  hmpps: ministryofjustice/hmpps@7.2.1
-  slack: circleci/slack@4.12.1
+  hmpps: ministryofjustice/hmpps@8
+  slack: circleci/slack@4.12.5
 
 parameters:
   alerts-slack-channel:
@@ -18,7 +18,7 @@ parameters:
 
   node-version:
     type: string
-    default: 18.15-browsers
+    default: 20.8-browsers
 
 jobs:
   build:
@@ -43,10 +43,6 @@ jobs:
       - run:
           command: |
             npm run build
-            DATE=$(date '+%Y-%m-%d')
-            export BUILD_NUMBER=${DATE}.${CIRCLE_BUILD_NUM}
-            export GIT_REF="$CIRCLE_SHA1"
-            npm run record-build-info
       - run: # Run linter after build because the integration test code depend on compiled typescript...
           name: Linter check
           command: npm run lint
@@ -54,10 +50,9 @@ jobs:
           root: .
           paths:
             - node_modules
-            - build-info.json
             - build
             - dist
-            - .cache/Cypress
+            - assets/stylesheets
 
   unit_test:
     executor:
@@ -77,9 +72,8 @@ jobs:
 
   integration_test:
     executor:
-      name: hmpps/node_redis
-      node_tag: << pipeline.parameters.node-version >>
-      redis_tag: "6.2"
+      name: hmpps/node
+      tag: << pipeline.parameters.node-version >>
     steps:
       - checkout
       - attach_workspace:
@@ -91,7 +85,7 @@ jobs:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
           name: Get wiremock
-          command: curl -o wiremock.jar https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.27.1/wiremock-standalone-2.27.1.jar
+          command: curl -o wiremock.jar https://repo1.maven.org/maven2/org/wiremock/wiremock-standalone/3.3.1/wiremock-standalone-3.3.1.jar
       - run:
           name: Run wiremock
           command: java -jar wiremock.jar --port 9091
@@ -109,9 +103,9 @@ jobs:
       - store_test_results:
           path: test_results
       - store_artifacts:
-          path: integration-tests/videos
+          path: integration_tests/videos
       - store_artifacts:
-          path: integration-tests/screenshots
+          path: integration_tests/screenshots
 
 workflows:
   version: 2
@@ -139,6 +133,8 @@ workflows:
           name: deploy_dev
           env: "dev"
           jira_update: true
+          pipeline_id: <<pipeline.id>>
+          pipeline_number: <<pipeline.number>>
           context: hmpps-common-vars
           filters:
             branches:
@@ -159,6 +155,8 @@ workflows:
 #          env: "preprod"
 #          jira_update: true
 #          jira_env_type: staging
+#          pipeline_id: <<pipeline.id>>
+#          pipeline_number: <<pipeline.number>>
 #          context:
 #            - hmpps-common-vars
 #            - hmpps-template-typescript-preprod
@@ -174,6 +172,8 @@ workflows:
 #          env: "prod"
 #          jira_update: true
 #          jira_env_type: production
+#          pipeline_id: <<pipeline.id>>
+#          pipeline_number: <<pipeline.number>>
 #          slack_notification: true
 #          slack_channel_name: << pipeline.parameters.releases-slack-channel >>
 #          context:
