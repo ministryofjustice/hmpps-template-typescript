@@ -10,6 +10,10 @@ fi
 
 if [[ $# -ge 1 ]]; then
   PROJECT_INPUT=$1
+  SLACK_RELEASES_CHANNEL=$2
+  PIPELINE_SECURITY_SLACK_CHANNEL=$3
+  NON_PROD_ALERTS_SEVERITY_LABEL=$4
+  PROD_ALERTS_SEVERITY_LABEL=$5
 else
   read -rp "New project name e.g. prison-visits >" PROJECT_INPUT
 fi
@@ -39,6 +43,15 @@ echo "Performing directory renames"
 # move helm stuff to new name
 mv "helm_deploy/hmpps-template-typescript" "helm_deploy/$PROJECT_NAME"
 
+# Update helm values files with correct slack channels.
+sed -i -z -E \
+  -e "s/NON_PROD_ALERTS_SEVERITY_LABEL/$NON_PROD_ALERTS_SEVERITY_LABEL/" \
+  helm_deploy/values-dev.yaml helm_deploy/values-preprod.yaml
+
+sed -i -z -E \
+  -e "s/PROD_ALERTS_SEVERITY_LABEL/$PROD_ALERTS_SEVERITY_LABEL/" \
+  helm_deploy/values-prod.yaml
+
 # change cron job to be random time otherwise we hit rate limiting with veracode
 RANDOM_HOUR=$((RANDOM % (9 - 3 + 1) + 3))
 RANDOM_MINUTE=$(($RANDOM%60))
@@ -46,6 +59,8 @@ RANDOM_MINUTE2=$(($RANDOM%60))
 sed -i -z -E \
   -e "s/security:\n    triggers:\n      - schedule:\n          cron: \"30 5/security:\n    triggers:\n      - schedule:\n          cron: \"$RANDOM_MINUTE $RANDOM_HOUR/" \
   -e "s/security-weekly:\n    triggers:\n      - schedule:\n          cron: \"0 5/security-weekly:\n    triggers:\n      - schedule:\n          cron: \"$RANDOM_MINUTE2 $RANDOM_HOUR/" \
+  -e "s/SLACK_RELEASES_CHANNEL/$SLACK_RELEASES_CHANNEL/" \
+  -e "s/PIPELINE_SECURITY_SLACK_CHANNEL/$PIPELINE_SECURITY_SLACK_CHANNEL/" \
   .circleci/config.yml
 
 # lastly remove ourselves
