@@ -4,19 +4,19 @@ on:
   workflow_dispatch:
     inputs:
       slack_releases_channel:
-        description: 'Slack channel where release notifications will be delivered.'
+        description: 'Slack channel for release notifications.'
         required: true
         default: ''
       pipeline_security_slack_channel:
-        description: 'Slack channel where notifications about security jobs will be delivered.'
+        description: 'Slack channel for pipeline security notifications.'
         required: true
         default: ''
       non_prod_alerts_prometheus_severity_label:
-        description: 'The severity label is used by promethues to route alert notifications to a specific slack channel. See cloud-platform user guide.'
+        description: 'The severity label used by prometheus to route alert notifications to slack. See cloud-platform user guide.'
         required: true
         default: 'digital-prison-service-dev'
       prod_alerts_prometheus_severity_label:
-        description: 'The severity label is used by promethues to route alert notifications to a specific slack channel. See cloud-platform user guide.'
+        description: 'The severity label used by prometheus to route alert notifications to slack. See cloud-platform user guide.'
         required: true
         default: 'digital-prison-service'
 
