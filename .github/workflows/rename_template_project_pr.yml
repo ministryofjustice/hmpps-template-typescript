@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run rename-project script
-        run: ./rename-project.bash ${{ github.event.repository.name }} ${{ github.event.input.slack_releases_channel }} ${{ github.event.input.pipeline_security_slack_channel }} ${{ github.event.input.non_prod_alerts_prometheus_severity_label }} ${{ github.event.input.prod_alerts_prometheus_severity_label }}
+        run: ./rename-project.bash ${{ github.event.repository.name }} ${{ inputs.slack_releases_channel }} ${{ inputs.pipeline_security_slack_channel }} ${{ inputs.non_prod_alerts_prometheus_severity_label }} ${{ inputs.prod_alerts_prometheus_severity_label }}
 
       - name: Delete this github actions workflow
         run: rm .github/workflows/rename_template_project*
