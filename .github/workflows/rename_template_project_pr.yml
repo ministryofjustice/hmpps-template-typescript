@@ -3,14 +3,15 @@ name: rename-project-create-pr
 on:
   workflow_dispatch:
     inputs:
+      product_id:
+        description: 'Product ID: provide an ID for the product this app/component belongs too.  Refer to the developer portal.'
+        required: true
       slack_releases_channel:
         description: 'Slack channel for release notifications.'
         required: true
-        default: ''
       pipeline_security_slack_channel:
         description: 'Slack channel for pipeline security notifications.'
         required: true
-        default: ''
       non_prod_alerts_prometheus_severity_label:
         description: 'Non-prod k8s alerts. The severity label used by prometheus to route alert notifications to slack. See cloud-platform user guide.'
         required: true
@@ -27,7 +28,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run rename-project script
-        run: ./rename-project.bash ${{ github.event.repository.name }} ${{ inputs.slack_releases_channel }} ${{ inputs.pipeline_security_slack_channel }} ${{ inputs.non_prod_alerts_prometheus_severity_label }} ${{ inputs.prod_alerts_prometheus_severity_label }}
+        run: ./rename-project.bash ${{ github.event.repository.name }} ${{ inputs.slack_releases_channel }} ${{ inputs.pipeline_security_slack_channel }} ${{ inputs.non_prod_alerts_prometheus_severity_label }} ${{ inputs.prod_alerts_prometheus_severity_label }} ${{ inputs.product_id }}
 
       - name: Delete this github actions workflow
         run: rm .github/workflows/rename_template_project*
