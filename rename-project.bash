@@ -14,12 +14,14 @@ if [[ $# -ge 1 ]]; then
   PIPELINE_SECURITY_SLACK_CHANNEL=$3
   NON_PROD_ALERTS_SEVERITY_LABEL=$4
   PROD_ALERTS_SEVERITY_LABEL=$5
+  PRODUCT_ID=$6
 else
   read -rp "New project name e.g. prison-visits >" PROJECT_INPUT
   read -rp "Slack channel for release notifications >" SLACK_RELEASES_CHANNEL
   read -rp "Slack channel for pipeline security notifications. >" PIPELINE_SECURITY_SLACK_CHANNEL
   read -rp "Non-prod k8s alerts. The severity label used by prometheus to route alert notifications to slack. See cloud-platform user guide. >" NON_PROD_ALERTS_SEVERITY_LABEL
   read -rp "Production k8s alerts. The severity label used by prometheus to route alert notifications to slack. See cloud-platform user guide. >" PROD_ALERTS_SEVERITY_LABEL
+  read -rp "Product ID: provide a ID for the product this app/component belongs too.  Refer to the developer portal. >" PRODUCT_ID
 fi
 
 PROJECT_NAME_LOWER=${PROJECT_INPUT,,}                 # lowercase
@@ -46,6 +48,11 @@ echo "Performing directory renames"
 
 # move helm stuff to new name
 mv "helm_deploy/hmpps-template-typescript" "helm_deploy/$PROJECT_NAME"
+
+# Update helm values.yaml with product ID.
+sed -i -z -E \
+  -e "s/UNASSIGNED/$PRODUCT_ID/" \
+  helm_deploy/$PROJECT_NAME/values.yaml
 
 # Update helm values files with correct slack channels.
 sed -i -z -E \
