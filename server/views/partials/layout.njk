@@ -11,12 +11,6 @@
   <![endif]-->
 
   <script src="/assets/js/jquery.min.js"></script> 
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-          integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-          nonce="{{ cspNonce }}"
-          crossorigin="anonymous"></script>
-  <link href="https://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css" rel="stylesheet" nonce="{{ cspNonce }}" crossorigin>
-
 {% endblock %}
 
 {% block pageTitle %}{{pageTitle | default(applicationName)}}{% endblock %}
@@ -29,9 +23,8 @@
 {% endblock %}
 
 {% block bodyEnd %}
-  {# Run JavaScript at end of the
-  <body>, to avoid blocking the initial render. #}
   <script src="/assets/govuk/all.js"></script>
   <script src="/assets/govukFrontendInit.js"></script>
   <script src="/assets/moj/all.js"></script>
+  <script src="/assets/mojFrontendInit.js"></script>
 {% endblock %}
