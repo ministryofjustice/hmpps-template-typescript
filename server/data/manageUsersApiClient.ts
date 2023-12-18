@@ -9,8 +9,7 @@ export interface User {
   authSource?: string
   uuid?: string
   userId?: string
-  staffId?: number // deprecated, use userId
-  activeCaseLoadId?: string // deprecated, use user roles api
+  activeCaseLoadId?: string // Will be removed from User. For now, use 'me/caseloads' endpoint in 'nomis-user-roles-api'
 }
 
 export interface UserRole {
