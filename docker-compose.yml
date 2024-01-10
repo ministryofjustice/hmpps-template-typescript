@@ -1,16 +1,6 @@
 version: '3.1'
 services:
 
-  redis:
-    image: 'redis:7.2'
-    networks:
-      - hmpps
-    container_name: redis
-    environment:
-      - ALLOW_EMPTY_PASSWORD=yes
-    ports:
-      - '6379:6379'
-
   hmpps-auth:
     image: quay.io/hmpps/hmpps-auth:latest
     networks:
@@ -33,12 +23,11 @@ services:
         GIT_BRANCH: main
     networks:
       - hmpps
-    depends_on: [redis]
     ports:
       - "3000:3000"
     environment:
       - PRODUCT_ID=UNASSIGNED
-      - REDIS_HOST=redis
+      - REDIS_ENABLED=false
       - HMPPS_AUTH_EXTERNAL_URL=http://localhost:9090/auth
       - HMPPS_AUTH_URL=http://hmpps-auth:8080/auth
       # These will need to match new creds in the seed auth service auth

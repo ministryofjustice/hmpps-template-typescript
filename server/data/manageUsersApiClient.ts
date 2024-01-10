@@ -9,8 +9,7 @@ export interface User {
   authSource?: string
   uuid?: string
   userId?: string
-  staffId?: number // deprecated, use userId
-  activeCaseLoadId?: string // deprecated, use user roles api
+  activeCaseLoadId?: string // Will be removed from User. For now, use 'me/caseloads' endpoint in 'nomis-user-roles-api'
 }
 
 export interface UserRole {
@@ -27,11 +26,5 @@ export default class ManageUsersApiClient {
   getUser(token: string): Promise<User> {
     logger.info('Getting user details: calling HMPPS Manage Users Api')
     return ManageUsersApiClient.restClient(token).get<User>({ path: '/users/me' })
-  }
-
-  getUserRoles(token: string): Promise<string[]> {
-    return ManageUsersApiClient.restClient(token)
-      .get<UserRole[]>({ path: '/users/me/roles' })
-      .then(roles => roles.map(role => role.roleCode))
   }
 }

@@ -1,5 +1,18 @@
 # Change log
 
+**November 29th 2023** – Remove getUserRoles as an api call and add as decoded from the token #274
+
+This is to encourage services not to make additional calls to retrieve a user's role information. 
+Usually roles are cached with the session meaning that the user has to log out and in again to bring in changes to roles - as user details are also cached this will not change this behaviour. 
+
+PR: [#255](https://github.com/ministryofjustice/hmpps-template-typescript/pull/274)
+
+---
+
+**November 29th 2023** – Use in-memory token store when developing locally
+
+PR: [#255](https://github.com/ministryofjustice/hmpps-template-typescript/pull/273)
+
 ---
 
 **November 6th 2023** – Add HMPPS Manage Users API to health checks
