@@ -1,17 +1,23 @@
 # Change log
 
+**January 9th 2024** – Move over to Gov UK Frontend 5.0 and MoJ Frontend 2.0
+
+Note, this removed support for IE8,9,10 etc.
+
+PR: [#297](https://github.com/ministryofjustice/hmpps-template-typescript/pull/297)
+
 **November 29th 2023** – Remove getUserRoles as an api call and add as decoded from the token #274
 
 This is to encourage services not to make additional calls to retrieve a user's role information. 
 Usually roles are cached with the session meaning that the user has to log out and in again to bring in changes to roles - as user details are also cached this will not change this behaviour. 
 
-PR: [#255](https://github.com/ministryofjustice/hmpps-template-typescript/pull/274)
+PR: [#274](https://github.com/ministryofjustice/hmpps-template-typescript/pull/274)
 
 ---
 
 **November 29th 2023** – Use in-memory token store when developing locally
 
-PR: [#255](https://github.com/ministryofjustice/hmpps-template-typescript/pull/273)
+PR: [#273](https://github.com/ministryofjustice/hmpps-template-typescript/pull/273)
 
 ---
 
