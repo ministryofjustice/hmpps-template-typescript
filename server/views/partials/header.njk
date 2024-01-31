@@ -28,7 +28,7 @@
       <ul class="hmpps-header__navigation">
         {% if user %}
           <li class="hmpps-header__navigation__item">
-            <a data-qa="manageDetails" class="hmpps-header__link" href="/account-details" data-test="manage-account-link" target="_blank" rel="noopener noreferrer">
+            <a data-qa="manageDetails" class="hmpps-header__link" href="/account-details" data-test="manage-account-link" rel="noopener noreferrer">
               <span data-qa=header-user-name>{{ user.displayName | initialiseName }}</span>
               <span class="hmpps-header__link__sub-text">Manage your details</span>
             </a>
