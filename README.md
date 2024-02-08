@@ -7,7 +7,7 @@ Template github repo used for new Typescript based projects.
 # Instructions
 
 If this is a HMPPS project then the project will be created as part of bootstrapping - 
-see https://github.com/ministryofjustice/dps-project-bootstrap. You are able to specify a template application using the `github_template_repo` attribute to clone without the need to manually do this yourself within GitHub.
+see https://github.com/ministryofjustice/hmpps-project-bootstrap. You are able to specify a template application using the `github_template_repo` attribute to clone without the need to manually do this yourself within GitHub.
 
 This bootstrap is community managed by the mojdt `#typescript` slack channel. 
 Please raise any questions or queries there. Contributions welcome!
