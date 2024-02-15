@@ -1,5 +1,5 @@
 # Stage: base image
-FROM node:20.11-bullseye-slim as base
+FROM node:20.11-bookworm-slim as base
 
 ARG BUILD_NUMBER
 ARG GIT_REF
@@ -36,9 +36,6 @@ FROM base as build
 ARG BUILD_NUMBER
 ARG GIT_REF
 ARG GIT_BRANCH
-
-RUN apt-get update && \
-        apt-get install -y make python g++
 
 COPY package*.json ./
 RUN CYPRESS_INSTALL_BINARY=0 npm ci --no-audit
