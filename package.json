@@ -25,7 +25,8 @@
     "security_audit": "npx audit-ci --config audit-ci.json",
     "int-test": "cypress run --config video=false",
     "int-test-ui": "cypress open --e2e --browser chrome",
-    "clean": "rm -rf dist build node_modules stylesheets"
+    "clean": "rm -rf dist build node_modules stylesheets",
+    "rebuild": "npm run clean && npm i && npm run build"
   },
   "engines": {
     "node": "^20",

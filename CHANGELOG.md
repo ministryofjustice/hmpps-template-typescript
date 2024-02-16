@@ -1,5 +1,9 @@
 # Change log
 
+**February 15th 2024** – Move over to use Debian 12 based image (bookworm)
+
+PR: [#316](https://github.com/ministryofjustice/hmpps-template-typescript/pull/316)
+
 **January 9th 2024** – Move over to Gov UK Frontend 5.0 and MoJ Frontend 2.0
 
 Note, this removed support for IE8,9,10 etc.
