@@ -1,5 +1,9 @@
 # Change log
 
+**February 29th 2024** – Use same node version for outdated check and security scan. This currently defaults to node 16
+
+PR: [#321](https://github.com/ministryofjustice/hmpps-template-typescript/pull/321)
+
 **February 15th 2024** – Move over to use Debian 12 based image (bookworm)
 
 PR: [#316](https://github.com/ministryofjustice/hmpps-template-typescript/pull/316)

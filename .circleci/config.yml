@@ -194,10 +194,12 @@ workflows:
     jobs:
       - hmpps/npm_outdated:
           slack_channel: << pipeline.parameters.alerts-slack-channel >>
+          node_tag: << pipeline.parameters.node-version >>
           context:
             - hmpps-common-vars
       - hmpps/npm_security_audit:
           slack_channel: << pipeline.parameters.alerts-slack-channel >>
+          node_tag: << pipeline.parameters.node-version >>
           context:
             - hmpps-common-vars
       - hmpps/trivy_latest_scan:
