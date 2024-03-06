@@ -94,7 +94,7 @@
   "dependencies": {
     "@ministryofjustice/frontend": "^2.1.1",
     "agentkeepalive": "^4.5.0",
-    "applicationinsights": "^2.9.4",
+    "applicationinsights": "^2.9.5",
     "body-parser": "^1.20.2",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",
@@ -102,7 +102,7 @@
     "connect-flash": "^0.1.1",
     "connect-redis": "^7.1.1",
     "csurf": "^1.11.0",
-    "express": "^4.18.2",
+    "express": "^4.18.3",
     "express-prom-bundle": "^7.0.0",
     "express-session": "^1.18.0",
     "govuk-frontend": "^5.2.0",
@@ -130,7 +130,7 @@
     "@types/http-errors": "^2.0.4",
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^9.0.6",
-    "@types/node": "^20.11.21",
+    "@types/node": "^20.11.24",
     "@types/nunjucks": "^3.2.6",
     "@types/passport": "^1.0.16",
     "@types/passport-oauth2": "^1.4.15",
@@ -167,6 +167,6 @@
     "sass": "^1.71.1",
     "supertest": "^6.3.4",
     "ts-jest": "^29.1.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   }
 }
