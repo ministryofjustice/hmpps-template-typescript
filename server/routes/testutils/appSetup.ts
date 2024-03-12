@@ -8,6 +8,9 @@ import errorHandler from '../../errorHandler'
 import * as auth from '../../authentication/auth'
 import type { Services } from '../../services'
 import type { ApplicationInfo } from '../../applicationInfo'
+import AuditService from '../../services/auditService'
+
+jest.mock('../../services/auditService')
 
 const testAppInfo: ApplicationInfo = {
   applicationName: 'test',
@@ -56,7 +59,9 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
 
 export function appWithAllRoutes({
   production = false,
-  services = {},
+  services = {
+    auditService: new AuditService(null) as jest.Mocked<AuditService>,
+  },
   userSupplier = () => user,
 }: {
   production?: boolean
