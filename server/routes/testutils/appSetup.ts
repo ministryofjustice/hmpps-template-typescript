@@ -1,6 +1,7 @@
 import express, { Express } from 'express'
 import cookieSession from 'cookie-session'
 import { NotFound } from 'http-errors'
+import { v4 as uuidv4 } from 'uuid'
 
 import routes from '../index'
 import nunjucksSetup from '../../utils/nunjucksSetup'
@@ -46,6 +47,10 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
     res.locals = {
       user: { ...req.user },
     }
+    next()
+  })
+  app.use((req, res, next) => {
+    req.id = uuidv4()
     next()
   })
   app.use(express.json())

@@ -26,7 +26,7 @@ describe('GET /', () => {
   it('should render index page', () => {
     auditService.logPageView.mockResolvedValue(null)
 
-    request(app)
+    return request(app)
       .get('/')
       .expect('Content-Type', /html/)
       .expect(res => {
