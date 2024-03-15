@@ -79,10 +79,13 @@ describe('hmppsAuditClient', () => {
       hmppsAuditClient = new HmppsAuditClient({ ...auditClientConfig })
 
       const trySendMessage = async () => {
-        await hmppsAuditClient.sendMessage({
-          what: 'EXAMPLE_EVENT',
-          who: 'user1',
-        })
+        await hmppsAuditClient.sendMessage(
+          {
+            what: 'EXAMPLE_EVENT',
+            who: 'user1',
+          },
+          false,
+        )
       }
 
       expect(trySendMessage()).resolves.not.toThrow()
@@ -94,13 +97,10 @@ describe('hmppsAuditClient', () => {
       hmppsAuditClient = new HmppsAuditClient({ ...auditClientConfig })
 
       const trySendMessage = async () => {
-        await hmppsAuditClient.sendMessage(
-          {
-            what: 'EXAMPLE_EVENT',
-            who: 'user1',
-          },
-          true,
-        )
+        await hmppsAuditClient.sendMessage({
+          what: 'EXAMPLE_EVENT',
+          who: 'user1',
+        })
       }
 
       expect(trySendMessage()).rejects.toThrow('Error sending sqs message')

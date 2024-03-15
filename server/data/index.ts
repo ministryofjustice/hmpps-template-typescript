@@ -26,7 +26,7 @@ export const dataAccess = () => ({
     config.redis.enabled ? new RedisTokenStore(createRedisClient()) : new InMemoryTokenStore(),
   ),
   manageUsersApiClient: new ManageUsersApiClient(),
-  hmppsAuditClient: new HmppsAuditClient(config.apis.audit),
+  hmppsAuditClient: new HmppsAuditClient(config.sqs.audit),
 })
 
 export type DataAccess = ReturnType<typeof dataAccess>

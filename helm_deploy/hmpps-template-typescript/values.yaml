@@ -1,7 +1,9 @@
 generic-service:
   nameOverride: hmpps-template-typescript
-  serviceAccountName: "UNASSIGNED" # the IRSA service account name for accessing AWS resources
   productId: "UNASSIGNED" # productId for the product that this belongs too, i.e. DPS001, see README.md for details
+
+  # the IRSA service account name for accessing AWS resources
+  # serviceAccountName: "UNASSIGNED"
 
   replicaCount: 4
 

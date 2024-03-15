@@ -84,6 +84,8 @@ export default {
       agent: new AgentConfig(Number(get('TOKEN_VERIFICATION_API_TIMEOUT_RESPONSE', 5000))),
       enabled: get('TOKEN_VERIFICATION_ENABLED', 'false') === 'true',
     },
+  },
+  sqs: {
     audit: {
       queueUrl: get('AUDIT_SQS_QUEUE_URL', 'http://localhost:4566/000000000000/mainQueue', requiredInProduction),
       region: get('AUDIT_SQS_REGION', 'eu-west-2', requiredInProduction),

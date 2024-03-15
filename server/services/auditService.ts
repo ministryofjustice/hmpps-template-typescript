@@ -24,6 +24,6 @@ export default class AuditService {
       ...eventDetails,
       what: `PAGE_VIEW_${page}`,
     }
-    await this.hmppsAuditClient.sendMessage(event, true)
+    await this.hmppsAuditClient.sendMessage(event)
   }
 }
