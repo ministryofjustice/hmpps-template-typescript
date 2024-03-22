@@ -3,7 +3,7 @@ generic-service:
   productId: "UNASSIGNED" # productId for the product that this belongs too, i.e. DPS001, see README.md for details
 
   # the IRSA service account name for accessing AWS resources
-  # serviceAccountName: "UNASSIGNED"
+  # serviceAccountName: "hmpps-template-typescript"
 
   replicaCount: 4
 
