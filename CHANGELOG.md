@@ -1,5 +1,9 @@
 # Change log
 
+**March 22nd 2024** – Update Helm generic-service to version 3 to enforce /health endpoint
+
+PR: [#328](https://github.com/ministryofjustice/hmpps-template-typescript/pull/328)
+
 **February 29th 2024** – Use same node version for outdated check and security scan. This currently defaults to node 16
 
 PR: [#321](https://github.com/ministryofjustice/hmpps-template-typescript/pull/321)
