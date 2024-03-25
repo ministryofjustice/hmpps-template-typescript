@@ -1,6 +1,7 @@
 import express, { Express } from 'express'
 import cookieSession from 'cookie-session'
 import { NotFound } from 'http-errors'
+import { v4 as uuidv4 } from 'uuid'
 
 import routes from '../index'
 import nunjucksSetup from '../../utils/nunjucksSetup'
@@ -8,6 +9,9 @@ import errorHandler from '../../errorHandler'
 import * as auth from '../../authentication/auth'
 import type { Services } from '../../services'
 import type { ApplicationInfo } from '../../applicationInfo'
+import AuditService from '../../services/auditService'
+
+jest.mock('../../services/auditService')
 
 const testAppInfo: ApplicationInfo = {
   applicationName: 'test',
@@ -45,6 +49,10 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
     }
     next()
   })
+  app.use((req, res, next) => {
+    req.id = uuidv4()
+    next()
+  })
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
   app.use(routes(services))
@@ -56,7 +64,9 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
 
 export function appWithAllRoutes({
   production = false,
-  services = {},
+  services = {
+    auditService: new AuditService(null) as jest.Mocked<AuditService>,
+  },
   userSupplier = () => user,
 }: {
   production?: boolean

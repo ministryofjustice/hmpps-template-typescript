@@ -34,6 +34,20 @@ export interface ApiConfig {
   agent: AgentConfig
 }
 
+const auditConfig = () => {
+  const auditEnabled = get('AUDIT_ENABLED', 'false') === 'true'
+  return {
+    enabled: auditEnabled,
+    queueUrl: get(
+      'AUDIT_SQS_QUEUE_URL',
+      'http://localhost:4566/000000000000/mainQueue',
+      auditEnabled && requiredInProduction,
+    ),
+    serviceName: get('AUDIT_SERVICE_NAME', 'UNASSIGNED', auditEnabled && requiredInProduction),
+    region: get('AUDIT_SQS_REGION', 'eu-west-2'),
+  }
+}
+
 export default {
   buildNumber: get('BUILD_NUMBER', '1_0_0', requiredInProduction),
   productId: get('PRODUCT_ID', 'UNASSIGNED', requiredInProduction),
@@ -84,6 +98,9 @@ export default {
       agent: new AgentConfig(Number(get('TOKEN_VERIFICATION_API_TIMEOUT_RESPONSE', 5000))),
       enabled: get('TOKEN_VERIFICATION_ENABLED', 'false') === 'true',
     },
+  },
+  sqs: {
+    audit: auditConfig(),
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
   environmentName: get('ENVIRONMENT_NAME', ''),
