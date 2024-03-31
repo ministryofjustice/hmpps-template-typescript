@@ -115,7 +115,7 @@
     "nunjucks": "^3.2.4",
     "passport": "^0.7.0",
     "passport-oauth2": "^1.8.0",
-    "prom-client": "^15.1.0",
+    "prom-client": "^15.1.1",
     "redis": "^4.6.13",
     "superagent": "^8.1.2",
     "url-value-parser": "^2.2.0",
