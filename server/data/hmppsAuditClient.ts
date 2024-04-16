@@ -18,7 +18,7 @@ export interface SqsMessage {
   subjectId?: string
   subjectType?: string
   correlationId?: string
-  details?: object
+  details?: string
 }
 
 export interface AuditClientConfig {
@@ -49,6 +49,7 @@ export default class HmppsAuditClient {
 
     const sqsMessage: SqsMessage = {
       ...event,
+      details: JSON.stringify(event.details),
       service: this.serviceName,
       when: new Date().toISOString(),
     }
