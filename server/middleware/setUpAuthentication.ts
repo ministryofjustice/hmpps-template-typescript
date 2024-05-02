@@ -4,6 +4,7 @@ import passport from 'passport'
 import flash from 'connect-flash'
 import config from '../config'
 import auth from '../authentication/auth'
+import { HmppsUser } from '../interfaces/hmppsUser'
 
 const router = express.Router()
 
@@ -46,7 +47,7 @@ export default function setUpAuth(): Router {
   })
 
   router.use((req, res, next) => {
-    res.locals.user = req.user
+    res.locals.user = req.user as HmppsUser
     next()
   })
 
