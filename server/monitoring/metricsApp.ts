@@ -1,5 +1,6 @@
-import express from 'express'
-import promBundle from 'express-prom-bundle'
+import express, { Request } from 'express'
+import promBundle, { Opts } from 'express-prom-bundle'
+import UrlValueParser from 'url-value-parser'
 
 const metricsMiddleware = promBundle({
   autoregister: false,
@@ -7,8 +8,21 @@ const metricsMiddleware = promBundle({
   httpDurationMetricName: 'http_server_requests_seconds',
   includeMethod: true,
   includePath: true,
-  normalizePath: [['^/assets/.+$', '/assets/#assetPath']],
+  normalizePath,
 })
+
+export function normalizePath(req: Request, opts: Opts) {
+  const standardPath = promBundle.normalizePath(req, opts)
+
+  // bundle all asset paths together:
+  if (standardPath.match(/^\/assets\/.+/)) return '/assets/#assetPath'
+
+  // Parameterise routes, matching either on prisonerNumber (e.g. A1234AA) or a route parameter (e.g. :prisonerNumber)
+  return new UrlValueParser({ extraMasks: [/^[A-Z|0-9]+/, /^:[^/]+/] }).replacePathValues(
+    req.route?.path ?? standardPath,
+    '#val',
+  )
+}
 
 function metricsPort(): number {
   let port = 3000
