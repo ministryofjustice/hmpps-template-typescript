@@ -1,14 +1,7 @@
-import promClient from 'prom-client'
 import { serviceCheckFactory } from '../data/healthCheck'
 import config from '../config'
 import type { AgentConfig } from '../config'
 import type { ApplicationInfo } from '../applicationInfo'
-
-const healthCheckGauge = new promClient.Gauge({
-  name: 'upstream_healthcheck',
-  help: 'health of an upstream dependency - 1 = healthy, 0 = not healthy',
-  labelNames: ['service'],
-})
 
 interface HealthCheckStatus {
   name: string
@@ -74,11 +67,6 @@ export default function healthCheck(
       status: allOk,
       components: checkResults.reduce(gatherCheckInfo, {}),
     }
-
-    checkResults.forEach(item => {
-      const val = item.status === 'UP' ? 1 : 0
-      healthCheckGauge.labels(item.name).set(val)
-    })
 
     callback(addAppInfo(result, applicationInfo))
   })
