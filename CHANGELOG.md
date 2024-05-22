@@ -1,5 +1,11 @@
 # Change log
 
+**May 22nd 2024** – Remove prometheus metrics middleware and metrics app. We had discussed that very few teams actually go on to set up a dashboard to surface the information and tend to use application insights instead for the information.  In addition it had also caused a memory leak and production issues (manifesting in increased 502 error rates) in at least two applications that had inherited from the template so it seems wise to remove this tooling by default.
+
+PR: [#365](https://github.com/ministryofjustice/hmpps-template-typescript/pull/365)
+
+---
+
 **May 10th 2024** – Derive user details from the `authorization_code` "user" token instead of making an API call to `hmpps-manage-users-api`, thereby removing an unnecessary dependency.
 
 PR: [#352](https://github.com/ministryofjustice/hmpps-template-typescript/pull/352)
