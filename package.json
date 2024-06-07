@@ -138,7 +138,7 @@
     "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^7.11.0",
     "@typescript-eslint/parser": "^7.11.0",
-    "audit-ci": "^6.6.1",
+    "audit-ci": "^7.0.1",
     "aws-sdk-client-mock": "^4.0.1",
     "concurrently": "^8.2.2",
     "cypress": "^13.10.0",
