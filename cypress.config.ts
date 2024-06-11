@@ -2,6 +2,7 @@ import { defineConfig } from 'cypress'
 import { resetStubs } from './integration_tests/mockApis/wiremock'
 import auth from './integration_tests/mockApis/auth'
 import tokenVerification from './integration_tests/mockApis/tokenVerification'
+import logAccessibilityViolations from './integration_tests/support/accessibilityViolations'
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -19,6 +20,7 @@ export default defineConfig({
         reset: resetStubs,
         ...auth,
         ...tokenVerification,
+        ...logAccessibilityViolations,
       })
     },
     baseUrl: 'http://localhost:3007',
