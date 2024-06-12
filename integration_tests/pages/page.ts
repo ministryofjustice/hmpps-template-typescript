@@ -12,9 +12,7 @@ export default abstract class Page {
     private readonly title: string,
     private readonly skipA11y = false,
   ) {
-    if (title) {
-      this.checkOnPage()
-    }
+    this.checkOnPage()
   }
 
   checkOnPage(): void {
