@@ -32,10 +32,8 @@ const buildAssets = buildConfig => {
         patterns: glob.sync(buildConfig.assets.clear),
       }),
       sassPlugin({
-        importMapper: url => {
-          const lastIndex = url.lastIndexOf('node_modules/')
-          return lastIndex !== -1 ? path.join(process.cwd(), url.slice(lastIndex)) : url
-        },
+        quietDeps: true,
+        loadPaths: [process.cwd(), path.join(process.cwd(), 'node_modules')]
       }),
     ],
   })
