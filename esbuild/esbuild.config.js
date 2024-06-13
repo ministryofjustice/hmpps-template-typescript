@@ -10,7 +10,8 @@ const buildConfig = {
   isProduction: process.env.NODE_ENV === 'production',
   app: {
     outDir: path.join(cwd, 'dist'),
-    entryPoints: glob.sync([path.join(cwd, '*.ts'), path.join(cwd, 'server/**/*.ts')]),
+    entryPoints: glob.sync([path.join(cwd, '*.ts'), path.join(cwd, 'server/**/*.ts')])
+      .filter(file => !file.endsWith('.test.ts')),
     copy: [
       {
         from: path.join(cwd, 'server/views/**/*'),
@@ -62,7 +63,7 @@ function main() {
 
     // App
     chokidar
-      .watch(['server/**/*'], { ...chokidarOptions, ignored: 'server/assets/**/*' })
+      .watch(['server/**/*'], { ...chokidarOptions, ignored: ['server/assets/**/*', '**/*.test.ts']})
       .on('all', () => buildApp(buildConfig))
   }
 }
