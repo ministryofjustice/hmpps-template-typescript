@@ -4,11 +4,10 @@ import nunjucks from 'nunjucks'
 import express from 'express'
 import fs from 'fs'
 import { initialiseName } from './utils'
-import { ApplicationInfo } from '../applicationInfo'
 import config from '../config'
 import logger from '../../logger'
 
-export default function nunjucksSetup(app: express.Express, applicationInfo: ApplicationInfo): void {
+export default function nunjucksSetup(app: express.Express): void {
   app.set('view engine', 'njk')
 
   app.locals.asset_path = '/assets/'
