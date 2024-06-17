@@ -24,7 +24,7 @@ const buildAssets = buildConfig => {
     minify: buildConfig.isProduction,
     sourcemap: !buildConfig.isProduction,
     platform: 'browser',
-    target: 'es2015',
+    target: 'es2018',
     external: ['/assets/*'],
     bundle: true,
     plugins: [
@@ -33,7 +33,7 @@ const buildAssets = buildConfig => {
       }),
       sassPlugin({
         quietDeps: true,
-        loadPaths: [process.cwd(), path.join(process.cwd(), 'node_modules')]
+        loadPaths: [process.cwd(), path.join(process.cwd(), 'node_modules')],
       }),
     ],
   })
