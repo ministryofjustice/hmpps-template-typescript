@@ -7,7 +7,7 @@
   "scripts": {
     "prepare": "husky",
     "watch-ts": "tsc -w",
-    "build": "NODE_ENV=production && node esbuild/esbuild.config.js --build",
+    "build": "node esbuild/esbuild.config.js --build",
     "start": "node $NODE_OPTIONS dist/server.js | bunyan -o short",
     "start:dev": "concurrently -k -p \"[{name}]\" -n \"ESBuild,Node\" -c \"yellow.bold,cyan.bold\" \"node esbuild/esbuild.config.js --build --watch\" \"node esbuild/esbuild.config.js --dev-server\"",
     "start-feature": "export $(cat feature.env) && node $NODE_DEBUG_OPTION dist/server.js | bunyan -o short",
