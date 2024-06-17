@@ -6,6 +6,7 @@ import fs from 'fs'
 import { initialiseName } from './utils'
 import { ApplicationInfo } from '../applicationInfo'
 import config from '../config'
+import logger from '../../logger'
 
 export default function nunjucksSetup(app: express.Express, applicationInfo: ApplicationInfo): void {
   app.set('view engine', 'njk')
@@ -14,8 +15,14 @@ export default function nunjucksSetup(app: express.Express, applicationInfo: App
   app.locals.applicationName = 'HMPPS Typescript Template'
   app.locals.environmentName = config.environmentName
   app.locals.environmentNameColour = config.environmentName === 'PRE-PRODUCTION' ? 'govuk-tag--green' : ''
-  const assetMetadataPath = path.resolve(__dirname, '../../assets/metadata.json')
-  const assetMetadata = JSON.parse(fs.readFileSync(assetMetadataPath, 'utf8'))
+  let assetManifest: Record<string, string> = {}
+
+  try {
+    const assetMetadataPath = path.resolve(__dirname, '../../assets/manifest.json')
+    assetManifest = JSON.parse(fs.readFileSync(assetMetadataPath, 'utf8'))
+  } catch (e) {
+    logger.warn('Could not read asset manifest file')
+  }
 
   const njkEnv = nunjucks.configure(
     [
@@ -30,5 +37,5 @@ export default function nunjucksSetup(app: express.Express, applicationInfo: App
   )
 
   njkEnv.addFilter('initialiseName', initialiseName)
-  njkEnv.addFilter('assetMap', (url: string) => assetMetadata[url] || url)
+  njkEnv.addFilter('assetMap', (url: string) => assetManifest[url] || url)
 }

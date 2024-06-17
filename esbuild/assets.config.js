@@ -1,10 +1,10 @@
 const { copy } = require('esbuild-plugin-copy')
 const { sassPlugin } = require('esbuild-sass-plugin')
 const { clean } = require('esbuild-plugin-clean')
+const manifestPlugin = require('esbuild-plugin-manifest')
 const esbuild = require('esbuild')
 const path = require('path')
 const { glob } = require('glob')
-const { cacheBusterPlugin } = require('./cache-buster-plugin')
 
 const buildAdditionalAssets = buildConfig =>
   esbuild.build({
@@ -21,7 +21,8 @@ const buildAssets = buildConfig => {
   return esbuild.build({
     entryPoints: buildConfig.assets.entryPoints,
     outdir: buildConfig.assets.outDir,
-    entryNames: '[ext]/app',
+    outbase: 'dist/assets',
+    entryNames: '[ext]/app.[hash]',
     minify: buildConfig.isProduction,
     sourcemap: !buildConfig.isProduction,
     platform: 'browser',
@@ -32,8 +33,11 @@ const buildAssets = buildConfig => {
       clean({
         patterns: glob.sync(buildConfig.assets.clear),
       }),
-      cacheBusterPlugin({
-        assetsRoot: buildConfig.assets.outDir,
+      manifestPlugin({
+        generate: entries =>
+          Object.fromEntries(
+            Object.entries(entries).map(([key, value]) => [key.replace('dist', ''), value.replace('dist', '')]),
+          ),
       }),
       sassPlugin({
         quietDeps: true,
