@@ -22,18 +22,15 @@ const buildConfig = {
   },
 
   assets: {
-    outDir: path.join(cwd, 'dist/server/assets'),
-    entryPoints: glob.sync([
-      path.join(cwd, 'server/assets/js/index.js'),
-      path.join(cwd, 'server/assets/scss/application.scss'),
-    ]),
+    outDir: path.join(cwd, 'dist/assets'),
+    entryPoints: glob.sync([path.join(cwd, 'assets/js/index.js'), path.join(cwd, 'assets/scss/application.scss')]),
     copy: [
       {
-        from: path.join(cwd, 'server/assets/images/**/*'),
-        to: path.join(cwd, 'dist/server/assets/images'),
+        from: path.join(cwd, 'assets/images/**/*'),
+        to: path.join(cwd, 'dist/assets/images'),
       },
     ],
-    clear: glob.sync([path.join(cwd, 'dist/server/assets/{css,js}')]),
+    clear: glob.sync([path.join(cwd, 'dist/assets/{css,js}')]),
   },
 }
 
@@ -60,11 +57,11 @@ function main() {
   if (args.includes('--watch')) {
     console.log('\u{1b}[1m\u{1F52D} Watching for changes...\u{1b}[0m')
     // Assets
-    chokidar.watch(['server/assets/**/*'], chokidarOptions).on('all', () => buildAssets(buildConfig))
+    chokidar.watch(['assets/**/*'], chokidarOptions).on('all', () => buildAssets(buildConfig))
 
     // App
     chokidar
-      .watch(['server/**/*'], { ...chokidarOptions, ignored: ['server/assets/**/*', '**/*.test.ts'] })
+      .watch(['server/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts'] })
       .on('all', () => buildApp(buildConfig))
   }
 }
