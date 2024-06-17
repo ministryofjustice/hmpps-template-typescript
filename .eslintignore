@@ -4,4 +4,3 @@ assets
 cypress.json
 reporter-config.json
 dist/
-esbuild

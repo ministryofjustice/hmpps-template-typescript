@@ -1,16 +1,17 @@
 const path = require('path')
-const buildApp = require('./app.config')
-const buildAssets = require('./assets.config')
 const { glob } = require('glob')
 const chokidar = require('chokidar')
 const { spawn } = require('child_process')
+const buildAssets = require('./assets.config')
+const buildApp = require('./app.config')
 
 const cwd = process.cwd()
 const buildConfig = {
   isProduction: process.env.NODE_ENV === 'production',
   app: {
     outDir: path.join(cwd, 'dist'),
-    entryPoints: glob.sync([path.join(cwd, '*.ts'), path.join(cwd, 'server/**/*.ts')])
+    entryPoints: glob
+      .sync([path.join(cwd, '*.ts'), path.join(cwd, 'server/**/*.ts')])
       .filter(file => !file.endsWith('.test.ts')),
     copy: [
       {
@@ -63,7 +64,7 @@ function main() {
 
     // App
     chokidar
-      .watch(['server/**/*'], { ...chokidarOptions, ignored: ['server/assets/**/*', '**/*.test.ts']})
+      .watch(['server/**/*'], { ...chokidarOptions, ignored: ['server/assets/**/*', '**/*.test.ts'] })
       .on('all', () => buildApp(buildConfig))
   }
 }
