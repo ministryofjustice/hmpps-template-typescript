@@ -4,6 +4,7 @@ const { clean } = require('esbuild-plugin-clean')
 const esbuild = require('esbuild')
 const path = require('path')
 const { glob } = require('glob')
+const { cacheBusterPlugin } = require('./cache-buster-plugin')
 
 const buildAdditionalAssets = buildConfig =>
   esbuild.build({
@@ -30,6 +31,9 @@ const buildAssets = buildConfig => {
     plugins: [
       clean({
         patterns: glob.sync(buildConfig.assets.clear),
+      }),
+      cacheBusterPlugin({
+        assetsRoot: buildConfig.assets.outDir,
       }),
       sassPlugin({
         quietDeps: true,

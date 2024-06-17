@@ -2,11 +2,10 @@
 import path from 'path'
 import nunjucks from 'nunjucks'
 import express from 'express'
+import fs from 'fs'
 import { initialiseName } from './utils'
 import { ApplicationInfo } from '../applicationInfo'
 import config from '../config'
-
-const production = process.env.NODE_ENV === 'production'
 
 export default function nunjucksSetup(app: express.Express, applicationInfo: ApplicationInfo): void {
   app.set('view engine', 'njk')
@@ -15,18 +14,8 @@ export default function nunjucksSetup(app: express.Express, applicationInfo: App
   app.locals.applicationName = 'HMPPS Typescript Template'
   app.locals.environmentName = config.environmentName
   app.locals.environmentNameColour = config.environmentName === 'PRE-PRODUCTION' ? 'govuk-tag--green' : ''
-
-  // Cachebusting version string
-  if (production) {
-    // Version only changes with new commits
-    app.locals.version = applicationInfo.gitShortHash
-  } else {
-    // Version changes every request
-    app.use((req, res, next) => {
-      res.locals.version = Date.now().toString()
-      return next()
-    })
-  }
+  const assetMetadataPath = path.resolve(__dirname, '../../assets/metadata.json')
+  const assetMetadata = JSON.parse(fs.readFileSync(assetMetadataPath, 'utf8'))
 
   const njkEnv = nunjucks.configure(
     [
@@ -41,4 +30,5 @@ export default function nunjucksSetup(app: express.Express, applicationInfo: App
   )
 
   njkEnv.addFilter('initialiseName', initialiseName)
+  njkEnv.addFilter('assetMap', (url: string) => assetMetadata[url] || url)
 }
