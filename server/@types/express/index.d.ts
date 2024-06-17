@@ -1,8 +1,6 @@
-import type { UserDetails } from '../../services/userService'
+import { HmppsUser } from '../../interfaces/hmppsUser'
 
-export default {}
-
-declare module 'express-session' {
+export declare module 'express-session' {
   // Declare that the session will potentially contain these additional fields
   interface SessionData {
     returnTo: string
@@ -12,7 +10,8 @@ declare module 'express-session' {
 
 export declare global {
   namespace Express {
-    interface User extends Partial<UserDetails> {
+    interface User {
+      username: string
       token: string
       authSource: string
     }
@@ -24,7 +23,7 @@ export declare global {
     }
 
     interface Locals {
-      user: Express.User
+      user: HmppsUser
     }
   }
 }
