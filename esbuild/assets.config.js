@@ -21,7 +21,6 @@ const buildAssets = buildConfig => {
   return esbuild.build({
     entryPoints: buildConfig.assets.entryPoints,
     outdir: buildConfig.assets.outDir,
-    outbase: 'dist/assets',
     entryNames: '[ext]/app.[hash]',
     minify: buildConfig.isProduction,
     sourcemap: !buildConfig.isProduction,
