@@ -14,9 +14,9 @@ export default function setUpStaticResources(): Router {
   const cacheControl = { maxAge: config.staticResourceCacheDuration }
 
   Array.of(
-    '/dist/server/assets',
-    '/dist/server/assets/stylesheets',
-    '/dist/server/assets/js',
+    '/assets',
+    '/assets/stylesheets',
+    '/assets/js',
     '/node_modules/govuk-frontend/dist/govuk/assets',
     '/node_modules/govuk-frontend/dist',
     '/node_modules/@ministryofjustice/frontend/moj/assets',
