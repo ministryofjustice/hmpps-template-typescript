@@ -1,13 +1,20 @@
-const path = require('path')
+const { spawn } = require('node:child_process')
+const path = require('node:path')
+
 const { glob } = require('glob')
 const chokidar = require('chokidar')
-const { spawn } = require('child_process')
 const buildAssets = require('./assets.config')
 const buildApp = require('./app.config')
 
 const cwd = process.cwd()
+
+/**
+ * Configuration for build steps
+ * @type {BuildConfig}
+ */
 const buildConfig = {
   isProduction: process.env.NODE_ENV === 'production',
+
   app: {
     outDir: path.join(cwd, 'dist'),
     entryPoints: glob
@@ -34,7 +41,10 @@ const buildConfig = {
   },
 }
 
-function main() {
+const main = () => {
+  /**
+   * @type {chokidar.WatchOptions}
+   */
   const chokidarOptions = {
     persistent: true,
     ignoreInitial: true,
@@ -65,4 +75,5 @@ function main() {
       .on('all', () => buildApp(buildConfig))
   }
 }
+
 main()
