@@ -1,12 +1,16 @@
 # Change log
 
-**July 11th 2024** – Disable Typescript outdated checks
+**July 11th 2024** – Remove Typescript outdated checks
 
 We originally added these checks to the template project to try to nudge people into performing major version updates rather than solely focusing on security patches. 
 This has led to a lot of confusion and queries from teams asking why we're enforcing these draconian checks.
-Previously we added some guidance suggesting developers remove it - rather than add to the complexity of the rewrite script we've decided to remove it. 
+Previously we added some guidance suggesting developers remove it but this was not generally read.
 
-https://github.com/ministryofjustice/hmpps-template-typescript/pull/388
+Rather than add to the complexity of the rewrite script we've decided to remove these checks entirely. 
+
+PR: [#388](https://github.com/ministryofjustice/hmpps-template-typescript/pull/388)
+
+---
 
 **June 19th 2024** – Add EsBuild!
 
@@ -16,6 +20,8 @@ It's worth adopting now but there are subsequent commits and changes that will c
 To see the full conversation see the #typescript slack channel
 
 PR: [#375](https://github.com/ministryofjustice/hmpps-template-typescript/pull/375)
+
+---
 
 **May 22nd 2024** – Remove prometheus metrics middleware and metrics app. We had discussed that very few teams actually go on to set up a dashboard to surface the information and tend to use application insights instead for the information. In addition it had also caused a memory leak and production issues (manifesting in increased 502 error rates) in at least two applications that had inherited from the template so it seems wise to remove this tooling by default.
 
