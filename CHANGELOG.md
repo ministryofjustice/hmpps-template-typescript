@@ -1,6 +1,23 @@
 # Change log
 
-**May 22nd 2024** – Remove prometheus metrics middleware and metrics app. We had discussed that very few teams actually go on to set up a dashboard to surface the information and tend to use application insights instead for the information.  In addition it had also caused a memory leak and production issues (manifesting in increased 502 error rates) in at least two applications that had inherited from the template so it seems wise to remove this tooling by default.
+**July 11th 2024** – Disable Typescript outdated checks
+
+We originally added these checks to the template project to try to nudge people into performing major version updates rather than solely focusing on security patches. 
+This has led to a lot of confusion and queries from teams asking why we're enforcing these draconian checks.
+Previously we added some guidance suggesting developers remove it - rather than add to the complexity of the rewrite script we've decided to remove it. 
+
+https://github.com/ministryofjustice/hmpps-template-typescript/pull/388
+
+**June 19th 2024** – Add EsBuild!
+
+This is a bit of a WiP but rapidly speeds up the time to redeploy on changes. It does that by running typescript compiler in a side channel.
+It's worth adopting now but there are subsequent commits and changes that will continue to be integrated to improve this.
+
+To see the full conversation see the #typescript slack channel
+
+PR: [#375](https://github.com/ministryofjustice/hmpps-template-typescript/pull/375)
+
+**May 22nd 2024** – Remove prometheus metrics middleware and metrics app. We had discussed that very few teams actually go on to set up a dashboard to surface the information and tend to use application insights instead for the information. In addition it had also caused a memory leak and production issues (manifesting in increased 502 error rates) in at least two applications that had inherited from the template so it seems wise to remove this tooling by default.
 
 PR: [#365](https://github.com/ministryofjustice/hmpps-template-typescript/pull/365)
 
@@ -34,8 +51,8 @@ PR: [#297](https://github.com/ministryofjustice/hmpps-template-typescript/pull/2
 
 **November 29th 2023** – Remove getUserRoles as an api call and add as decoded from the token #274
 
-This is to encourage services not to make additional calls to retrieve a user's role information. 
-Usually roles are cached with the session meaning that the user has to log out and in again to bring in changes to roles - as user details are also cached this will not change this behaviour. 
+This is to encourage services not to make additional calls to retrieve a user's role information.
+Usually roles are cached with the session meaning that the user has to log out and in again to bring in changes to roles - as user details are also cached this will not change this behaviour.
 
 PR: [#274](https://github.com/ministryofjustice/hmpps-template-typescript/pull/274)
 
@@ -93,7 +110,7 @@ PR: [#238](https://github.com/ministryofjustice/hmpps-template-typescript/pull/2
 **September 28th 2023** - Add in environment name to the header
 
 For dev and pre-prod we now display the environment name in the header to let people know that the service isn't
-production.  This brings the template into line with the new micro frontend components header.
+production. This brings the template into line with the new micro frontend components header.
 
 ---
 
@@ -107,10 +124,10 @@ PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/2
 
 ---
 
-**August 3rd 2023** - Add /info endpoint and expose product ids  
+**August 3rd 2023** - Add /info endpoint and expose product ids
 
 As part of the work on the [service catalogue](https://hmpps-developer-portal.hmpps.service.justice.gov.uk/products) we are giving all applications their own product id.
-This change adds a new info endpoint to expose this id in a consistent place. 
+This change adds a new info endpoint to expose this id in a consistent place.
 
 For more details ask on the `#hmpps-service-catalogue channel`.
 
@@ -122,7 +139,7 @@ PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/2
 
 It's not safe to retry idempotent calls as this introduces the risk of creating multiple resources. This fix changes the default to not carry out any retries but allows switching on retrying if desired.
 
-PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/197) 
+PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/197)
 
 ---
 
@@ -130,7 +147,7 @@ PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/1
 
 Asset caching was only set to 20 seconds. This fix changes the default to 1 hour which has a profound effect on the number of requests the application serves.
 
-PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/178) 
+PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/178)
 
 ---
 
@@ -138,7 +155,7 @@ PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/1
 
 There was an additional unnecessary build step as part of start:dev npm task. This more than doubled the start time on the initial run.
 
-PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/172) 
+PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/172)
 
 ---
 
@@ -146,12 +163,12 @@ PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/1
 
 Updates the Content Security Policy to fix issues when users would be stuck on pages after submitting a form after their session times out. (Lots more detail in the PR)
 
-PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/170) 
+PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/170)
 
 ---
 
 **February 3rd 2023** - Revert multi build docker image
 
-Multibuild docker images ended up taking a very long time after the upgrade to node 18 (1hr+). Some work needs to be done to move to support multi host builds in our circle orb, in the meantime we’ve removed this and are just building images solely for deployment. 
- 
+Multibuild docker images ended up taking a very long time after the upgrade to node 18 (1hr+). Some work needs to be done to move to support multi host builds in our circle orb, in the meantime we’ve removed this and are just building images solely for deployment.
+
 PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/149)
