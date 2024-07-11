@@ -53,7 +53,7 @@ const main = () => {
   const args = process.argv
   if (args.includes('--build')) {
     Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch(e => {
-      console.error(e)
+      process.stderr.write(`${e}\n`)
       process.exit(1)
     })
   }
@@ -67,14 +67,16 @@ const main = () => {
   }
 
   if (args.includes('--watch')) {
-    console.log('\u{1b}[1m\u{1F52D} Watching for changes...\u{1b}[0m')
+    process.stderr.write('\u{1b}[1m\u{1F52D} Watching for changes...\u{1b}[0m\n')
     // Assets
-    chokidar.watch(['assets/**/*'], chokidarOptions).on('all', () => buildAssets(buildConfig).catch(console.error))
+    chokidar
+      .watch(['assets/**/*'], chokidarOptions)
+      .on('all', () => buildAssets(buildConfig).catch(e => process.stderr.write(`${e}\n`)))
 
     // App
     chokidar
       .watch(['server/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts'] })
-      .on('all', () => buildApp(buildConfig).catch(console.error))
+      .on('all', () => buildApp(buildConfig).catch(e => process.stderr.write(`${e}\n`)))
   }
 }
 

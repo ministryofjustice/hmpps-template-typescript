@@ -30,7 +30,7 @@ const buildApp = buildConfig => {
  * @returns {Promise}
  */
 module.exports = buildConfig => {
-  console.log('\u{1b}[1m\u{2728}  Building app....\u{1b}[0m')
+  process.stderr.write('\u{1b}[1m\u{2728} Building app...\u{1b}[0m\n')
 
   return buildApp(buildConfig)
 }
