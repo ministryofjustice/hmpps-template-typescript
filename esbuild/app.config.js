@@ -8,26 +8,21 @@ const glob = require('glob')
  * @type {BuildStep}
  */
 const buildApp = buildConfig => {
-  return esbuild
-    .build({
-      entryPoints: glob.sync(buildConfig.app.entryPoints),
-      outdir: buildConfig.app.outDir,
-      bundle: false,
-      sourcemap: true,
-      platform: 'node',
-      format: 'cjs',
-      plugins: [
-        typecheckPlugin(),
-        copy({
-          resolveFrom: 'cwd',
-          assets: buildConfig.app.copy,
-        }),
-      ],
-    })
-    .catch(e => {
-      console.error(e)
-      process.exit(1)
-    })
+  return esbuild.build({
+    entryPoints: glob.sync(buildConfig.app.entryPoints),
+    outdir: buildConfig.app.outDir,
+    bundle: false,
+    sourcemap: true,
+    platform: 'node',
+    format: 'cjs',
+    plugins: [
+      typecheckPlugin(),
+      copy({
+        resolveFrom: 'cwd',
+        assets: buildConfig.app.copy,
+      }),
+    ],
+  })
 }
 
 /**

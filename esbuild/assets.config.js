@@ -56,8 +56,5 @@ const buildAssets = buildConfig => {
 module.exports = buildConfig => {
   console.log('\u{1b}[1m\u{2728}  Building assets....\u{1b}[0m')
 
-  return Promise.all([buildAssets(buildConfig), buildAdditionalAssets(buildConfig)]).catch(e => {
-    console.error(e)
-    process.exit(1)
-  })
+  return Promise.all([buildAssets(buildConfig), buildAdditionalAssets(buildConfig)])
 }
