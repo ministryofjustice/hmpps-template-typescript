@@ -20,7 +20,7 @@ export default function nunjucksSetup(app: express.Express): void {
     const assetMetadataPath = path.resolve(__dirname, '../../assets/manifest.json')
     assetManifest = JSON.parse(fs.readFileSync(assetMetadataPath, 'utf8'))
   } catch (e) {
-    logger.warn('Could not read asset manifest file')
+    logger.error('Could not read asset manifest file')
   }
 
   const njkEnv = nunjucks.configure(

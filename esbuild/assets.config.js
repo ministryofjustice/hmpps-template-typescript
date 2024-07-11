@@ -34,9 +34,7 @@ const buildAssets = buildConfig => {
       }),
       manifestPlugin({
         generate: entries =>
-          Object.fromEntries(
-            Object.entries(entries).map(([key, value]) => [key.replace('dist', ''), value.replace('dist', '')]),
-          ),
+          Object.fromEntries(Object.entries(entries).map(paths => paths.map(p => p.replace(/^dist\//, '/')))),
       }),
       sassPlugin({
         quietDeps: true,
