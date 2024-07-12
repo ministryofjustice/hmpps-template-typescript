@@ -116,8 +116,6 @@ dist
 .pnp.*
 
 
-
-assets/stylesheets/*.css
 .idea
 .vscode
 dist/

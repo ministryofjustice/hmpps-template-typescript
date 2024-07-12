@@ -1,13 +1,20 @@
-const path = require('path')
+const { spawn } = require('node:child_process')
+const path = require('node:path')
+
 const { glob } = require('glob')
 const chokidar = require('chokidar')
-const { spawn } = require('child_process')
 const buildAssets = require('./assets.config')
 const buildApp = require('./app.config')
 
 const cwd = process.cwd()
+
+/**
+ * Configuration for build steps
+ * @type {BuildConfig}
+ */
 const buildConfig = {
   isProduction: process.env.NODE_ENV === 'production',
+
   app: {
     outDir: path.join(cwd, 'dist'),
     entryPoints: glob
@@ -34,7 +41,10 @@ const buildConfig = {
   },
 }
 
-function main() {
+const main = () => {
+  /**
+   * @type {chokidar.WatchOptions}
+   */
   const chokidarOptions = {
     persistent: true,
     ignoreInitial: true,
@@ -42,8 +52,10 @@ function main() {
 
   const args = process.argv
   if (args.includes('--build')) {
-    buildApp(buildConfig)
-    buildAssets(buildConfig)
+    Promise.all([buildApp(buildConfig), buildAssets(buildConfig)]).catch(e => {
+      process.stderr.write(`${e}\n`)
+      process.exit(1)
+    })
   }
 
   if (args.includes('--dev-server')) {
@@ -55,14 +67,17 @@ function main() {
   }
 
   if (args.includes('--watch')) {
-    console.log('\u{1b}[1m\u{1F52D} Watching for changes...\u{1b}[0m')
+    process.stderr.write('\u{1b}[1m\u{1F52D} Watching for changes...\u{1b}[0m\n')
     // Assets
-    chokidar.watch(['assets/**/*'], chokidarOptions).on('all', () => buildAssets(buildConfig))
+    chokidar
+      .watch(['assets/**/*'], chokidarOptions)
+      .on('all', () => buildAssets(buildConfig).catch(e => process.stderr.write(`${e}\n`)))
 
     // App
     chokidar
       .watch(['server/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts'] })
-      .on('all', () => buildApp(buildConfig))
+      .on('all', () => buildApp(buildConfig).catch(e => process.stderr.write(`${e}\n`)))
   }
 }
+
 main()
