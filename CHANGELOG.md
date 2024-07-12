@@ -18,8 +18,6 @@ PR: [#377](https://github.com/ministryofjustice/hmpps-template-typescript/pull/3
 
 ---
 
-
-
 **July 11th 2024** – Remove Typescript outdated checks
 
 We originally added these checks to the template project to try to nudge people into performing major version updates rather than solely focusing on security patches. 
