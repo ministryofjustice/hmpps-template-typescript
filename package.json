@@ -20,7 +20,7 @@
     "security_audit": "npx audit-ci --config audit-ci.json",
     "int-test": "cypress run --config video=false",
     "int-test-ui": "cypress open --e2e --browser chrome",
-    "clean": "rm -rf dist build node_modules stylesheets",
+    "clean": "rm -rf dist node_modules",
     "rebuild": "npm run clean && npm i && npm run build"
   },
   "engines": {
@@ -65,17 +65,6 @@
       "node",
       "ts"
     ]
-  },
-  "nodemonConfig": {
-    "ignore": [
-      ".circleci/*",
-      "migrations/*",
-      "node_modules/*",
-      "test/*",
-      "integration_tests/*"
-    ],
-    "delay": 2500,
-    "ext": "js,json,html,njk"
   },
   "lint-staged": {
     "*.{ts,js,css}": [
@@ -162,10 +151,8 @@
     "lint-staged": "^15.2.7",
     "mocha-junit-reporter": "^2.2.1",
     "nock": "^13.5.4",
-    "nodemon": "^3.1.4",
     "prettier": "^3.3.2",
     "prettier-plugin-jinja-template": "^1.4.1",
-    "sass": "^1.77.6",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.2",
     "typescript": "^5.5.3"
