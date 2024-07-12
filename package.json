@@ -132,6 +132,7 @@
     "esbuild": "^0.21.5",
     "esbuild-plugin-clean": "^1.0.1",
     "esbuild-plugin-copy": "^2.1.1",
+    "esbuild-plugin-manifest": "^1.0.3",
     "esbuild-sass-plugin": "^3.3.1",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
