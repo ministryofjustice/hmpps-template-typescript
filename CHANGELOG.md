@@ -1,5 +1,23 @@
 # Change log
 
+**July 13th 2024** - ESBuild and asset caching improvements
+
+We have recently introduced several enhancements to the ESBuild process to improve stability, logging, and basic type annotations. These are part of
+
+PR: [#388](https://github.com/ministryofjustice/hmpps-template-typescript/pull/388) and PR: [#378](https://github.com/ministryofjustice/hmpps-template-typescript/pull/378)
+
+Additionally, we have integrated a new and improved process for handling asset cache-busting. Previously, we appended a query string representing the build number or Git commit hash to our assets for cache-busting. With the recent introduction of ESBuild, we have implemented a more common asset-revving solution, using the hash of the asset in the asset's output filename, like `/assets/js/app.UG7VY7MS.js`.
+
+In brief, this implementation creates a `manifest.json` file during the asset build process, which maps the original asset name to it's new rev'd name. We then use the assetMap filter, introduced as part of this PR, to match the original asset names to their hashed versions, like so 
+
+`<script type="module" src="{{ '/assets/js/app.js' | assetMap }}"></script>`
+
+To see the full conversation see the #typescript slack channel
+
+PR: [#377](https://github.com/ministryofjustice/hmpps-template-typescript/pull/377)
+
+---
+
 **July 11th 2024** – Remove Typescript outdated checks
 
 We originally added these checks to the template project to try to nudge people into performing major version updates rather than solely focusing on security patches. 
@@ -12,7 +30,7 @@ PR: [#388](https://github.com/ministryofjustice/hmpps-template-typescript/pull/3
 
 ---
 
-**June 19th 2024** – Add EsBuild!
+**June 19th 2024** – Add ESBuild!
 
 This is a bit of a WiP but rapidly speeds up the time to redeploy on changes. It does that by running typescript compiler in a side channel.
 It's worth adopting now but there are subsequent commits and changes that will continue to be integrated to improve this.
