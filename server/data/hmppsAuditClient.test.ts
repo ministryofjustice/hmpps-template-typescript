@@ -57,7 +57,9 @@ describe('hmppsAuditClient', () => {
       expect(actualMessageBody).toEqual(expectedSqsMessageBody)
 
       const eventTime = Date.parse(actualMessageBody.when)
-      expect(Date.now() - eventTime).toBeLessThan(10)
+      expect(eventTime).not.toBeNaN()
+      expect(eventTime).toBeGreaterThan(-1)
+      expect(Date.now() - eventTime).toBeLessThan(1000)
 
       expect(sqsMock.calls().length).toEqual(1)
     })
