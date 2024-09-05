@@ -36,8 +36,6 @@ passport.use(
 
 export default function setupAuthentication() {
   const router = Router()
-  const authUrl = config.apis.hmppsAuth.externalUrl
-  const authParameters = `client_id=${config.apis.hmppsAuth.authClientId}&redirect_uri=${config.domain}`
 
   router.use(passport.initialize())
   router.use(passport.session())
@@ -56,6 +54,9 @@ export default function setupAuthentication() {
       failureRedirect: '/autherror',
     })(req, res, next),
   )
+
+  const authUrl = config.apis.hmppsAuth.externalUrl
+  const authParameters = `client_id=${config.apis.hmppsAuth.authClientId}&redirect_uri=${config.domain}`
 
   router.use('/sign-out', (req, res, next) => {
     const authSignOutUrl = `${authUrl}/sign-out?${authParameters}`
