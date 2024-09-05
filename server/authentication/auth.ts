@@ -33,8 +33,8 @@ function init(): void {
     {
       authorizationURL: `${config.apis.hmppsAuth.externalUrl}/oauth/authorize`,
       tokenURL: `${config.apis.hmppsAuth.url}/oauth/token`,
-      clientID: config.apis.hmppsAuth.apiClientId,
-      clientSecret: config.apis.hmppsAuth.apiClientSecret,
+      clientID: config.apis.hmppsAuth.authClientId,
+      clientSecret: config.apis.hmppsAuth.authClientSecret,
       callbackURL: `${config.domain}/sign-in/callback`,
       state: true,
       customHeaders: { Authorization: generateOauthClientToken() },
