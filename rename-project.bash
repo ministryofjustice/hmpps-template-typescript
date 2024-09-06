@@ -42,6 +42,7 @@ EXCLUDES="( -path ./dist -o -path ./node_modules -o -path ./assets -o -path ./.g
 # shellcheck disable=SC2086
 find . $EXCLUDES -prune -o -type f -exec /usr/bin/sed -i.bak \
   -e "s/hmpps-template-typescript/$PROJECT_NAME/g" \
+  -e "s/template-typescript/$PROJECT_NAME/g" \
   -e "s/HMPPS Typescript Template/$PROJECT_DESCRIPTION/g" {} \; -exec rm '{}.bak' \;
 
 echo "Performing directory renames"
