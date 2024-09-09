@@ -10,14 +10,14 @@ export default abstract class Page {
 
   constructor(
     private readonly title: string,
-    private readonly skipA11y = false,
+    private readonly skipAccessibilityChecks = false,
   ) {
     this.checkOnPage()
   }
 
   checkOnPage(): void {
     cy.get('h1').contains(this.title)
-    if (!(Cypress.env('SKIP_AXE') || this.skipA11y)) {
+    if (!(Cypress.env('SKIP_ACCESSIBILITY_CHECKS') || this.skipAccessibilityChecks)) {
       cy.injectAxe()
       cy.configureAxe({
         rules: [
