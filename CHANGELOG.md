@@ -1,5 +1,20 @@
 # Change log
 
+**September 6th 2024** - Authentication and credentials tidy-up
+
+We have recently tidied up some of the authentication process. To begin with, we added default credentials in HMPPS Auth 
+(PR: [hmpps-auth#1777](https://github.com/ministryofjustice/hmpps-auth/pull/1777)) to support the template project 
+out of the box. The necessary updates for using these credentials were made in 
+PR: [#412](https://github.com/ministryofjustice/hmpps-template-typescript/pull/412) and 
+PR: [#414](https://github.com/ministryofjustice/hmpps-template-typescript/pull/414). We also updated the documentation 
+to clarify the OIDC/OAuth2 process.
+
+Additionally, we cleaned up both the authentication middleware and the user details population middleware. These changes 
+can be found in PR: [#413](https://github.com/ministryofjustice/hmpps-template-typescript/pull/413) and 
+PR: [#415](https://github.com/ministryofjustice/hmpps-template-typescript/pull/415).
+
+---
+
 **July 13th 2024** - ESBuild and asset caching improvements
 
 We have recently introduced several enhancements to the ESBuild process to improve stability, logging, and basic type annotations. These are part of
