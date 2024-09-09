@@ -13,11 +13,11 @@ on:
         description: 'Slack channel for pipeline security notifications.'
         required: true
       non_prod_alerts_prometheus_severity_label:
-        description: 'Non-prod k8s alerts. The severity label used by prometheus to route alert notifications to slack. See cloud-platform user guide.'
+        description: 'Non-prod kubernetes alerts. The severity label used by prometheus to route alert notifications to slack. See cloud-platform user guide.'
         required: true
         default: 'digital-prison-service-dev'
       prod_alerts_prometheus_severity_label:
-        description: 'Production k8s alerts. The severity label used by prometheus to route alert notifications to slack. See cloud-platform user guide.'
+        description: 'Production kubernetes alerts. The severity label used by prometheus to route alert notifications to slack. See cloud-platform user guide.'
         required: true
         default: 'digital-prison-service'
 
