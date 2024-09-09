@@ -40,20 +40,51 @@ enabled by default on newly created repos. There is no way to enable Actions oth
 If this situation changes we will update this project so that the workflow is triggered during the bootstrap project.
 Further reading: <https://github.community/t/workflow-isnt-enabled-in-repos-generated-from-template/136421>
 
+The script takes six arguments:
+
+### New project name
+This should start with `hmpps-` e.g. `hmpps-prison-visits` so that it can be easily distinguished in github from
+other departments projects.  Try to avoid using abbreviations so that others can understand easily what your project is.
+
+### Slack channel for release notifications
+By default, release notifications are only enabled for production.  The circleci configuration can be amended to send
+release notifications for deployments to other environments if required.  Note that if the configuration is amended,
+the slack channel should then be amended to your own team's channel as `dps-releases` is strictly for production release
+notifications.  If the slack channel is set to something other than `dps-releases`, production release notifications
+will still automatically go to `dps-releases` as well.  This is configured by `releases-slack-channel` in
+`.circleci/config.yml`.
+
+### Slack channel for pipeline security notifications
+Ths channel should be specific to your team and is for daily / weekly security scanning job results. It is your team's
+responsibility to keep up-to-date with security issues and update your application so that these jobs pass.  You will
+only be notified if the jobs fail.  The scan results can always be found in circleci for your project.  This is
+configured by `alerts-slack-channel` in `.circleci/config.yml`.
+
+### Non production kubernetes alerts
+By default Prometheus alerts are created in the application namespaces to monitor your application e.g. if your
+application is crash looping, there are a significant number of errors from the ingress.  Since Prometheus runs in
+cloud platform AlertManager needs to be setup first with your channel.  Please see
+[Create your own custom alerts](https://user-guide.cloud-platform.service.justice.gov.uk/documentation/monitoring-an-app/how-to-create-alarms.html)
+in the Cloud Platform user guide.  Once that is setup then the `custom severity label` can be used for
+`alertSeverity` in the `helm_deploy/values-*.yaml` configuration.
+
+Normally it is worth setting up two separate labels and therefore two separate slack channels - one for your production
+alerts and one for your non-production alerts. Using the same channel can mean that production alerts are sometimes
+lost within non-production issues.
+
+### Production kubernetes alerts
+This is the severity label for production, determined by the `custom severity label`.  See the above
+#non-production-kubernetes-alerts for more information.  This is configured in `helm_deploy/values-prod.yaml`.
+
+### Product ID
+This is so that we can link a component to a product and thus provide team and product information in the Developer
+Portal. Refer to the developer portal at https://developer-portal.hmpps.service.justice.gov.uk/products to find your
+product id.  This is configured in `helm_deploy/<project_name>/values.yaml`.
+
 ## Manually branding from template app
 
-Run the `rename-project.bash` and create a PR.
-
-The rename-project.bash script takes a single argument - the name of the project and calculates from it the project description
-It then performs a search and replace and directory renames so the project is ready to be used.
-
-## Ensuring slack notifications are raised correctly
-
-To ensure notifications are routed to the correct slack channels, update the `alerts-slack-channel` and `releases-slack-channel` parameters in `.circle/config.yml` to an appropriate channel.
-
-## Filling in the `productId`
-
-To allow easy identification of an application, the product Id of the overall product should be set in `values.yaml`. The Service Catalogue contains a list of these IDs and is currently in development here https://developer-portal.hmpps.service.justice.gov.uk/products
+Run the `rename-project.bash` without any arguments.  This will prompt for the six required parameters and create a PR.
+The script requires a recent version of `bash` to be installed, as well as GNU `sed` in the path.
 
 ## Oauth2 Credentials
 
@@ -71,7 +102,7 @@ These credentials are configured using the following env variables:
 
 ### Client Credentials flow
 
-These are used by the application to request tokens to make calls to APIs. These are system accounts that will have their own sets of roles. 
+These are used by the application to request tokens to make calls to APIs. These are system accounts that will have their own sets of roles.
 
 Most API calls that occur as part of the request/response cycle will be on behalf of a user.
 To make a call on behalf of a user, a username should be passed when requesting a system token. The username will then become part of the JWT and can be used downstream for auditing purposes.
@@ -95,7 +126,7 @@ Most APIs don't have images with cached data that you can run with docker: setti
 ### REDIS
 
 When deployed to an environment with multiple pods we run applications with an instance of REDIS/Elasticache to provide a distributed cache of sessions.
-The template app is, by default, configured not to use REDIS when running locally.  
+The template app is, by default, configured not to use REDIS when running locally.
 
 ## Running the app via docker-compose
 
@@ -111,7 +142,7 @@ To start the main services excluding the example typescript template app:
 
 `docker compose up --scale=app=0`
 
-Create an environment file by copying `.env.example` -> `.env` 
+Create an environment file by copying `.env.example` -> `.env`
 Environment variables set in here will be available when running `start:dev`
 
 Install dependencies using `npm install`, ensuring you are using `node v20`
@@ -133,15 +164,16 @@ To request specific users and roles then raise a PR to [update the seed data](ht
 
 ### Run linter
 
-`npm run lint`
+* `npm run lint` runs `eslint`.
+* `npm run typecheck` runs the TypeScript compiler `tsc`.
 
-### Run tests
+### Run unit tests
 
 `npm run test`
 
 ### Running integration tests
 
-For local running, start a test db and wiremock instance by:
+For local running, start a wiremock instance by:
 
 `docker compose -f docker-compose-test.yml up`
 
