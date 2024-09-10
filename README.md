@@ -11,7 +11,7 @@ If this is a HMPPS project then the project will be created as part of bootstrap
 see https://github.com/ministryofjustice/hmpps-project-bootstrap. You are able to specify a template application using
 the `github_template_repo` attribute to clone without the need to manually do this yourself within GitHub.
 
-This bootstrap is community managed by the mojdt `#typescript` slack channel.
+This project is community managed by the mojdt `#typescript` slack channel.
 Please raise any questions or queries there. Contributions welcome!
 
 Our security policy is located [here](https://github.com/ministryofjustice/hmpps-template-typescript/security/policy).
