@@ -158,7 +158,7 @@
   },
   "overrides": {
     "aws-sdk-client-mock": {
-      "sinon": "^18.0.1",
+      "sinon": "^19.0.2",
       "@types/sinon": "^17.0.3"
     }
   }
