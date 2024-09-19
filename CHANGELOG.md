@@ -1,5 +1,12 @@
 # Change log
 
+**September 19th 2024** - Renaming config domain
+
+The `config.domain` property has been renamed to `config.ingressUrl` to reflect the fact that it should be set to a URL
+rather than just a domain name.
+
+See PR [#435](https://github.com/ministryofjustice/hmpps-template-typescript/pull/435)
+
 **September 6th 2024** - Authentication and credentials tidy-up
 
 We have recently tidied up some of the authentication process. To begin with, we added default credentials in HMPPS Auth 
