@@ -121,7 +121,7 @@
     "@typescript-eslint/parser": "^8.6.0",
     "audit-ci": "^7.1.0",
     "aws-sdk-client-mock": "^4.0.2",
-    "chokidar": "^3.6.0",
+    "chokidar": "^4.0.1",
     "concurrently": "^9.0.1",
     "cypress": "^13.14.2",
     "cypress-multi-reporters": "^1.6.4",
