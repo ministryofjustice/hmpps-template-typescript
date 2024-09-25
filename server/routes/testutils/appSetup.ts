@@ -1,7 +1,7 @@
 import express, { Express } from 'express'
 import { NotFound } from 'http-errors'
-import { v4 as uuidv4 } from 'uuid'
 
+import { randomUUID } from 'crypto'
 import routes from '../index'
 import nunjucksSetup from '../../utils/nunjucksSetup'
 import errorHandler from '../../errorHandler'
@@ -41,7 +41,7 @@ function appSetup(services: Services, production: boolean, userSupplier: () => H
     next()
   })
   app.use((req, res, next) => {
-    req.id = uuidv4()
+    req.id = randomUUID()
     next()
   })
   app.use(express.json())
