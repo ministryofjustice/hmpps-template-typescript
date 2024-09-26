@@ -1,5 +1,19 @@
 # Change log
 
+**September 25th 2024** - Removing dependency on dotenv
+
+Removing dependency on [dotenv](https://www.npmjs.com/package/dotenv).
+Use Node's `-env-file` [mechanism](https://nodejs.org/dist/latest-v20.x/docs/api/cli.html#--env-fileconfig) instead of requiring the dotenv module.
+
+See PR [#441](https://github.com/ministryofjustice/hmpps-template-typescript/pull/441)
+
+**September 25th 2024** - Removing dependency on uuid
+
+Removing dependency on [uuid](https://www.npmjs.com/package/uuid).
+Use Node's `crypto.randomUUID()` instead of requiring the uuid module - there's no need if just using v4 UUIDs.
+
+See PR [#439](https://github.com/ministryofjustice/hmpps-template-typescript/pull/439)
+
 **September 19th 2024** - Renaming config domain
 
 The `config.domain` property has been renamed to `config.ingressUrl` to reflect the fact that it should be set to a URL
@@ -9,26 +23,28 @@ See PR [#435](https://github.com/ministryofjustice/hmpps-template-typescript/pul
 
 **September 6th 2024** - Authentication and credentials tidy-up
 
-We have recently tidied up some of the authentication process. To begin with, we added default credentials in HMPPS Auth 
-(PR: [hmpps-auth#1777](https://github.com/ministryofjustice/hmpps-auth/pull/1777)) to support the template project 
-out of the box. The necessary updates for using these credentials were made in 
-PR: [#412](https://github.com/ministryofjustice/hmpps-template-typescript/pull/412) and 
-PR: [#414](https://github.com/ministryofjustice/hmpps-template-typescript/pull/414). We also updated the documentation 
+We have recently tidied up some of the authentication process. To begin with, we added default credentials in HMPPS Auth
+(PR: [hmpps-auth#1777](https://github.com/ministryofjustice/hmpps-auth/pull/1777)) to support the template project
+out of the box. The necessary updates for using these credentials were made in
+PR: [#412](https://github.com/ministryofjustice/hmpps-template-typescript/pull/412) and
+PR: [#414](https://github.com/ministryofjustice/hmpps-template-typescript/pull/414). We also updated the documentation
 to clarify the OIDC/OAuth2 process.
 
-Additionally, we cleaned up both the authentication middleware and the user details population middleware. These changes 
-can be found in PR: [#413](https://github.com/ministryofjustice/hmpps-template-typescript/pull/413) and 
+Additionally, we cleaned up both the authentication middleware and the user details population middleware. These changes
+can be found in PR: [#413](https://github.com/ministryofjustice/hmpps-template-typescript/pull/413) and
 PR: [#415](https://github.com/ministryofjustice/hmpps-template-typescript/pull/415).
 
 As part of this change we also renamed the env var names used for configuring our client's credentials. It was felt that the previous names were confusing/misleading.
 
-We've now renamed the client that is used to authenticate new users using the auth code oauth2 grant: 
+We've now renamed the client that is used to authenticate new users using the auth code oauth2 grant:
+
 ```
 API_CLIENT_ID -> AUTH_CODE_CLIENT_ID
 API_CLIENT_SECRET -> AUTH_CODE_CLIENT_SECRET
 ```
 
-and we've renamed the client used to request tokens using the client credentials grant as follows: 
+and we've renamed the client used to request tokens using the client credentials grant as follows:
+
 ```
 SYSTEM_CLIENT_ID -> CLIENT_CREDS_CLIENT_ID
 SYSTEM_CLIENT_SECRET -> CLIENT_CREDS_CLIENT_SECRET
@@ -44,7 +60,7 @@ PR: [#388](https://github.com/ministryofjustice/hmpps-template-typescript/pull/3
 
 Additionally, we have integrated a new and improved process for handling asset cache-busting. Previously, we appended a query string representing the build number or Git commit hash to our assets for cache-busting. With the recent introduction of ESBuild, we have implemented a more common asset-revving solution, using the hash of the asset in the asset's output filename, like `/assets/js/app.UG7VY7MS.js`.
 
-In brief, this implementation creates a `manifest.json` file during the asset build process, which maps the original asset name to it's new rev'd name. We then use the assetMap filter, introduced as part of this PR, to match the original asset names to their hashed versions, like so 
+In brief, this implementation creates a `manifest.json` file during the asset build process, which maps the original asset name to it's new rev'd name. We then use the assetMap filter, introduced as part of this PR, to match the original asset names to their hashed versions, like so
 
 `<script type="module" src="{{ '/assets/js/app.js' | assetMap }}"></script>`
 
@@ -56,11 +72,11 @@ PR: [#377](https://github.com/ministryofjustice/hmpps-template-typescript/pull/3
 
 **July 11th 2024** – Remove Typescript outdated checks
 
-We originally added these checks to the template project to try to nudge people into performing major version updates rather than solely focusing on security patches. 
+We originally added these checks to the template project to try to nudge people into performing major version updates rather than solely focusing on security patches.
 This has led to a lot of confusion and queries from teams asking why we're enforcing these draconian checks.
 Previously we added some guidance suggesting developers remove it but this was not generally read.
 
-Rather than add to the complexity of the rewrite script we've decided to remove these checks entirely. 
+Rather than add to the complexity of the rewrite script we've decided to remove these checks entirely.
 
 PR: [#388](https://github.com/ministryofjustice/hmpps-template-typescript/pull/388)
 
