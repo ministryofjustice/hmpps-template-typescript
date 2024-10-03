@@ -1,0 +1,76 @@
+name: Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment
+        type: choice
+        required: true
+        options:
+          - dev
+          - prod
+          - staging
+        default: 'dev'
+      version: # Only used when run manually - build.yml will include it
+        description: Image version
+        type: string
+        required: true
+
+jobs:
+  build_node:
+    name: Build node
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_build.yml@HEAT-337-helm-lint
+    secrets: inherit
+  # unit_test:
+  #   name: Unit test
+  #   uses: ministryofjustice/hmpps-github-actions/workflows/node_unit_test.yml@HEAT-337-helm-lint
+  #   with:
+  #     push: true
+  #   secrets: inherit
+  #   needs: ['build_node']
+  # integration_test:
+  #   name: Integration test
+  #   uses: ministryofjustice/hmpps-github-actions/workflows/node_integration_test.yml@HEAT-337-helm-lint
+  #   with:
+  #     push: true
+  #   secrets: inherit
+  #   needs: ['build_node']
+  helm_lint:
+    name: helm_lint
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/test_helm_lint.yml@HEAT-337-helm-lint
+    secrets: inherit
+    with:
+      environment: ${{ inputs.environment }}
+
+  # These bits to be done...
+  # build:
+  #   name: Build
+  #   uses: ./.github/workflows/build.yml
+  #   with:
+  #     push: true
+  #   secrets: inherit
+  
+  # deploy_to_dev:
+  #   name: Deploy to dev
+  #   uses: ./.github/workflows/deploy.yml
+  #   needs: build
+  #   with:
+  #     environment: development
+  #     version: ${{ needs.build.outputs.version }}
+  #   secrets: inherit
+
+  # deploy_to_prod:
+  #   name: Deploy to prod
+  #   uses: ./.github/workflows/deploy.yml
+  #   needs:
+  #     - build
+  #     - deploy_to_dev # wait for the deploy_to_dev job to complete
+  #   with:
+  #     environment: production
+  #     version: ${{ needs.build.outputs.version }}
+  #   secrets: inherit
