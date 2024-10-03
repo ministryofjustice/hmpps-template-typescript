@@ -41,11 +41,11 @@ jobs:
   #   secrets: inherit
   #   needs: ['build_node']
   helm_lint:
-    name: helm_lint
+    name: helm lint
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/test_helm_lint.yml@HEAT-337-helm-lint
     secrets: inherit
     with:
-      environment: ${{ inputs.environment }}
+      environment: ${{ inputs.environment || 'dev' }}
 
   # These bits to be done...
   # build:
