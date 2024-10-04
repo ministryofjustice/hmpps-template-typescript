@@ -3,8 +3,8 @@ name: Pipeline
 on:
   push:
     branches:
-      - main
-
+      # - main
+      - '*'
   workflow_dispatch:
     inputs:
       environment:
@@ -22,30 +22,17 @@ on:
         required: true
 
 jobs:
-  build_node:
+  build_test_node:
     name: Build node
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_build.yml@HEAT-337-helm-lint
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_build_test.yml@HEAT-353-typescript-node-workflow
     secrets: inherit
-  # unit_test:
-  #   name: Unit test
-  #   uses: ministryofjustice/hmpps-github-actions/workflows/node_unit_test.yml@HEAT-337-helm-lint
-  #   with:
-  #     push: true
-  #   secrets: inherit
-  #   needs: ['build_node']
-  # integration_test:
-  #   name: Integration test
-  #   uses: ministryofjustice/hmpps-github-actions/workflows/node_integration_test.yml@HEAT-337-helm-lint
-  #   with:
-  #     push: true
-  #   secrets: inherit
-  #   needs: ['build_node']
   helm_lint:
     name: helm lint
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/test_helm_lint.yml@HEAT-337-helm-lint
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/test_helm_lint.yml@main
     secrets: inherit
     with:
       environment: ${{ inputs.environment || 'dev' }}
+
 
   # These bits to be done...
   # build:
