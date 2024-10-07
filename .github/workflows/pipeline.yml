@@ -1,0 +1,75 @@
+name: Pipeline
+
+on:
+  push:
+    branches:
+      # - main
+      - '**'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment
+        type: choice
+        required: true
+        options:
+          - dev
+          - prod
+          - staging
+        default: 'dev'
+      version: # Only used when run manually - build.yml will include it
+        description: Image version
+        type: string
+        required: true
+
+jobs:
+  # main node build workflow
+  node_build:
+    name: node build
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_build.yml@HEAT-353-typescript-node-workflow
+    secrets: inherit
+  # generic node unit tests - feel free to override with local tests if required
+  node_unit_tests:
+    name: node unit tests
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_unit_tests.yml@HEAT-353-typescript-node-workflow
+    needs: [node_build]
+    secrets: inherit
+  # generic node integration tests using wiremock - feel free to override with local tests if required
+  node_integration_tests:
+    name: node integration tests
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_integration_tests.yml@HEAT-353-typescript-node-workflow
+    needs: [node_build]
+    secrets: inherit
+  helm_lint:
+    name: helm lint
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/test_helm_lint.yml@main
+    secrets: inherit
+    with:
+      environment: ${{ inputs.environment || 'dev' }}
+
+  # These bits to be done...
+  # build:
+  #   name: Build
+  #   uses: ./.github/workflows/build.yml
+  #   with:
+  #     push: true
+  #   secrets: inherit
+  
+  # deploy_to_dev:
+  #   name: Deploy to dev
+  #   uses: ./.github/workflows/deploy.yml
+  #   needs: build
+  #   with:
+  #     environment: development
+  #     version: ${{ needs.build.outputs.version }}
+  #   secrets: inherit
+
+  # deploy_to_prod:
+  #   name: Deploy to prod
+  #   uses: ./.github/workflows/deploy.yml
+  #   needs:
+  #     - build
+  #     - deploy_to_dev # wait for the deploy_to_dev job to complete
+  #   with:
+  #     environment: production
+  #     version: ${{ needs.build.outputs.version }}
+  #   secrets: inherit
