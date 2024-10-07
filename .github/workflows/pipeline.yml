@@ -16,7 +16,7 @@ on:
           - prod
           - staging
         default: 'dev'
-      version: # Only used when run manually - build.yml will include it .. bump
+      version: # Only used when run manually - build.yml will include it.. 
         description: Image version
         type: string
         required: true
