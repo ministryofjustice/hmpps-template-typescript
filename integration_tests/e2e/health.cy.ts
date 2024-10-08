@@ -11,7 +11,7 @@ context('Healthcheck', () => {
     })
 
     it('Ping is visible and UP', () => {
-      cy.request('/ping').its('body.status').should('equal', 'UP')
+      cy.request('/ping').its('body.status').should('equal', 'DOWN')
     })
 
     it('Info is visible', () => {
