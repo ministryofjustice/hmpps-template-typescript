@@ -1,5 +1,6 @@
 name: Security npm dependency check
 on:
+  push:
   workflow_dispatch:
   schedule:
     - cron: "30 3 * * MON-FRI" # Every weekday at 03:30 UTC
