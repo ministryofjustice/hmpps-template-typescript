@@ -9,7 +9,7 @@ on:
       slack_releases_channel:
         description: 'Slack channel for release notifications.'
         required: true
-      pipeline_security_slack_channel:
+      security_alerts_slack_channel_id:
         description: 'Slack channel for pipeline security notifications.'
         required: true
       non_prod_alerts_prometheus_severity_label:
@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run rename-project script
-        run: ./rename-project.bash ${{ github.event.repository.name }} ${{ inputs.slack_releases_channel }} ${{ inputs.pipeline_security_slack_channel }} ${{ inputs.non_prod_alerts_prometheus_severity_label }} ${{ inputs.prod_alerts_prometheus_severity_label }} ${{ inputs.product_id }}
+        run: ./rename-project.bash ${{ github.event.repository.name }} ${{ inputs.slack_releases_channel }} ${{ inputs.security_alerts_slack_channel_id }} ${{ inputs.non_prod_alerts_prometheus_severity_label }} ${{ inputs.prod_alerts_prometheus_severity_label }} ${{ inputs.product_id }}
 
       - name: Delete this github actions workflow
         run: rm .github/workflows/rename_template_project*

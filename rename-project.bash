@@ -18,7 +18,7 @@ if [[ $# -ge 1 ]]; then
 else
   read -rp "New project name e.g. prison-visits >" PROJECT_INPUT
   read -rp "Slack channel for release notifications >" SLACK_RELEASES_CHANNEL
-  read -rp "Slack channel for pipeline security notifications >" PIPELINE_SECURITY_SLACK_CHANNEL
+  read -rp "Slack channel for pipeline security notifications >" SECURITY_ALERTS_SLACK_CHANNEL_ID
   echo "For configurating alert severity labels, please first see https://user-guide.cloud-platform.service.justice.gov.uk/documentation/monitoring-an-app/how-to-create-alarms.html#creating-your-own-custom-alerts"
   read -rp "Non-prod k8s alerts. The severity label used by prometheus to route alert notifications to slack >" NON_PROD_ALERTS_SEVERITY_LABEL
   read -rp "Production k8s alerts. The severity label used by prometheus to route alert notifications to slack >" PROD_ALERTS_SEVERITY_LABEL
@@ -76,8 +76,12 @@ sed -i -z -E \
   -e "s/security:\n    triggers:\n      - schedule:\n          cron: \"30 5/security:\n    triggers:\n      - schedule:\n          cron: \"$RANDOM_MINUTE $RANDOM_HOUR/" \
   -e "s/security-weekly:\n    triggers:\n      - schedule:\n          cron: \"0 5/security-weekly:\n    triggers:\n      - schedule:\n          cron: \"$RANDOM_MINUTE2 $RANDOM_HOUR/" \
   -e "s/SLACK_RELEASES_CHANNEL/$SLACK_RELEASES_CHANNEL/" \
-  -e "s/PIPELINE_SECURITY_SLACK_CHANNEL/$PIPELINE_SECURITY_SLACK_CHANNEL/" \
   .circleci/config.yml
+
+sed -i -z -E \
+  -e "s/SECURITY_ALERTS_SLACK_CHANNEL_ID/$SECURITY_ALERTS_SLACK_CHANNEL_ID/" \
+  .github/workflows/*
+
 
 # lastly remove ourselves
 rm rename-project.bash

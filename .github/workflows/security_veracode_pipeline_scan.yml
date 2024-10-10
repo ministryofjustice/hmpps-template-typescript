@@ -1,0 +1,13 @@
+name: Security veracode pipeline scan
+on:
+  push:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 3 * * MON-FRI" # Every weekday at 03:30 UTC
+jobs:
+  security-veracode-pipeline-scan:
+    name: Project security veracode pipeline scan
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/security_veracode_pipeline_scan.yml@v0.5 # WORKFLOW_VERSION
+    with:
+      channel_id: SECURITY_ALERTS_SLACK_CHANNEL_ID
+    secrets: inherit
