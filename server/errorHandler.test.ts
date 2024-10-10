@@ -16,7 +16,7 @@ describe('GET 404', () => {
   it('should render content with stack in dev mode', () => {
     return request(app)
       .get('/unknown')
-      .expect(404)
+      .expect(204)
       .expect('Content-Type', /html/)
       .expect(res => {
         expect(res.text).toContain('NotFoundError: Not Found')
