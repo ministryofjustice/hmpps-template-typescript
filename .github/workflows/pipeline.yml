@@ -25,18 +25,18 @@ jobs:
   # main node build workflow
   node_build:
     name: node build
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_build.yml@HEAT-353-typescript-node-workflow
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_build.yml@main
     secrets: inherit
   # generic node unit tests - feel free to override with local tests if required
   node_unit_tests:
     name: node unit tests
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_unit_tests.yml@HEAT-353-typescript-node-workflow
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_unit_tests.yml@main
     needs: [node_build]
     secrets: inherit
   # generic node integration tests using wiremock - feel free to override with local tests if required
   node_integration_tests:
     name: node integration tests
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_integration_tests.yml@HEAT-353-typescript-node-workflow
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_integration_tests.yml@main
     needs: [node_build]
     secrets: inherit
   helm_lint:
