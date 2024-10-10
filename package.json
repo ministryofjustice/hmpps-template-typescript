@@ -89,7 +89,7 @@
     "csurf": "^1.11.0",
     "express": "^4.21.1",
     "express-session": "^1.18.1",
-    "govuk-frontend": "^5.6.0",
+    "govuk-frontend": "^5.7.0",
     "helmet": "^8.0.0",
     "http-errors": "^2.0.0",
     "jwt-decode": "^4.0.0",
