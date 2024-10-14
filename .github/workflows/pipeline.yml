@@ -1,4 +1,4 @@
-name: Pipeline
+name: Test - Build - Deploy Pipeline
 
 on:
   push:
@@ -20,7 +20,38 @@ on:
         description: Image version
         type: string
         required: true
-
+      docker_registry:
+        description: Docker registry
+        required: true
+        default: 'ghcr.io'
+        type: choice
+        options:
+          - 'ghcr.io'
+          - 'quay.io'
+      registry_org:
+        description: Docker registry organisation
+        required: true
+        default: 'ministryofjustice'
+        type: choice
+        options:
+          - 'ministryofjustice'
+          - 'hmpps'
+      additional_docker_tag:
+        description: Additional docker tag that can be used to specify stable tags
+        required: false
+        default: ''
+        type: string
+      push:
+        description: Push docker image to registry flag
+        required: true
+        default: true
+        type: boolean
+      docker_multiplatform:
+        description: docker multiplatform build or not
+        required: true
+        default: true
+        type: boolean
+    
 jobs:
   # main node build workflow
   node_build:
@@ -45,31 +76,45 @@ jobs:
     secrets: inherit
     with:
       environment: ${{ inputs.environment || 'dev' }}
-
-  # These bits to be done...
-  # build:
-  #   name: Build
-  #   uses: ./.github/workflows/build.yml
-  #   with:
-  #     push: true
-  #   secrets: inherit
-  
-  # deploy_to_dev:
-  #   name: Deploy to dev
-  #   uses: ./.github/workflows/deploy.yml
-  #   needs: build
-  #   with:
-  #     environment: development
-  #     version: ${{ needs.build.outputs.version }}
-  #   secrets: inherit
-
-  # deploy_to_prod:
-  #   name: Deploy to prod
-  #   uses: ./.github/workflows/deploy.yml
-  #   needs:
-  #     - build
-  #     - deploy_to_dev # wait for the deploy_to_dev job to complete
-  #   with:
-  #     environment: production
-  #     version: ${{ needs.build.outputs.version }}
-  #   secrets: inherit
+  create_app_version:
+    name: Create app version
+    needs: 
+      - helm_lint
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/create_app_version.yml@main
+  build:
+    name: Build docker image from hmpps-github-actions
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/docker_build.yml@main
+    needs: 
+      - helm_lint
+      - node_integration_tests
+      - node_unit_tests
+      - create_app_version
+    with:
+      docker_registry: ${{ inputs.docker_registry || 'ghcr.io' }}
+      registry_org: ${{ inputs.registry_org || 'ministryofjustice' }}
+      additional_docker_tag: ${{ inputs.additional_docker_tag }}
+      push: ${{ inputs.push || true }}
+      docker_multiplatform: ${{ inputs.docker_multiplatform || false }}
+      app_version: ${{ needs.create_app_version.outputs.version }}
+  dev_approval_gate:
+    needs:
+      - node_unit_tests
+      - node_integration_tests
+      - helm_lint
+    environment: dev
+    runs-on: ubuntu-latest
+    steps:
+      - name: approve
+        env: 
+          ENV_NAME: ${{ inputs.environment || 'dev'  }}
+        run: echo "Approve for ${ENV_NAME}"
+  deploy_dev:
+    name: Deploy 
+    needs: 
+      - dev_approval_gate
+      - create_app_version
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@main
+    secrets: inherit
+    with:
+      environment: 'dev'
+      app_version: '${{ needs.create_app_version.outputs.version }}'
