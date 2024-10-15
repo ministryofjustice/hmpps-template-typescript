@@ -1,4 +1,4 @@
-name: Test - Build - Deploy Pipeline
+name: Pipeline [Test - Build - Deploy]
 
 on:
   push:
@@ -51,7 +51,11 @@ on:
         required: true
         default: true
         type: boolean
-    
+
+permissions:
+  contents: read
+  packages: write
+        
 jobs:
   # main node build workflow
   node_build:
@@ -85,7 +89,6 @@ jobs:
     name: Build docker image from hmpps-github-actions
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/docker_build.yml@main
     needs: 
-      - helm_lint
       - node_integration_tests
       - node_unit_tests
       - create_app_version
@@ -99,6 +102,7 @@ jobs:
   dev_approval_gate:
     needs:
       - build
+      - helm_lint
     environment: dev
     runs-on: ubuntu-latest
     steps:
