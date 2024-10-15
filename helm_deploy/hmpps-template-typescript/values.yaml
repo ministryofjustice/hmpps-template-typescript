@@ -8,7 +8,7 @@ generic-service:
   replicaCount: 4
 
   image:
-    repository: quay.io/hmpps/hmpps-template-typescript
+    repository: ghcr.io/ministryofjustice/hmpps-template-typescript
     tag: app_version # override at deployment time
     port: 3000
 
