@@ -98,9 +98,7 @@ jobs:
       app_version: ${{ needs.create_app_version.outputs.version }}
   dev_approval_gate:
     needs:
-      - node_unit_tests
-      - node_integration_tests
-      - helm_lint
+      - build
     environment: dev
     runs-on: ubuntu-latest
     steps:
