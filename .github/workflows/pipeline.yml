@@ -1,4 +1,4 @@
-name: Pipeline [Test - Build - Deploy]
+name: Pipeline [test -> build -> deploy]
 
 on:
   push:
@@ -80,25 +80,18 @@ jobs:
     secrets: inherit
     with:
       environment: ${{ inputs.environment || 'dev' }}
-  create_app_version:
-    name: Create app version
-    needs: 
-      - helm_lint
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/create_app_version.yml@main
   build:
     name: Build docker image from hmpps-github-actions
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/docker_build.yml@main
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/docker_build.yml@move_create_app_version_in_action
     needs: 
       - node_integration_tests
       - node_unit_tests
-      - create_app_version
     with:
       docker_registry: ${{ inputs.docker_registry || 'ghcr.io' }}
       registry_org: ${{ inputs.registry_org || 'ministryofjustice' }}
       additional_docker_tag: ${{ inputs.additional_docker_tag }}
       push: ${{ inputs.push || true }}
       docker_multiplatform: ${{ inputs.docker_multiplatform || false }}
-      app_version: ${{ needs.create_app_version.outputs.version }}
   # dev_approval_gate:
   #   needs:
   #     - build
@@ -113,11 +106,10 @@ jobs:
   deploy_dev:
     name: Deploy 
     needs: 
-      - create_app_version
       - build
       - helm_lint
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@main
     secrets: inherit
     with:
       environment: 'dev'
-      app_version: '${{ needs.create_app_version.outputs.version }}'
+      app_version: '${{ needs.build.outputs.app_version }}'
