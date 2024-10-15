@@ -82,7 +82,7 @@ jobs:
       environment: ${{ inputs.environment || 'dev' }}
   build:
     name: Build docker image from hmpps-github-actions
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/docker_build.yml@move_create_app_version_in_action
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/docker_build.yml@main
     needs: 
       - node_integration_tests
       - node_unit_tests
