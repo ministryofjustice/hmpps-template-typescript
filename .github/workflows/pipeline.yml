@@ -3,8 +3,8 @@ name: Pipeline [test -> build -> deploy]
 on:
   push:
     branches:
-     # - main
-     - '**'
+     - main
+    # - '**'
   workflow_dispatch:
     inputs:
       environment:
@@ -92,17 +92,6 @@ jobs:
       additional_docker_tag: ${{ inputs.additional_docker_tag }}
       push: ${{ inputs.push || true }}
       docker_multiplatform: ${{ inputs.docker_multiplatform || false }}
-  # dev_approval_gate:
-  #   needs:
-  #     - build
-  #     - helm_lint
-  #   environment: dev
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: approve
-  #       env: 
-  #         ENV_NAME: ${{ inputs.environment || 'dev'  }}
-  #       run: echo "Approve for ${ENV_NAME}"
   deploy_dev:
     name: Deploy 
     needs: 
