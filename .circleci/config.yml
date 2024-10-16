@@ -5,7 +5,6 @@ orbs:
 parameters:
   releases-slack-channel:
     type: string
-    # Normally dps-releases for most teams / projects
     default: SLACK_RELEASES_CHANNEL
   node-version:
     type: string
