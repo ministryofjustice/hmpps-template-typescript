@@ -79,7 +79,7 @@ sed -i -z -E \
 sed -i -z -E \
   -e "s/on:\n  workflow_dispatch:\n  schedule:\n    - cron: \"19 6/on:\n  workflow_dispatch:\n  schedule:\n    - cron: \"$RANDOM_MINUTE $RANDOM_HOUR/" \
   -e "s/on:\n  workflow_dispatch:\n  schedule:\n    - cron: \"34 6/on:\n  workflow_dispatch:\n  schedule:\n    - cron: \"$RANDOM_MINUTE2 $RANDOM_HOUR/" \
-  -e "s/SECURITY_ALERTS_SLACK_CHANNEL_ID/$SECURITY_ALERTS_SLACK_CHANNEL_ID/" \
+  -e "s/C05J915DX0Q/$SECURITY_ALERTS_SLACK_CHANNEL_ID/" \
   .github/workflows/*
 
 
