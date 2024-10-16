@@ -1,0 +1,170 @@
+version: 2.1
+orbs:
+  hmpps: ministryofjustice/hmpps@10
+  slack: circleci/slack@4.12.5
+parameters:
+  releases-slack-channel:
+    type: string
+    default: SLACK_RELEASES_CHANNEL
+  node-version:
+    type: string
+    default: 20.17-browsers
+jobs:
+  build:
+    executor:
+      name: hmpps/node
+      tag: << pipeline.parameters.node-version >>
+    steps:
+      - checkout
+      - run:
+          name: Update npm
+          command: 'sudo npm install -g npm@latest'
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install Dependencies
+          command: npm ci --no-audit
+      - save_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+            - ~/.cache
+      - run:
+          command: |
+            npm run build
+      - run: # Run linter after build because the integration test code depend on compiled typescript...
+          name: Linter check
+          command: npm run lint
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules
+            - build
+            - dist
+            - assets
+  unit_test:
+    executor:
+      name: hmpps/node
+      tag: << pipeline.parameters.node-version >>
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: unit tests
+          command: npm run test:ci
+      - store_test_results:
+          path: test_results
+      - store_artifacts:
+          path: test_results/unit-test-reports.html
+  integration_test:
+    executor:
+      name: hmpps/node
+      tag: << pipeline.parameters.node-version >>
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/app
+      - run:
+          name: Install missing OS dependency
+          command: sudo apt-get install libxss1
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: Get wiremock
+          command: curl -o wiremock.jar https://repo1.maven.org/maven2/org/wiremock/wiremock-standalone/3.9.1/wiremock-standalone-3.9.1.jar
+      - run:
+          name: Run wiremock
+          command: java -jar wiremock.jar --port 9091
+          background: true
+      - run:
+          name: Run the node app.
+          command: npm run start-feature
+          background: true
+      - run:
+          name: Wait for node app to start
+          command: sleep 5
+      - run:
+          name: integration tests
+          command: npm run int-test
+      - store_test_results:
+          path: test_results
+      - store_artifacts:
+          path: integration_tests/videos
+      - store_artifacts:
+          path: integration_tests/screenshots
+workflows:
+  version: 2
+  build-test-and-deploy:
+    jobs:
+      - build:
+          filters:
+            tags:
+              ignore: /.*/
+      - unit_test:
+          requires:
+            - build
+      - integration_test:
+          requires:
+            - build
+      - hmpps/helm_lint:
+          name: helm_lint
+      - hmpps/build_docker:
+          name: build_docker
+          filters:
+            branches:
+              only:
+                - main
+      - hmpps/deploy_env:
+          name: deploy_dev
+          env: "dev"
+          jira_update: true
+          pipeline_id: <<pipeline.id>>
+          pipeline_number: <<pipeline.number>>
+          context: hmpps-common-vars
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - helm_lint
+            - unit_test
+            - integration_test
+            - build_docker
+          helm_timeout: 5m
+#      - request-preprod-approval:
+#          type: approval
+#          requires:
+#            - deploy_dev
+#      - hmpps/deploy_env:
+#          name: deploy_preprod
+#          env: "preprod"
+#          jira_update: true
+#          jira_env_type: staging
+#          pipeline_id: <<pipeline.id>>
+#          pipeline_number: <<pipeline.number>>
+#          context:
+#            - hmpps-common-vars
+#            - hmpps-template-typescript-preprod
+#          requires:
+#            - request-preprod-approval
+#          helm_timeout: 5m
+#      - request-prod-approval:
+#          type: approval
+#          requires:
+#            - deploy_preprod
+#      - hmpps/deploy_env:
+#          name: deploy_prod
+#          env: "prod"
+#          jira_update: true
+#          jira_env_type: production
+#          pipeline_id: <<pipeline.id>>
+#          pipeline_number: <<pipeline.number>>
+#          slack_notification: true
+#          slack_channel_name: << pipeline.parameters.releases-slack-channel >>
+#          context:
+#            - hmpps-common-vars
+#            - hmpps-template-typescript-prod
+#          requires:
+#            - request-prod-approval
+#          helm_timeout: 5m
