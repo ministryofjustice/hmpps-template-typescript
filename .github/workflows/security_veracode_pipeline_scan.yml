@@ -2,7 +2,7 @@ name: Security veracode pipeline scan
 on:
   workflow_dispatch:
   schedule:
-    - cron: "30 3 * * MON-FRI" # Every weekday at 03:30 UTC
+    - cron: "19 6 * * MON-FRI" # Every weekday
 jobs:
   security-veracode-pipeline-scan:
     name: Project security veracode pipeline scan
