@@ -11,14 +11,14 @@ fi
 if [[ $# -ge 1 ]]; then
   PROJECT_INPUT=$1
   SLACK_RELEASES_CHANNEL=$2
-  PIPELINE_SECURITY_SLACK_CHANNEL=$3
+  SECURITY_ALERTS_SLACK_CHANNEL_ID=$3
   NON_PROD_ALERTS_SEVERITY_LABEL=$4
   PROD_ALERTS_SEVERITY_LABEL=$5
   PRODUCT_ID=$6
 else
   read -rp "New project name e.g. prison-visits >" PROJECT_INPUT
   read -rp "Slack channel for release notifications >" SLACK_RELEASES_CHANNEL
-  read -rp "Slack channel for pipeline security notifications >" PIPELINE_SECURITY_SLACK_CHANNEL
+  read -rp "Slack channel for pipeline security notifications >" SECURITY_ALERTS_SLACK_CHANNEL_ID
   echo "For configurating alert severity labels, please first see https://user-guide.cloud-platform.service.justice.gov.uk/documentation/monitoring-an-app/how-to-create-alarms.html#creating-your-own-custom-alerts"
   read -rp "Non-prod k8s alerts. The severity label used by prometheus to route alert notifications to slack >" NON_PROD_ALERTS_SEVERITY_LABEL
   read -rp "Production k8s alerts. The severity label used by prometheus to route alert notifications to slack >" PROD_ALERTS_SEVERITY_LABEL
@@ -54,12 +54,12 @@ echo "Performing directory renames"
 # move helm stuff to new name
 mv "helm_deploy/hmpps-template-typescript" "helm_deploy/$PROJECT_NAME"
 
-# Update helm values.yaml with product ID.
+# Update helm values.yaml with product ID.
 sed -i -z -E \
   -e "s/UNASSIGNED/$PRODUCT_ID/" \
   helm_deploy/$PROJECT_NAME/values.yaml
 
-# Update helm values files with correct slack channels.
+# Update helm values files with correct slack channels.
 sed -i -z -E \
   -e "s/NON_PROD_ALERTS_SEVERITY_LABEL/$NON_PROD_ALERTS_SEVERITY_LABEL/" \
   helm_deploy/values-dev.yaml helm_deploy/values-preprod.yaml
@@ -73,11 +73,15 @@ RANDOM_HOUR=$((RANDOM % (9 - 3 + 1) + 3))
 RANDOM_MINUTE=$(($RANDOM%60))
 RANDOM_MINUTE2=$(($RANDOM%60))
 sed -i -z -E \
-  -e "s/security:\n    triggers:\n      - schedule:\n          cron: \"30 5/security:\n    triggers:\n      - schedule:\n          cron: \"$RANDOM_MINUTE $RANDOM_HOUR/" \
-  -e "s/security-weekly:\n    triggers:\n      - schedule:\n          cron: \"0 5/security-weekly:\n    triggers:\n      - schedule:\n          cron: \"$RANDOM_MINUTE2 $RANDOM_HOUR/" \
   -e "s/SLACK_RELEASES_CHANNEL/$SLACK_RELEASES_CHANNEL/" \
-  -e "s/PIPELINE_SECURITY_SLACK_CHANNEL/$PIPELINE_SECURITY_SLACK_CHANNEL/" \
   .circleci/config.yml
+
+sed -i -z -E \
+  -e "s/on:\n  workflow_dispatch:\n  schedule:\n    - cron: \"19 6/on:\n  workflow_dispatch:\n  schedule:\n    - cron: \"$RANDOM_MINUTE $RANDOM_HOUR/" \
+  -e "s/on:\n  workflow_dispatch:\n  schedule:\n    - cron: \"34 6/on:\n  workflow_dispatch:\n  schedule:\n    - cron: \"$RANDOM_MINUTE2 $RANDOM_HOUR/" \
+  -e "s/C05J915DX0Q/$SECURITY_ALERTS_SLACK_CHANNEL_ID/" \
+  .github/workflows/*
+
 
 # lastly remove ourselves
 rm rename-project.bash
