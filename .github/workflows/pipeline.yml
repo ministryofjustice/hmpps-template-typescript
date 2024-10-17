@@ -3,8 +3,7 @@ name: Pipeline [test -> build -> deploy]
 on:
   push:
     branches:
-     - main
-    # - '**'
+     - '**'
   workflow_dispatch:
     inputs:
       environment:
@@ -82,6 +81,7 @@ jobs:
       environment: ${{ inputs.environment || 'dev' }}
   build:
     name: Build docker image from hmpps-github-actions
+    if: github.ref == 'refs/heads/main'
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/docker_build.yml@v1 # WORKFLOW_VERSION
     needs: 
       - node_integration_tests
@@ -94,6 +94,7 @@ jobs:
       docker_multiplatform: ${{ inputs.docker_multiplatform || false }}
   deploy_dev:
     name: Deploy 
+    if: github.ref == 'refs/heads/main'
     needs: 
       - build
       - helm_lint
