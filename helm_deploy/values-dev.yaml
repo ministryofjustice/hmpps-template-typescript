@@ -13,7 +13,7 @@ generic-service:
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api-dev.prison.service.justice.gov.uk"
     ENVIRONMENT_NAME: DEV
     AUDIT_ENABLED: "false"
-    APPLICATIONINSIGHTS_CONFIGURATION_FILE: "./applicationinsights.dev.json"
+    APPLICATIONINSIGHTS_CONFIGURATION_FILE: "applicationinsights.dev.json"
 
 generic-prometheus-alerts:
   alertSeverity: NON_PROD_ALERTS_SEVERITY_LABEL
