@@ -3,7 +3,7 @@ import {
   DistributedTracingModes,
   getCorrelationContext,
   setup,
-  TelemetryClient,
+  type TelemetryClient,
 } from 'applicationinsights'
 import { RequestHandler } from 'express'
 import type { ApplicationInfo } from '../applicationInfo'

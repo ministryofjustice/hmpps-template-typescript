@@ -167,7 +167,6 @@ export default class RestClient {
             reject(error)
           } else if (response) {
             const s = new Readable()
-            // eslint-disable-next-line no-underscore-dangle,@typescript-eslint/no-empty-function
             s._read = () => {}
             s.push(response.body)
             s.push(null)
