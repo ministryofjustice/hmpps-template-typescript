@@ -12,8 +12,9 @@ on:
         required: true
         options:
           - dev
-          - prod
+          - preprod
           - staging
+          - prod
         default: 'dev'
       version: # Only used when run manually - build.yml will include it - bump
         description: Image version
@@ -93,7 +94,7 @@ jobs:
       push: ${{ inputs.push || true }}
       docker_multiplatform: ${{ inputs.docker_multiplatform || false }}
   deploy_dev:
-    name: Deploy 
+    name: Deploy to the development environment 
     needs: 
       - build
       - helm_lint
@@ -102,3 +103,23 @@ jobs:
     with:
       environment: 'dev'
       app_version: '${{ needs.build.outputs.app_version }}'
+  # deploy_preprod:
+  #   name: Deploy to pre-production environment
+  #   needs: 
+  #     - build
+  #     - deploy_dev
+  #   uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v1 # WORKFLOW_VERSION
+  #   secrets: inherit
+  #   with:
+  #     environment: 'preprod'
+  #     app_version: '${{ needs.build.outputs.app_version }}'
+  # deploy_prod:
+  #   name: Deploy to production environment
+  #   needs: 
+  #     - build
+  #     - deploy_preprod
+  #   uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v1 # WORKFLOW_VERSION
+  #   secrets: inherit
+  #   with:
+  #     environment: 'prod'
+  #     app_version: '${{ needs.build.outputs.app_version }}'
