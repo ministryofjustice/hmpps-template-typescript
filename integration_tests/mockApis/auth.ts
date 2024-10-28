@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import jwt from 'jsonwebtoken'
 import type { Response } from 'superagent'
 
