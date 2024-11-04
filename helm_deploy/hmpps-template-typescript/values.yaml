@@ -42,7 +42,6 @@ generic-service:
 
   namespace_secrets:
     hmpps-template-typescript:
-      APPINSIGHTS_INSTRUMENTATIONKEY: 'APPINSIGHTS_INSTRUMENTATIONKEY'
       AUTH_CODE_CLIENT_ID: 'AUTH_CODE_CLIENT_ID'
       AUTH_CODE_CLIENT_SECRET: 'AUTH_CODE_CLIENT_SECRET'
       CLIENT_CREDS_CLIENT_ID: 'CLIENT_CREDS_CLIENT_ID'
@@ -51,6 +50,8 @@ generic-service:
     elasticache-redis:
       REDIS_HOST: 'primary_endpoint_address'
       REDIS_AUTH_TOKEN: 'auth_token'
+    application-insights:
+      APPINSIGHTS_INSTRUMENTATIONKEY: 'APPINSIGHTS_INSTRUMENTATIONKEY'
     #sqs-hmpps-audit-secret:
     #  AUDIT_SQS_QUEUE_URL: "sqs_queue_url"
     #  AUDIT_SQS_QUEUE_NAME: "sqs_queue_name"
