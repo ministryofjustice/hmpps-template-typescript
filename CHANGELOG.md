@@ -1,5 +1,11 @@
 # Change log
 
+**October 29th 2024** - Move to node 22
+
+Node 22 is now LTS. Notes [here](https://nodejs.org/en/blog/announcements/v22-release-announce)
+
+See PR [#474](https://github.com/ministryofjustice/hmpps-template-typescript/pull/474)
+
 **September 25th 2024** - Removing dependency on dotenv
 
 Removing dependency on [dotenv](https://www.npmjs.com/package/dotenv).

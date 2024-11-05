@@ -1,14 +1,16 @@
 version: 2.1
+
 orbs:
   hmpps: ministryofjustice/hmpps@10
-  slack: circleci/slack@4.12.5
+  slack: circleci/slack@4
 parameters:
   releases-slack-channel:
     type: string
     default: SLACK_RELEASES_CHANNEL
   node-version:
     type: string
-    default: 20.17-browsers
+    default: 22.11-browsers
+
 jobs:
   build:
     executor:
@@ -18,11 +20,11 @@ jobs:
       - checkout
       - run:
           name: Update npm
-          command: 'sudo npm install -g npm@latest'
+          command: sudo npm install -g npm@latest
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
-          name: Install Dependencies
+          name: Install dependencies
           command: npm ci --no-audit
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
@@ -30,8 +32,8 @@ jobs:
             - node_modules
             - ~/.cache
       - run:
-          command: |
-            npm run build
+          name: Build application
+          command: npm run build
       - run: # Run linter after build because the integration test code depend on compiled typescript...
           name: Linter check
           command: npm run lint
@@ -41,7 +43,6 @@ jobs:
             - node_modules
             - build
             - dist
-            - assets
   unit_test:
     executor:
       name: hmpps/node
@@ -51,7 +52,7 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
-          name: unit tests
+          name: Run unit tests
           command: npm run test:ci
       - store_test_results:
           path: test_results
@@ -78,21 +79,24 @@ jobs:
           command: java -jar wiremock.jar --port 9091
           background: true
       - run:
-          name: Run the node app.
+          name: Run the node app
           command: npm run start-feature
           background: true
       - run:
           name: Wait for node app to start
           command: sleep 5
       - run:
-          name: integration tests
+          name: Run integration tests
           command: npm run int-test
       - store_test_results:
           path: test_results
       - store_artifacts:
+          name: Uploading cypress videos
           path: integration_tests/videos
       - store_artifacts:
+          name: Uploading cypress screenshots
           path: integration_tests/screenshots
+
 workflows:
   version: 2
   build-test-and-deploy:
@@ -117,7 +121,7 @@ workflows:
                 - main
       - hmpps/deploy_env:
           name: deploy_dev
-          env: "dev"
+          env: dev
           jira_update: true
           pipeline_id: <<pipeline.id>>
           pipeline_number: <<pipeline.number>>
@@ -138,7 +142,7 @@ workflows:
 #            - deploy_dev
 #      - hmpps/deploy_env:
 #          name: deploy_preprod
-#          env: "preprod"
+#          env: preprod
 #          jira_update: true
 #          jira_env_type: staging
 #          pipeline_id: <<pipeline.id>>
@@ -155,7 +159,7 @@ workflows:
 #            - deploy_preprod
 #      - hmpps/deploy_env:
 #          name: deploy_prod
-#          env: "prod"
+#          env: prod
 #          jira_update: true
 #          jira_env_type: production
 #          pipeline_id: <<pipeline.id>>
