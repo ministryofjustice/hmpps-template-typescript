@@ -8,24 +8,29 @@ Template github repo used for new Typescript based projects.
 # Instructions
 
 If this is a HMPPS project then the project will be created as part of bootstrapping -
-see https://github.com/ministryofjustice/hmpps-project-bootstrap. You are able to specify a template application using the `github_template_repo` attribute to clone without the need to manually do this yourself within GitHub.
+see https://github.com/ministryofjustice/hmpps-project-bootstrap. You are able to specify a template application using
+the `github_template_repo` attribute to clone without the need to manually do this yourself within GitHub.
 
-This bootstrap is community managed by the mojdt `#typescript` slack channel.
+This project is community managed by the mojdt `#typescript` slack channel.
 Please raise any questions or queries there. Contributions welcome!
 
 Our security policy is located [here](https://github.com/ministryofjustice/hmpps-template-typescript/security/policy).
 
-More information about the template project including features can be found [here](https://dsdmoj.atlassian.net/wiki/spaces/NDSS/pages/3488677932/Typescript+template+project).
+More information about the template project including features can be
+found [here](https://dsdmoj.atlassian.net/wiki/spaces/NDSS/pages/3488677932/Typescript+template+project).
 
 ## Creating a Cloud Platform namespace
 
-When deploying to a new namespace, you may wish to use this template typescript project namespace as the basis for your new namespace:
+When deploying to a new namespace, you may wish to use the
+[templates project namespace](https://github.com/ministryofjustice/cloud-platform-environments/tree/main/namespaces/live.cloud-platform.service.justice.gov.uk/hmpps-templates-dev)
+as the basis for your new namespace. This namespace contains both the kotlin and typescript template projects, which
+is the usual way that projects are setup. This namespace includes an AWS elasticache setup - which is required by this
+template project.
 
-<https://github.com/ministryofjustice/cloud-platform-environments/tree/main/namespaces/live.cloud-platform.service.justice.gov.uk/hmpps-template-typescript>
-
-This template namespace includes an AWS elasticache setup - which is required by this template project.
-
-Copy this folder, update all the existing namespace references, and submit a PR to the Cloud Platform team. Further instructions from the Cloud Platform team can be found here: <https://user-guide.cloud-platform.service.justice.gov.uk/#cloud-platform-user-guide>
+Copy this folder and update all the existing namespace references. If you only need the typescript configuration then
+remove all kotlin references. Submit a PR to the Cloud Platform team in #ask-cloud-platform. Further instructions from
+the Cloud Platform team can be found in
+the [Cloud Platform User Guide](https://user-guide.cloud-platform.service.justice.gov.uk/#cloud-platform-user-guide)
 
 ## Renaming from HMPPS Template Typescript - github Actions
 
@@ -43,29 +48,33 @@ Further reading: <https://github.community/t/workflow-isnt-enabled-in-repos-gene
 The script takes six arguments:
 
 ### New project name
+
 This should start with `hmpps-` e.g. `hmpps-prison-visits` so that it can be easily distinguished in github from
-other departments projects.  Try to avoid using abbreviations so that others can understand easily what your project is.
+other departments projects. Try to avoid using abbreviations so that others can understand easily what your project is.
 
 ### Slack channel for release notifications
-By default, release notifications are only enabled for production.  The circleci configuration can be amended to send
-release notifications for deployments to other environments if required.  Note that if the configuration is amended,
+
+By default, release notifications are only enabled for production. The circleci configuration can be amended to send
+release notifications for deployments to other environments if required. Note that if the configuration is amended,
 the slack channel should then be amended to your own team's channel as `dps-releases` is strictly for production release
-notifications.  If the slack channel is set to something other than `dps-releases`, production release notifications
-will still automatically go to `dps-releases` as well.  This is configured by `releases-slack-channel` in
+notifications. If the slack channel is set to something other than `dps-releases`, production release notifications
+will still automatically go to `dps-releases` as well. This is configured by `releases-slack-channel` in
 `.circleci/config.yml`.
 
 ### Slack channel for pipeline security notifications
+
 Ths channel should be specific to your team and is for daily / weekly security scanning job results. It is your team's
-responsibility to keep up-to-date with security issues and update your application so that these jobs pass.  You will
-only be notified if the jobs fail.  The scan results can always be found in circleci for your project.  This is
+responsibility to keep up-to-date with security issues and update your application so that these jobs pass. You will
+only be notified if the jobs fail. The scan results can always be found in circleci for your project. This is
 configured by `alerts-slack-channel` in `.circleci/config.yml`.
 
 ### Non production kubernetes alerts
+
 By default Prometheus alerts are created in the application namespaces to monitor your application e.g. if your
-application is crash looping, there are a significant number of errors from the ingress.  Since Prometheus runs in
-cloud platform AlertManager needs to be setup first with your channel.  Please see
+application is crash looping, there are a significant number of errors from the ingress. Since Prometheus runs in
+cloud platform AlertManager needs to be setup first with your channel. Please see
 [Create your own custom alerts](https://user-guide.cloud-platform.service.justice.gov.uk/documentation/monitoring-an-app/how-to-create-alarms.html)
-in the Cloud Platform user guide.  Once that is setup then the `custom severity label` can be used for
+in the Cloud Platform user guide. Once that is setup then the `custom severity label` can be used for
 `alertSeverity` in the `helm_deploy/values-*.yaml` configuration.
 
 Normally it is worth setting up two separate labels and therefore two separate slack channels - one for your production
@@ -73,27 +82,32 @@ alerts and one for your non-production alerts. Using the same channel can mean t
 lost within non-production issues.
 
 ### Production kubernetes alerts
-This is the severity label for production, determined by the `custom severity label`.  See the above
-#non-production-kubernetes-alerts for more information.  This is configured in `helm_deploy/values-prod.yaml`.
+
+This is the severity label for production, determined by the `custom severity label`. See the above
+#non-production-kubernetes-alerts for more information. This is configured in `helm_deploy/values-prod.yaml`.
 
 ### Product ID
+
 This is so that we can link a component to a product and thus provide team and product information in the Developer
 Portal. Refer to the developer portal at https://developer-portal.hmpps.service.justice.gov.uk/products to find your
-product id.  This is configured in `helm_deploy/<project_name>/values.yaml`.
+product id. This is configured in `helm_deploy/<project_name>/values.yaml`.
 
 ## Manually branding from template app
 
-Run the `rename-project.bash` without any arguments.  This will prompt for the six required parameters and create a PR.
+Run the `rename-project.bash` without any arguments. This will prompt for the six required parameters and create a PR.
 The script requires a recent version of `bash` to be installed, as well as GNU `sed` in the path.
 
 ## Oauth2 Credentials
 
 The template project is set up to run with two sets of credentials, each one support a different oauth2 flows.
-These need to be requested from the auth team by filling in this [template](https://dsdmoj.atlassian.net/browse/HAAR-140) and raising on their slack channel.
+These need to be requested from the auth team by filling in
+this [template](https://dsdmoj.atlassian.net/browse/HAAR-140) and raising on their slack channel.
 
 ### Auth Code flow
 
-These are used to allow authenticated users to access the application. After the user is redirected from auth back to the application, the typescript app will use the returned auth code to request a JWT token for that user containing the user's roles. The JWT token will be verified and then stored in the user's session.
+These are used to allow authenticated users to access the application. After the user is redirected from auth back to
+the application, the typescript app will use the returned auth code to request a JWT token for that user containing the
+user's roles. The JWT token will be verified and then stored in the user's session.
 
 These credentials are configured using the following env variables:
 
@@ -102,10 +116,12 @@ These credentials are configured using the following env variables:
 
 ### Client Credentials flow
 
-These are used by the application to request tokens to make calls to APIs. These are system accounts that will have their own sets of roles.
+These are used by the application to request tokens to make calls to APIs. These are system accounts that will have
+their own sets of roles.
 
 Most API calls that occur as part of the request/response cycle will be on behalf of a user.
-To make a call on behalf of a user, a username should be passed when requesting a system token. The username will then become part of the JWT and can be used downstream for auditing purposes.
+To make a call on behalf of a user, a username should be passed when requesting a system token. The username will then
+become part of the JWT and can be used downstream for auditing purposes.
 
 These tokens are cached until expiration.
 
@@ -117,15 +133,20 @@ These credentials are configured using the following env variables:
 ### Dependencies
 
 ### HMPPS Auth
-To allow authenticated users to access your application you need to point it to a running instance of `hmpps-auth`.
-By default the application is configured to run against an instance running in docker that can be started via `docker-compose`.
 
-**NB:** It's common for developers to run against the instance of auth running in the development/T3 environment for local development.
-Most APIs don't have images with cached data that you can run with docker: setting up realistic stubbed data in sync across a variety of services is very difficult.
+To allow authenticated users to access your application you need to point it to a running instance of `hmpps-auth`.
+By default the application is configured to run against an instance running in docker that can be started
+via `docker-compose`.
+
+**NB:** It's common for developers to run against the instance of auth running in the development/T3 environment for
+local development.
+Most APIs don't have images with cached data that you can run with docker: setting up realistic stubbed data in sync
+across a variety of services is very difficult.
 
 ### REDIS
 
-When deployed to an environment with multiple pods we run applications with an instance of REDIS/Elasticache to provide a distributed cache of sessions.
+When deployed to an environment with multiple pods we run applications with an instance of REDIS/Elasticache to provide
+a distributed cache of sessions.
 The template app is, by default, configured not to use REDIS when running locally.
 
 ## Running the app via docker-compose
@@ -147,7 +168,9 @@ Environment variables set in here will be available when running `start:dev`
 
 Install dependencies using `npm install`, ensuring you are using `node v20`
 
-Note: Using `nvm` (or [fnm](https://github.com/Schniz/fnm)), run `nvm install --latest-npm` within the repository folder to use the correct version of node, and the latest version of npm. This matches the `engines` config in `package.json` and the CircleCI build config.
+Note: Using `nvm` (or [fnm](https://github.com/Schniz/fnm)), run `nvm install --latest-npm` within the repository folder
+to use the correct version of node, and the latest version of npm. This matches the `engines` config in `package.json`
+and the CircleCI build config.
 
 And then, to build the assets and start the app with esbuild:
 
@@ -160,7 +183,9 @@ Once the application is running you should then be able to login with:
 username: AUTH_USER
 password: password123456
 
-To request specific users and roles then raise a PR to [update the seed data](https://github.com/ministryofjustice/hmpps-auth/blob/main/src/main/resources/db/dev/data/auth/V900_3__users.sql) for the in-memory DB used by Auth
+To request specific users and roles then raise a PR
+to [update the seed data](https://github.com/ministryofjustice/hmpps-auth/blob/main/src/main/resources/db/dev/data/auth/V900_3__users.sql)
+for the in-memory DB used by Auth
 
 ### Run linter
 

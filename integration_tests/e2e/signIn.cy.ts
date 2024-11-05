@@ -53,8 +53,8 @@ context('Sign In', () => {
     Page.verifyOnPage(IndexPage)
     cy.task('stubVerifyToken', false)
 
-    // can't do a visit here as cypress requires only one domain
-    cy.request('/').its('body').should('contain', 'Sign in')
+    cy.visit('/')
+    Page.verifyOnPage(AuthSignInPage)
   })
 
   it('Token verification failure clears user session', () => {
@@ -62,8 +62,8 @@ context('Sign In', () => {
     const indexPage = Page.verifyOnPage(IndexPage)
     cy.task('stubVerifyToken', false)
 
-    // can't do a visit here as cypress requires only one domain
-    cy.request('/').its('body').should('contain', 'Sign in')
+    cy.visit('/')
+    Page.verifyOnPage(AuthSignInPage)
 
     cy.task('stubVerifyToken', true)
     cy.task('stubSignIn', { name: 'bobby brown' })

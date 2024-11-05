@@ -15,11 +15,11 @@ export default function setUpHealthChecks(applicationInfo: ApplicationInfo): Rou
     })
   })
 
-  router.get('/ping', (req, res) =>
+  router.get('/ping', (req, res) => {
     res.send({
       status: 'UP',
-    }),
-  )
+    })
+  })
 
   router.get('/info', (req, res) => {
     res.json({

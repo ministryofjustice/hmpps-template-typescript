@@ -24,7 +24,7 @@ passport.use(
       tokenURL: `${config.apis.hmppsAuth.url}/oauth/token`,
       clientID: config.apis.hmppsAuth.authClientId,
       clientSecret: config.apis.hmppsAuth.authClientSecret,
-      callbackURL: `${config.domain}/sign-in/callback`,
+      callbackURL: `${config.ingressUrl}/sign-in/callback`,
       state: true,
       customHeaders: { Authorization: generateOauthClientToken() },
     },
@@ -56,7 +56,7 @@ export default function setupAuthentication() {
   )
 
   const authUrl = config.apis.hmppsAuth.externalUrl
-  const authParameters = `client_id=${config.apis.hmppsAuth.authClientId}&redirect_uri=${config.domain}`
+  const authParameters = `client_id=${config.apis.hmppsAuth.authClientId}&redirect_uri=${config.ingressUrl}`
 
   router.use('/sign-out', (req, res, next) => {
     const authSignOutUrl = `${authUrl}/sign-out?${authParameters}`

@@ -1,0 +1,12 @@
+name: Security npm dependency check
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "19 6 * * MON-FRI" # Every weekday
+jobs:
+  security-npm-dependency-check:
+    name: Project security npm dependency check
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/security_npm_dependency.yml@v1.0 # WORKFLOW_VERSION
+    with:
+      channel_id: C05J915DX0Q
+    secrets: inherit

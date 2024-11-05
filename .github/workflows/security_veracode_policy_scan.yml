@@ -1,0 +1,12 @@
+name: Security veracode policy scan
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "34 6 * * 1" # Every Monday
+jobs:
+  security-veracode-policy-check:
+    name: Project security veracode policy scan
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/security_veracode_policy_scan.yml@v1.0 # WORKFLOW_VERSION
+    with:
+      channel_id: C05J915DX0Q
+    secrets: inherit
