@@ -6,50 +6,15 @@ on:
      - '**'
   workflow_dispatch:
     inputs:
-      environment:
-        description: Environment
-        type: choice
-        required: true
-        options:
-          - dev
-          - preprod
-          - staging
-          - prod
-        default: 'dev'
-      version: # Only used when run manually - build.yml will include it - bump
-        description: Image version
-        type: string
-        required: true
-      docker_registry:
-        description: Docker registry
-        required: true
-        default: 'ghcr.io'
-        type: choice
-        options:
-          - 'ghcr.io'
-          - 'quay.io'
-      registry_org:
-        description: Docker registry organisation
-        required: true
-        default: 'ministryofjustice'
-        type: choice
-        options:
-          - 'ministryofjustice'
-          - 'hmpps'
       additional_docker_tag:
-        description: Additional docker tag that can be used to specify stable tags
+        description: Additional docker tag that can be used to specify stable or testing tags
         required: false
         default: ''
         type: string
       push:
         description: Push docker image to registry flag
         required: true
-        default: true
-        type: boolean
-      docker_multiplatform:
-        description: docker multiplatform build or not
-        required: true
-        default: true
+        default: false
         type: boolean
 
 permissions:
@@ -75,11 +40,14 @@ jobs:
     needs: [node_build]
     secrets: inherit
   helm_lint:
+    strategy:
+      matrix:
+        environments: ['dev','preprod','prod']
     name: helm lint
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/test_helm_lint.yml@v1 # WORKFLOW_VERSION
     secrets: inherit
     with:
-      environment: ${{ inputs.environment || 'dev' }}
+      environment: ${{ matrix.environments }}
   build:
     name: Build docker image from hmpps-github-actions
     if: github.ref == 'refs/heads/main'
@@ -88,11 +56,11 @@ jobs:
       - node_integration_tests
       - node_unit_tests
     with:
-      docker_registry: ${{ inputs.docker_registry || 'ghcr.io' }}
-      registry_org: ${{ inputs.registry_org || 'ministryofjustice' }}
+      docker_registry: 'ghcr.io'
+      registry_org: 'ministryofjustice'
       additional_docker_tag: ${{ inputs.additional_docker_tag }}
       push: ${{ inputs.push || true }}
-      docker_multiplatform: ${{ inputs.docker_multiplatform || false }}
+      docker_multiplatform: true
   deploy_dev:
     name: Deploy to the development environment 
     needs: 
@@ -102,7 +70,7 @@ jobs:
     secrets: inherit
     with:
       environment: 'dev'
-      app_version: '${{ needs.build.outputs.app_version }}'
+      app_version: '${{ needs.build.outputs.app_version }} }}'
   # deploy_preprod:
   #   name: Deploy to pre-production environment
   #   needs: 
