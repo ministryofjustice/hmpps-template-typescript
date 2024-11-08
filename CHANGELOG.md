@@ -1,5 +1,12 @@
 # Change log
 
+**November 5th 2024** - Disable 301 redirects on missing static content folders
+
+Previously a non-existent static resource returned a 301 without the appropriate CSP response header.
+Now it will return a 404 with the correct header. This was an issue flagged by ZAP
+
+See PR [#383](https://github.com/ministryofjustice/hmpps-template-typescript/pull/383)
+
 **October 29th 2024** - Move to node 22
 
 Node 22 is now LTS. Notes [here](https://nodejs.org/en/blog/announcements/v22-release-announce)
