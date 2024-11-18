@@ -68,14 +68,6 @@ sed -i -z -E \
   -e "s/PROD_ALERTS_SEVERITY_LABEL/$PROD_ALERTS_SEVERITY_LABEL/" \
   helm_deploy/values-prod.yaml
 
-# change cron job to be random time otherwise we hit rate limiting with veracode
-RANDOM_HOUR=$((RANDOM % (9 - 3 + 1) + 3))
-RANDOM_MINUTE=$(($RANDOM%60))
-RANDOM_MINUTE2=$(($RANDOM%60))
-sed -i -z -E \
-  -e "s/SLACK_RELEASES_CHANNEL/$SLACK_RELEASES_CHANNEL/" \
-  .circleci/config.yml
-
 # lastly remove ourselves
 rm rename-project.bash
 
