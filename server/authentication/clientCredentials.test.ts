@@ -2,7 +2,8 @@ import generateOauthClientToken from './clientCredentials'
 
 describe('generateOauthClientToken', () => {
   it('Token can be generated', () => {
-    expect(generateOauthClientToken('bob', 'password1')).toBe('Basic Ym9iOnBhc3N3b3JkMQ==')
+    const base64Creds = Buffer.from('bob:secret').toString('base64')
+    expect(generateOauthClientToken('bob', 'secret')).toBe(`Basic ${base64Creds}`)
   })
 
   it('Token can be generated with special characters', () => {
