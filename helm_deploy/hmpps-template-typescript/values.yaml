@@ -31,7 +31,6 @@ generic-service:
     REDIS_ENABLED: 'true'
     REDIS_TLS_ENABLED: 'true'
     TOKEN_VERIFICATION_ENABLED: 'true'
-    APPLICATIONINSIGHTS_CONNECTION_STRING: 'InstrumentationKey=$(APPINSIGHTS_INSTRUMENTATIONKEY);IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/;LiveEndpoint=https://northeurope.livediagnostics.monitor.azure.com/'
     AUDIT_SQS_REGION: 'eu-west-2'
     AUDIT_SERVICE_NAME: 'UNASSIGNED' # Your audit service name
 
@@ -51,10 +50,11 @@ generic-service:
       REDIS_HOST: 'primary_endpoint_address'
       REDIS_AUTH_TOKEN: 'auth_token'
     application-insights:
-      APPINSIGHTS_INSTRUMENTATIONKEY: 'APPINSIGHTS_INSTRUMENTATIONKEY'
-    #sqs-hmpps-audit-secret:
-    #  AUDIT_SQS_QUEUE_URL: "sqs_queue_url"
-    #  AUDIT_SQS_QUEUE_NAME: "sqs_queue_name"
+      APPLICATIONINSIGHTS_CONNECTION_STRING: "APPLICATIONINSIGHTS_CONNECTION_STRING"
+    # This secret will need to be created in your namespace (note it isn't in hmpps-templates-dev)
+    # IRSA configuration in your namespace will also be required, and then uncomment serviceAccountName above.
+    # sqs-hmpps-audit-secret:
+    #   AUDIT_SQS_QUEUE_URL: 'sqs_queue_url'
 
   allowlist:
     groups:
