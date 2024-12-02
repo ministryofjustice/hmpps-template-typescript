@@ -1,5 +1,17 @@
 # Change log
 
+**November 29th 2024** - Moving to the new monitoring library
+
+There's a new set of [shared libraries](https://github.com/ministryofjustice/hmpps-typescript-lib) which should allow us to share code more efficiently than current approaches.
+
+The first of these is a [new library](https://github.com/ministryofjustice/hmpps-typescript-lib/tree/main/packages/monitoring) which wraps the 3 common endpoints used for monitoring and strives to ensure that services have health monitoring of it's dependencies.
+
+The library will attempt to self-install itself by running it via npx: `npx @ministryofjustice/hmpps-monitoring`
+
+It will then prompt you to perform some manual tasks - if you have stub tests for your health endpoints you might need add some additional stubbing.  
+
+See PR [#479](https://github.com/ministryofjustice/hmpps-template-typescript/pull/479)
+
 **November 18th 2024** - Moving away from csurf and to csrf-sync
 
 [csurf](https://www.npmjs.com/package/csurf) has been deprecated for some time and this removes that dependency and implements the [synchronizer token pattern](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#transmissing-csrf-tokens-in-synchronized-patterns) using [csrf-sync](https://www.npmjs.com/package/csrf-sync).
