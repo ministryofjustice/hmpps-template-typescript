@@ -1,4 +1,4 @@
-import superagent, { SuperAgentRequest, Response } from 'superagent'
+import superagent, { type SuperAgentRequest, type Response } from 'superagent'
 
 const url = 'http://localhost:9091/__admin'
 
