@@ -6,7 +6,7 @@ on:
 jobs:
   security-veracode-policy-check:
     name: Project security veracode policy scan
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/security_veracode_policy_scan.yml@v1.0 # WORKFLOW_VERSION
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/security_veracode_policy_scan.yml@v2 # WORKFLOW_VERSION
     with:
       channel_id: C05J915DX0Q
     secrets: inherit
