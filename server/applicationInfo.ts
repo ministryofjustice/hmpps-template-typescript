@@ -9,7 +9,7 @@ export type ApplicationInfo = {
   buildNumber: string
   gitRef: string
   gitShortHash: string
-  productId?: string
+  productId: string
   branchName: string
 }
 
