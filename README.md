@@ -56,19 +56,18 @@ other departments projects. Try to avoid using abbreviations so that others can 
 
 ### Slack channel for release notifications
 
-By default, release notifications are only enabled for production. The circleci configuration can be amended to send
+By default, release notifications are only enabled for production. The github pipeline configuration can be amended to send
 release notifications for deployments to other environments if required. Note that if the configuration is amended,
-the slack channel should then be amended to your own team's channel as `dps-releases` is strictly for production release
-notifications. If the slack channel is set to something other than `dps-releases`, production release notifications
-will still automatically go to `dps-releases` as well. This is configured by `releases-slack-channel` in
-`.circleci/config.yml`.
+the slack channel should then be amended to your own team's channel as `hmpps-releases` (previously called `dps-releases`) is strictly for production release
+notifications. If the slack channel is set to something other than `hmpps-releases`, production release notifications
+will still automatically go to `hmpps-releases` as well. This is configured by by setting a github actions environment variable called `RELEASE_NOTIFICATIONS_SLACK_CHANNEL_ID`.
 
 ### Slack channel for pipeline security notifications
 
 Ths channel should be specific to your team and is for daily / weekly security scanning job results. It is your team's
 responsibility to keep up-to-date with security issues and update your application so that these jobs pass. You will
-only be notified if the jobs fail. The scan results can always be found in circleci for your project. This is
-configured by `alerts-slack-channel` in `.circleci/config.yml`.
+only be notified if the jobs fail. The scan results can always be found in github actions and results are sent to the github security tab. This is
+configured by setting github actions environment variable called `SECURITY_ALERTS_SLACK_CHANNEL_ID`.
 
 ### Non production kubernetes alerts
 
@@ -172,7 +171,7 @@ Install dependencies using `npm install`, ensuring you are using `node v20`
 
 Note: Using `nvm` (or [fnm](https://github.com/Schniz/fnm)), run `nvm install --latest-npm` within the repository folder
 to use the correct version of node, and the latest version of npm. This matches the `engines` config in `package.json`
-and the CircleCI build config.
+and the github pipeline build config.
 
 And then, to build the assets and start the app with esbuild:
 
