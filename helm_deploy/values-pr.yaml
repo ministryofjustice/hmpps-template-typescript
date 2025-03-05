@@ -1,0 +1,41 @@
+---
+# Per environment values which override defaults in hmpps-template-typescript/values.yaml
+
+generic-service:
+  replicaCount: 1
+
+  ingress:
+    host: template-typescript-dev.hmpps.service.justice.gov.uk
+
+  env:
+    INGRESS_URL: "https://template-typescript-dev.hmpps.service.justice.gov.uk"
+    HMPPS_AUTH_URL: "https://hmpps-auth:8080/auth"
+    TOKEN_VERIFICATION_API_URL: "https://token-verification-api-dev.prison.service.justice.gov.uk"
+    TOKEN_VERIFICATION_ENABLED: false
+    ENVIRONMENT_NAME: DEV
+    AUDIT_ENABLED: "false"
+
+  extraContainers:
+    - name: hmpps-auth
+      image: ghcr.io/ministryofjustice/hmpps-auth-stub:latest
+      imagePullPolicy: IfNotPresent
+      env:
+        - name: PORT
+          value: '8080'
+        - name: PRODUCT_ID
+          value: 'AUTH_STUB'
+        - name: INGRESS_URL
+          value: 'https://hmpps-auth:8080/auth'
+      ports:
+        - name: http
+          containerPort: 8090
+          protocol: TCP
+
+  allowlist:
+    groups:
+      - circleci
+      - internal
+      - prisons
+
+generic-prometheus-alerts:
+  alertSeverity:
