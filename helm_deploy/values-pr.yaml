@@ -9,7 +9,7 @@ generic-service:
 
   env:
     INGRESS_URL: "https://template-typescript-dev.hmpps.service.justice.gov.uk"
-    HMPPS_AUTH_URL: "http://hmpps-auth:9090/auth"
+    HMPPS_AUTH_URL: "https://sign-in-dev.hmpps.service.justice.gov.uk/auth"
     EXAMPLE_API_URL: 'http://hmpps-template-kotlin:8080'
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api-dev.prison.service.justice.gov.uk"
     TOKEN_VERIFICATION_ENABLED: false
@@ -17,30 +17,12 @@ generic-service:
     AUDIT_ENABLED: "false"
 
   extraContainers:
-    - name: hmpps-auth
-      image: ghcr.io/ministryofjustice/hmpps-auth-stub:latest
-      imagePullPolicy: IfNotPresent
-      env:
-        - name: PORT
-          value: '9090'
-        - name: PRODUCT_ID
-          value: 'AUTH_STUB'
-        - name: INGRESS_URL
-          value: 'http://hmpps-auth:9090/auth'
-      ports:
-        - name: http
-          containerPort: 9090
-          protocol: TCP
     - name: hmpps-template-kotlin
       image: ghcr.io/ministryofjustice/hmpps-template-kotlin:latest
       imagePullPolicy: IfNotPresent
       env:
-        - name: SERVER_PORT
-          value: '8080'
         - name: HMPPS_AUTH_URL
-          value: 'http://hmpps-auth:9090/auth'
-        - name: SPRING_PROFILES_ACTIVE
-          value: 'dev'
+          value: 'https://sign-in-dev.hmpps.service.justice.gov.uk/auth'
       ports:
         - name: http
           containerPort: 8080
