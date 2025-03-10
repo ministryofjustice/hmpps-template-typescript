@@ -1,0 +1,68 @@
+name: Deploy Ephemeral Environment (PR)
+
+on:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  prepare_deployment_context:
+    name: Prepare deployment context/variables
+    runs-on: ubuntu-latest
+    outputs:
+      ephemeral_deployment_name: ${{ steps.export_values.outputs.ephemeral_deployment_name }}
+      image_tag: ${{ steps.export_values.outputs.image_tag }}
+      ingress_host: ${{ steps.export_values.outputs.ingress_host }}
+      release_name: ${{ steps.export_values.outputs.release_name }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Export values
+        id: export_values
+        shell: bash
+        run: |
+          ephemeral_deployment_name="pr-${{ github.event.pull_request.number }}"
+          image_tag="pr-${{ github.event.pull_request.number }}"
+          ingress_host="${ephemeral_deployment_name}.$(yq '.generic-service.ingress.host' helm_deploy/values-dev.yaml)"
+          release_name="${{ github.event.repository.name }}-${ephemeral_deployment_name}"
+        
+          echo "ephemeral_deployment_name=$ephemeral_deployment_name" >> "$GITHUB_OUTPUT"
+          echo "image_tag=$image_tag" >> "$GITHUB_OUTPUT"
+          echo "ingress_host=$ingress_host" >> "$GITHUB_OUTPUT"
+          echo "release_name=$release_name" >> "$GITHUB_OUTPUT"
+
+  build_docker:
+    name: Build docker image
+    needs:
+      - prepare_deployment_context
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/docker_build.yml@v2
+    with:
+      docker_registry: 'ghcr.io'
+      registry_org: 'ministryofjustice'
+      tag_latest: false
+      additional_docker_tag: ${{ needs.prepare_deployment_context.outputs.image_tag }}
+      push: true
+      docker_multiplatform: false
+
+  deploy_dev:
+    name: Deploy to the development environment
+    needs:
+      - build_docker
+      - prepare_deployment_context
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@custom-release-name
+    secrets: inherit
+    with:
+      environment: 'dev'
+      environment_url: 'https://${{ needs.prepare_deployment_context.outputs.ingress_host }}'
+      app_version: '${{ needs.build_docker.outputs.app_version }}'
+      helm_release_name: ${{ needs.prepare_deployment_context.outputs.release_name }}
+      helm_additional_args: >-
+        --values 'helm_deploy/values-pr.yaml'
+        --set generic-service.ingress.host=${{ needs.prepare_deployment_context.outputs.ingress_host }}
+        --set generic-service.image.tag=${{ needs.prepare_deployment_context.outputs.ephemeral_deployment_name }}
+        --set generic-service.nameOverride=${{ needs.prepare_deployment_context.outputs.release_name }}
+        --set generic-prometheus-alerts.targetApplication=${{ needs.prepare_deployment_context.outputs.release_name }}
+        --set generic-service.env.EPHEMERAL_DEPLOYMENT_NAME=${{ needs.prepare_deployment_context.outputs.ephemeral_deployment_name }}
