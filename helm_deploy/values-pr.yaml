@@ -35,4 +35,4 @@ generic-service:
       - prisons
 
 generic-prometheus-alerts:
-  alertSeverity:
+  alertSeverity: NON_PROD_ALERTS_SEVERITY_LABEL
