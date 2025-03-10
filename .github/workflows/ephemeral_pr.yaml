@@ -15,7 +15,6 @@ jobs:
       ephemeral_deployment_name: ${{ steps.export_values.outputs.ephemeral_deployment_name }}
       image_tag: ${{ steps.export_values.outputs.image_tag }}
       ingress_host: ${{ steps.export_values.outputs.ingress_host }}
-      auth_ingress_host: ${{ steps.export_values.outputs.auth_ingress_host }}
       release_name: ${{ steps.export_values.outputs.release_name }}
     steps:
       - name: Check out code
@@ -28,13 +27,11 @@ jobs:
           ephemeral_deployment_name="pr-${{ github.event.pull_request.number }}"
           image_tag="pr-${{ github.event.pull_request.number }}"
           ingress_host="${ephemeral_deployment_name}.$(yq '.generic-service.ingress.host' helm_deploy/values-dev.yaml)"
-          auth_ingress_host="auth.${ephemeral_deployment_name}.$(yq '.generic-service.ingress.host' helm_deploy/values-dev.yaml)"
           release_name="${{ github.event.repository.name }}-${ephemeral_deployment_name}"
         
           echo "ephemeral_deployment_name=$ephemeral_deployment_name" >> "$GITHUB_OUTPUT"
           echo "image_tag=$image_tag" >> "$GITHUB_OUTPUT"
           echo "ingress_host=$ingress_host" >> "$GITHUB_OUTPUT"
-          echo "auth_ingress_host=$auth_ingress_host" >> "$GITHUB_OUTPUT"
           echo "release_name=$release_name" >> "$GITHUB_OUTPUT"
 
   build_docker:
@@ -69,4 +66,3 @@ jobs:
         --set generic-service.nameOverride=${{ needs.prepare_deployment_context.outputs.release_name }}
         --set generic-prometheus-alerts.targetApplication=${{ needs.prepare_deployment_context.outputs.release_name }}
         --set generic-service.env.EPHEMERAL_DEPLOYMENT_NAME=${{ needs.prepare_deployment_context.outputs.ephemeral_deployment_name }}
-        --set generic-service.env.HMPPS_AUTH_EXTERNAL_URL=${{ needs.prepare_deployment_context.outputs.auth_ingress_host }}
