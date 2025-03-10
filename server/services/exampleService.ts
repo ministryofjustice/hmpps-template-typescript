@@ -1,31 +1,9 @@
-import { asSystem } from '@ministryofjustice/hmpps-rest-client'
 import ExampleApiClient from '../data/exampleApiClient'
 
 export default class ExampleService {
   constructor(private readonly exampleApiClient: ExampleApiClient) {}
 
   getCurrentTime() {
-    return this.exampleApiClient.get({ path: '/example/time' }, asSystem())
+    return this.exampleApiClient.getCurrentTime()
   }
-
-  /**
-   * If wanting to make a call using the User's access token
-   *
-   * import { asUser } from '@ministryofjustice/hmpps-rest-client'
-   *
-   *   getCurrentTime(token: string) {
-   *     return this.exampleApiClient.get({ path: '/example/time' }, asUser(token))
-   *   }
-   */
-
-  /**
-   * If wanting to make a call using a System token,
-   * tied to a User (i.e. for backend auditing purposes)
-   *
-   * import { asUser } from '@ministryofjustice/hmpps-rest-client'
-   *
-   *   getCurrentTime(token: string) {
-   *     return this.exampleApiClient.get({ path: '/example/time' }, asSystem(username))
-   *   }
-   */
 }
