@@ -16,16 +16,21 @@ import RedisTokenStore from './tokenStore/redisTokenStore'
 import InMemoryTokenStore from './tokenStore/inMemoryTokenStore'
 import config from '../config'
 import HmppsAuditClient from './hmppsAuditClient'
+import ExampleApiClient from './exampleApiClient'
 
 type RestClientBuilder<T> = (token: string) => T
 
-export const dataAccess = () => ({
-  applicationInfo,
-  hmppsAuthClient: new HmppsAuthClient(
-    config.redis.enabled ? new RedisTokenStore(createRedisClient()) : new InMemoryTokenStore(),
-  ),
-  hmppsAuditClient: new HmppsAuditClient(config.sqs.audit),
-})
+export const dataAccess = () => {
+  const tokenStore = config.redis.enabled ? new RedisTokenStore(createRedisClient()) : new InMemoryTokenStore()
+
+  return {
+    applicationInfo,
+    tokenStore,
+    hmppsAuthClient: new HmppsAuthClient(tokenStore),
+    hmppsAuditClient: new HmppsAuditClient(config.sqs.audit),
+    exampleApiClient: new ExampleApiClient(tokenStore),
+  }
+}
 
 export type DataAccess = ReturnType<typeof dataAccess>
 
