@@ -15,7 +15,7 @@ export default class ExampleApiClient extends RestClient {
    *
    */
   getCurrentTime() {
-    return this.get({ path: '/example/time' }, asSystem())
+    return this.get<string>({ path: '/example/time' }, asSystem())
   }
 
   /**
