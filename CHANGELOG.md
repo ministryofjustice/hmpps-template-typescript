@@ -1,5 +1,21 @@
 # Change log
 
+**March 7th 2025** - Fix issue with AppInsights
+
+Requests for routes that define multiple patterns were failing to be processed by appinsights and were not being exported e.g:
+
+```ts
+get(['/', '/:monitorType/:monitorName'], async (req, res) => {..
+```
+
+This would coerce the array into a string and fail with an error from app insights complaining about not accepting `,`s
+
+This now reports these kind of paths as an operation with a name like:
+
+`GET "/" | "/:monitorType/:monitorName"`
+
+See PR [#521](https://github.com/ministryofjustice/hmpps-template-typescript/pull/521)
+
 **November 29th 2024** - Moving to the new monitoring library
 
 There's a new set of [shared libraries](https://github.com/ministryofjustice/hmpps-typescript-lib) which should allow us to share code more efficiently than current approaches.
