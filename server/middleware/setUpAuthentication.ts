@@ -5,7 +5,7 @@ import { Strategy } from 'passport-oauth2'
 import { VerificationClient, AuthenticatedRequest } from '@ministryofjustice/hmpps-auth-clients'
 import config from '../config'
 import { HmppsUser } from '../interfaces/hmppsUser'
-import generateOauthClientToken from '../authentication/clientCredentials'
+import generateOauthClientToken from '../utils/clientCredentials'
 import logger from '../../logger'
 
 passport.serializeUser((user, done) => {
