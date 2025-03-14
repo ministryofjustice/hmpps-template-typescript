@@ -2,10 +2,13 @@ import type { Express } from 'express'
 import request from 'supertest'
 import { appWithAllRoutes, user } from './testutils/appSetup'
 import AuditService, { Page } from '../services/auditService'
+import ExampleService from '../services/exampleService'
 
 jest.mock('../services/auditService')
+jest.mock('../services/exampleService')
 
 const auditService = new AuditService(null) as jest.Mocked<AuditService>
+const exampleService = new ExampleService(null) as jest.Mocked<ExampleService>
 
 let app: Express
 
@@ -13,6 +16,7 @@ beforeEach(() => {
   app = appWithAllRoutes({
     services: {
       auditService,
+      exampleService,
     },
     userSupplier: () => user,
   })
@@ -35,6 +39,7 @@ describe('GET /', () => {
           who: user.username,
           correlationId: expect.any(String),
         })
+        expect(exampleService.getCurrentTime).toHaveBeenCalled()
       })
   })
 })
