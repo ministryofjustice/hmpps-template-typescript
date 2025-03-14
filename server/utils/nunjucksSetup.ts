@@ -12,6 +12,7 @@ export default function nunjucksSetup(app: express.Express): void {
 
   app.locals.asset_path = '/assets/'
   app.locals.applicationName = 'HMPPS Typescript Template'
+  app.locals.deploymentName = config.deploymentName
   app.locals.environmentName = config.environmentName
   app.locals.environmentNameColour = config.environmentName === 'PRE-PRODUCTION' ? 'govuk-tag--green' : ''
   let assetManifest: Record<string, string> = {}

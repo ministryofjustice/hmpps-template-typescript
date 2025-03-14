@@ -14,7 +14,7 @@ generic-service:
     EXAMPLE_API_URL: 'http://hmpps-template-kotlin:8080'
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api-dev.prison.service.justice.gov.uk"
     TOKEN_VERIFICATION_ENABLED: false
-    EPHEMERAL_DEPLOYMENT_NAME: PR-$PR_NUMBER
+    DEPLOYMENT_NAME: PR-$PR_NUMBER
     ENVIRONMENT_NAME: DEV
     AUDIT_ENABLED: "false"
 
