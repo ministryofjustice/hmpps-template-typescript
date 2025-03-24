@@ -13,6 +13,7 @@ K8S_NAMESPACE_SECRETS_FILE = docker/namespace-secrets.yaml
 DEV_COMPOSE_FILES = -f docker/docker-compose.base.yml -f docker/docker-compose.local.yml
 REMOTE_COMPOSE_FILES = -f docker/docker-compose.base.yml -f docker/docker-compose.remote.yml
 TEST_COMPOSE_FILES = -f docker/docker-compose.base.yml -f docker/docker-compose.test.yml
+TEST_HEADLESS_COMPOSE_FILES = -f docker/docker-compose.base.yml -f docker/docker-compose.test.yml -f docker/docker-compose.test-headless.yml
 
 export COMPOSE_PROJECT_NAME=${PROJECT_NAME}
 
@@ -37,11 +38,17 @@ down: ## Stops and removes all containers in the project.
 test: ## Runs the unit test suite.
 	docker compose exec ${SERVICE_NAME} npm run test
 
-e2e: ## Run the end-to-end tests locally in the Cypress app..
-	@make install-node-modules
-	docker compose ${TEST_COMPOSE_FILES} up ${SERVICE_NAME} --wait
-	npx cypress install
-	npx cypress open --e2e -c experimentalInteractiveRunEvents=true
+e2e: ## Run the end-to-end tests locally (Cypress app by default, headless if HEADLESS=true)
+	@if [ "$(HEADLESS)" = "true" ]; then \
+		echo "Running Cypress in headless mode..."; \
+		docker compose $(TEST_HEADLESS_COMPOSE_FILES) run --quiet-pull --rm cypress; \
+	else \
+		echo "Running Cypress in interactive mode..."; \
+		docker compose $(TEST_COMPOSE_FILES) up $(SERVICE_NAME) --wait; \
+		npx cypress install; \
+		npx cypress open --e2e -c experimentalInteractiveRunEvents=true; \
+	fi
+	docker compose stop wiremock
 
 lint: ## Runs the linter.
 	docker compose exec ${SERVICE_NAME} npm run lint

@@ -1,0 +1,21 @@
+# docker-compose.test-headless.yml is used to spin up the app specifically
+# for integration testing in a completely headless deployment.
+
+services:
+  hmpps-template-typescript:
+    environment:
+      INGRESS_URL: http://hmpps-template-typescript:3000
+      HMPPS_AUTH_URL: http://wiremock:8080/auth
+      HMPPS_AUTH_EXTERNAL_URL: http://wiremock:8080/auth
+
+  cypress:
+    image: cypress/included
+    depends_on:
+      - wiremock
+      - hmpps-template-typescript
+    environment:
+      CYPRESS_BASE_URL: http://hmpps-template-typescript:3000
+      WIREMOCK_URL: 'http://wiremock:8080'
+    volumes:
+      - ../:/integration_tests
+    working_dir: /integration_tests
