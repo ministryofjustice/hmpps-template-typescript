@@ -28,12 +28,6 @@ ENV BUILD_NUMBER=${BUILD_NUMBER}
 ENV GIT_REF=${GIT_REF}
 ENV GIT_BRANCH=${GIT_BRANCH}
 
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get autoremove -y && \
-    apt-get install -y make g++ curl && \
-    rm -rf /var/lib/apt/lists/*
-
 FROM base AS development
 
 ARG BUILD_NUMBER
