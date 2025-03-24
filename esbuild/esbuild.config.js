@@ -9,6 +9,20 @@ const buildApp = require('./app.config')
 const cwd = process.cwd()
 
 /**
+ * Simple debounce helper
+ * @param {Function} fn - The function to debounce
+ * @param {number} delay - The delay in ms
+ * @returns {Function}
+ */
+function debounce(fn, delay = 200) {
+  let timeout
+  return (...args) => {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => fn(...args), delay)
+  }
+}
+
+/**
  * Configuration for build steps
  * @type {BuildConfig}
  */
@@ -60,30 +74,28 @@ const main = () => {
 
   if (args.includes('--dev-server')) {
     let serverProcess = null
-    chokidar.watch(['dist']).on('all', () => {
-      if (serverProcess) serverProcess.kill()
-      serverProcess = spawn('node', ['--env-file=.env', 'dist/server.js'], { stdio: 'inherit' })
-    })
-  }
-  if (args.includes('--dev-test-server')) {
-    let serverProcess = null
-    chokidar.watch(['dist']).on('all', () => {
-      if (serverProcess) serverProcess.kill()
-      serverProcess = spawn('node', ['--env-file=feature.env', 'dist/server.js'], { stdio: 'inherit' })
-    })
+    chokidar.watch(['dist']).on(
+      'all',
+      debounce(() => {
+        if (serverProcess) serverProcess.kill()
+        serverProcess = spawn('node', ['--inspect=0.0.0.0', 'dist/server.js'], { stdio: 'inherit' })
+      }),
+    )
   }
 
   if (args.includes('--watch')) {
     process.stderr.write('\u{1b}[1m\u{1F52D} Watching for changes...\u{1b}[0m\n')
     // Assets
-    chokidar
-      .watch(['assets/**/*'], chokidarOptions)
-      .on('all', () => buildAssets(buildConfig).catch(e => process.stderr.write(`${e}\n`)))
+    chokidar.watch(['assets/**/*'], chokidarOptions).on(
+      'all',
+      debounce(() => buildAssets(buildConfig).catch(e => process.stderr.write(`${e}\n`))),
+    )
 
     // App
-    chokidar
-      .watch(['server/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts'] })
-      .on('all', () => buildApp(buildConfig).catch(e => process.stderr.write(`${e}\n`)))
+    chokidar.watch(['server/**/*'], { ...chokidarOptions, ignored: ['**/*.test.ts'] }).on(
+      'all',
+      debounce(() => buildApp(buildConfig).catch(e => process.stderr.write(`${e}\n`))),
+    )
   }
 }
 
