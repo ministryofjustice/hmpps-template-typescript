@@ -2,33 +2,36 @@
 # Other compose files (local, remote, test) extend or override these settings as needed.
 
 services:
+  redis:
+    image: redis:7.4
+    ports:
+      - "6379:6379"
+    environment:
+      ALLOW_EMPTY_PASSWORD: yes
+
   hmpps-template-typescript:
     image: hmpps-template-typescript:latest
+    depends_on:
+      - redis
     build:
-      target: development
-    command: npm run start:dev
+      context: ../
+      target: production
+      args:
+        BUILD_NUMBER: "1.0.0"
+        GIT_REF: "a1b2c3"
+        GIT_BRANCH: main
+    command: npm run start
     ports:
       - "3000:3000"
       - "9229:9229"
     environment:
       PRODUCT_ID: 'UNASSIGNED'
-      REDIS_ENABLED: false
+      REDIS_ENABLED: true
       REDIS_HOST: redis
       SESSION_SECRET: somesecretvalue
       INGRESS_URL: http://localhost:3000
       NO_HTTPS: true
-      HMPPS_AUTH_URL: http://hmpps-auth:8080/auth
-      HMPPS_AUTH_EXTERNAL_URL: http://localhost:9090/auth
       AUTH_CODE_CLIENT_ID: hmpps-typescript-template
       AUTH_CODE_CLIENT_SECRET: clientsecret
       CLIENT_CREDS_CLIENT_ID: hmpps-typescript-template-system
       CLIENT_CREDS_CLIENT_SECRET: clientsecret
-      TOKEN_VERIFICATION_ENABLED: false
-    volumes:
-      - ../:/app:cached
-      - node_modules:/app/node_modules
-
-volumes:
-  node_modules:
-    external: true # volume gets setup by `make install-node-modules`
-    name: ${COMPOSE_PROJECT_NAME}_node_modules
