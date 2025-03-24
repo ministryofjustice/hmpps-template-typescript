@@ -1,4 +1,3 @@
-# Stage: base image
 FROM node:22-alpine AS base
 
 LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
@@ -29,36 +28,40 @@ ENV BUILD_NUMBER=${BUILD_NUMBER}
 ENV GIT_REF=${GIT_REF}
 ENV GIT_BRANCH=${GIT_BRANCH}
 
-# Stage: build assets
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get autoremove -y && \
+    apt-get install -y make g++ curl && \
+    rm -rf /var/lib/apt/lists/*
+
+FROM base AS development
+
+ARG BUILD_NUMBER
+ARG GIT_REF
+ARG GIT_BRANCH
+
+ENV BUILD_NUMBER ${BUILD_NUMBER}
+ENV GIT_REF ${GIT_REF}
+ENV NODE_ENV='development'
+
 FROM base AS build
 
 ARG BUILD_NUMBER
 ARG GIT_REF
 ARG GIT_BRANCH
 
-COPY package*.json ./
-RUN CYPRESS_INSTALL_BINARY=0 npm ci --no-audit
-ENV NODE_ENV='production'
-
 COPY . .
+RUN rm -rf dist node_modules
+RUN CYPRESS_INSTALL_BINARY=0 npm ci --no-audit
 RUN npm run build
 
 RUN npm prune --no-audit --omit=dev
 
-# Stage: copy production assets and dependencies
-FROM base
+FROM base AS production
 
-COPY --from=build --chown=appuser:appgroup \
-        /app/package.json \
-        /app/package-lock.json \
-        ./
-
-COPY --from=build --chown=appuser:appgroup \
-        /app/dist ./dist
-
-COPY --from=build --chown=appuser:appgroup \
-        /app/node_modules ./node_modules
-
+COPY --from=build --chown=appuser:appgroup /app/package.json /app/package-lock.json ./
+COPY --from=build --chown=appuser:appgroup /app/dist ./dist
+COPY --from=build --chown=appuser:appgroup /app/node_modules ./node_modules
 EXPOSE 3000
 ENV NODE_ENV='production'
 USER 2000
