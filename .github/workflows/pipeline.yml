@@ -55,40 +55,6 @@ jobs:
     with:
       app_version: ${{ needs.build_docker.outputs.app_version }}
 
-  publish-test-results:
-    name: publish tests results
-    needs: [node_integration_tests, node_unit_tests]
-    runs-on: ubuntu-latest
-    permissions:
-      checks: write
-      pull-requests: write
-    if: always()
-
-    steps:
-      - name: Download Unit Test Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: unit_test_artifacts
-          pattern: npm_unit_test_artifacts
-
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@170bf24d20d201b842d7a52403b73ed297e6645b # v2.18.0
-        with:
-          files: "unit_test_artifacts/**/*.xml"
-          check_name: "Unit Test Results"
-
-      - name: Download Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts
-          pattern: test_results_*
-
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@170bf24d20d201b842d7a52403b73ed297e6645b # v2.18.0
-        with:
-          files: "artifacts/**/*.xml"
-          check_name: "Cypress Test Results"
-
   publish_docker:
     name: Publish docker image
     if: github.ref == 'refs/heads/main'
