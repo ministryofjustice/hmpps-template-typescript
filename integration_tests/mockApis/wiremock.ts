@@ -1,6 +1,6 @@
 import superagent, { type SuperAgentRequest, type Response } from 'superagent'
 
-const url = 'http://localhost:9091/__admin'
+const url = `${process.env.WIREMOCK_URL ?? 'http://localhost:9091'}/__admin`
 
 const stubFor = (mapping: Record<string, unknown>): SuperAgentRequest =>
   superagent.post(`${url}/mappings`).send(mapping)

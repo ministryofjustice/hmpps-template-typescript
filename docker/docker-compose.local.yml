@@ -1,0 +1,34 @@
+# `docker-compose.local.yml` defines services that must be run locally
+# to support a fully self-contained local development environment.
+# Unlike `docker-compose.remote.yml`, no shared or remote infrastructure is used.
+
+services:
+  hmpps-auth:
+    image: quay.io/hmpps/hmpps-auth:latest
+    ports:
+      - "9090:8080"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/auth/health" ]
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      APPLICATION_AUTHENTICATION_UI_ALLOWLIST: 0.0.0.0/0
+
+  hmpps-template-typescript:
+    build:
+      target: development
+    command: npm run start:dev
+    depends_on:
+      - hmpps-auth
+    volumes:
+      - ../:/app:cached
+      - node_modules:/app/node_modules
+    environment:
+      TOKEN_VERIFICATION_ENABLED: false
+      TOKEN_VERIFICATION_API_URL: http://localhost:9090/verification
+      HMPPS_AUTH_URL: http://hmpps-auth:8080/auth
+      HMPPS_AUTH_EXTERNAL_URL: http://localhost:9090/auth
+
+volumes:
+  node_modules:
+    external: true # volume gets setup by `make install-node-modules`
+    name: ${COMPOSE_PROJECT_NAME}_node_modules

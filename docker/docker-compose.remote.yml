@@ -1,0 +1,26 @@
+# `docker-compose.remote.yml` is used to spin up a local deployment that
+# connects to HMPPS dev environment rather than running each required service locally.
+# It relies on a .env file to provide credentials/secrets for these remote services.
+# URLs configured here point will point the dev environment.
+
+services:
+  hmpps-template-typescript:
+    build:
+      target: development
+    command: npm run start:dev
+    environment:
+      AUTH_CODE_CLIENT_ID: ${AUTH_CODE_CLIENT_ID}
+      AUTH_CODE_CLIENT_SECRET: ${AUTH_CODE_CLIENT_SECRET}
+      CLIENT_CREDS_CLIENT_ID: ${CLIENT_CREDS_CLIENT_ID}
+      CLIENT_CREDS_CLIENT_SECRET: ${CLIENT_CREDS_CLIENT_SECRET}
+      HMPPS_AUTH_URL: ${HMPPS_AUTH_URL}
+      TOKEN_VERIFICATION_ENABLED: false
+      TOKEN_VERIFICATION_API_URL: ${TOKEN_VERIFICATION_API_URL}
+    volumes:
+      - ../:/app:cached
+      - node_modules:/app/node_modules
+
+volumes:
+  node_modules:
+    external: true # volume gets setup by `make install-node-modules`
+    name: ${COMPOSE_PROJECT_NAME}_node_modules

@@ -1,0 +1,30 @@
+# docker-compose.test.yml is used to spin up the app specifically for integration testing.
+# It stacks on top of either `docker-compose.local.yml` or `docker-compose.remote.yml`,
+# allowing tests to run against fully local deployments or against dev environment services.
+
+services:
+  wiremock:
+    image: wiremock/wiremock
+    container_name: wiremock
+    restart: always
+    ports:
+      - "9091:8080"
+
+  hmpps-template-typescript:
+    build:
+      target: production
+    depends_on:
+      - wiremock
+    command: npm run start
+    ports:
+      - "3007:3000"
+    environment:
+      AUTH_CODE_CLIENT_ID: clientid
+      AUTH_CODE_CLIENT_SECRET: clientsecret
+      CLIENT_CREDS_CLIENT_ID: clientid
+      CLIENT_CREDS_CLIENT_SECRET: clientsecret
+      HMPPS_AUTH_URL: http://wiremock:8080/auth
+      HMPPS_AUTH_EXTERNAL_URL: http://localhost:9091/auth
+      TOKEN_VERIFICATION_API_URL: http://wiremock:8080/verification
+      TOKEN_VERIFICATION_ENABLED: true
+      ENVIRONMENT_NAME: dev
