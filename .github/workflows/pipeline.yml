@@ -4,96 +4,117 @@ on:
   push:
     branches:
       - '**'
-  workflow_dispatch:
-    inputs:
-      additional_docker_tag:
-        description: Additional docker tag that can be used to specify stable or testing tags
-        required: false
-        default: ''
-        type: string
-      push:
-        description: Push docker image to registry flag
-        required: true
-        default: false
-        type: boolean
-
-permissions:
-  contents: read
-  packages: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-# This will cancel all running build/test/release pipelines that are not on the main branch
-# If this pipeline is on the main branch, it will wait until existing runs complete
-  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+  cancel-in-progress: true
 
 jobs:
-  # main node build workflow
-  node_build:
-    name: node build
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_build.yml@v2 # WORKFLOW_VERSION
-    secrets: inherit
-  # generic node unit tests - feel free to override with local tests if required
-  node_unit_tests:
-    name: node unit tests
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_unit_tests.yml@v2 # WORKFLOW_VERSION
-    needs: [node_build]
-    secrets: inherit
-  # generic node integration tests using wiremock - feel free to override with local tests if required
-  node_integration_tests:
-    name: node integration tests
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_integration_tests.yml@v2 # WORKFLOW_VERSION
-    needs: [node_build]
-    secrets: inherit
   helm_lint:
+    name: Helm lint
     strategy:
       matrix:
-        environments: ['dev', 'preprod', 'prod']
-    name: helm lint
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/test_helm_lint.yml@v2 # WORKFLOW_VERSION
+        environments: [ 'dev', 'test', 'preprod', 'prod' ]
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/test_helm_lint.yml@v2
     secrets: inherit
     with:
       environment: ${{ matrix.environments }}
-  build:
-    name: Build docker image from hmpps-github-actions
-    if: github.ref == 'refs/heads/main'
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/docker_build.yml@v2 # WORKFLOW_VERSION
-    needs:
-      - node_integration_tests
-      - node_unit_tests
+
+  node_build:
+    name: Build
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_build.yml@v2
+    secrets: inherit
+
+  node_unit_tests:
+    name: Unit tests
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_unit_tests.yml@v2
+    needs: [node_build]
+    secrets: inherit
+
+  build_docker:
+    name: Build docker image
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/docker_build.yml@v2
     with:
       docker_registry: 'ghcr.io'
       registry_org: 'ministryofjustice'
-      additional_docker_tag: ${{ inputs.additional_docker_tag }}
-      push: ${{ inputs.push || true }}
-      docker_multiplatform: true
+      tag_latest: false
+      push: false
+      load: true
+      docker_multiplatform: false
+      upload_image_artifact: true
+      image_artifact_retention_days: 2
+
+  integration_test:
+    needs: [build_docker]
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [ 1, 2, 3, 4, 5 ]
+    uses: ./.github/workflows/integration_test.yml
+    with:
+      app_version: ${{ needs.build_docker.outputs.app_version }}
+      job-index: ${{ strategy.job-index }}
+      job-total: ${{ strategy.job-total }}
+      matrix-container: ${{ matrix.containers }}
+
+  publish-test-results:
+    name: "Publish Tests Results"
+    needs: [ integration_test, node_unit_tests ]
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      pull-requests: write
+    if: always()
+
+    steps:
+      - name: Download Unit Test Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: unit_test_artifacts
+          pattern: npm_unit_test_artifacts
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@170bf24d20d201b842d7a52403b73ed297e6645b # v2.18.0
+        with:
+          files: "unit_test_artifacts/**/*.xml"
+          check_name: "Unit Test Results"
+
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          pattern: test_results_*
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@170bf24d20d201b842d7a52403b73ed297e6645b # v2.18.0
+        with:
+          files: "artifacts/**/*.xml"
+          check_name: "Cypress Test Results"
+
+  publish_docker:
+    name: Publish docker image
+    if: github.ref == 'refs/heads/main'
+    needs:
+      - helm_lint
+      - node_build
+      - node_unit_tests
+      - integration_test
+      - build_docker
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/docker_push.yml@v2
+    with:
+      docker_registry: 'ghcr.io'
+      registry_org: 'ministryofjustice'
+      app_version: ${{ needs.build_docker.outputs.app_version }}
+      tag_latest: true
+
   deploy_dev:
     name: Deploy to the development environment
+    if: github.ref == 'refs/heads/main'
     needs:
-      - build
-      - helm_lint
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2 # WORKFLOW_VERSION
+      - build_docker
+      - publish_docker
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2
     secrets: inherit
     with:
       environment: 'dev'
-      app_version: '${{ needs.build.outputs.app_version }}'
-  # deploy_preprod:
-  #   name: Deploy to pre-production environment
-  #   needs:
-  #     - build
-  #     - deploy_dev
-  #   uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2 # WORKFLOW_VERSION
-  #   secrets: inherit
-  #   with:
-  #     environment: 'preprod'
-  #     app_version: '${{ needs.build.outputs.app_version }}'
-  # deploy_prod:
-  #   name: Deploy to production environment
-  #   needs:
-  #     - build
-  #     - deploy_preprod
-  #   uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2 # WORKFLOW_VERSION
-  #   secrets: inherit
-  #   with:
-  #     environment: 'prod'
-  #     app_version: '${{ needs.build.outputs.app_version }}'
+      app_version: '${{ needs.build_docker.outputs.app_version }}'
