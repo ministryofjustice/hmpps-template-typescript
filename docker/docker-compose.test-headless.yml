@@ -16,6 +16,13 @@ services:
     environment:
       CYPRESS_BASE_URL: http://hmpps-template-typescript:3000
       WIREMOCK_URL: 'http://wiremock:8080'
+    working_dir: /cypress
+    entrypoint: sh
+    command: -c "npm ci && npx cypress run"
     volumes:
-      - ../:/integration_tests
-    working_dir: /integration_tests
+      - ../package.json:/cypress/package.json
+      - ../package-lock.json:/cypress/package-lock.json
+      - ../cypress.config.ts:/cypress/cypress.config.ts
+      - ../reporter-config.json:/cypress/reporter-config.json
+      - ../integration_tests:/cypress/integration_tests
+      - ../test_results:/cypress/test_results
