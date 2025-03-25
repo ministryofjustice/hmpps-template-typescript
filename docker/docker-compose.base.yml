@@ -10,7 +10,7 @@ services:
       ALLOW_EMPTY_PASSWORD: yes
 
   hmpps-template-typescript:
-    image: hmpps-template-typescript:${APP_VERSION:-latest}
+    image: ghcr.io/ministryofjustice/hmpps-template-typescript:${APP_VERSION:-latest}
     depends_on:
       - redis
     build:
