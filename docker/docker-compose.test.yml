@@ -11,6 +11,8 @@ services:
       - "9091:8080"
 
   hmpps-template-typescript:
+    build:
+      target: production
     depends_on:
       - wiremock
     command: npm run start

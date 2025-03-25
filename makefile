@@ -6,6 +6,8 @@ PROJECT_NAME = hmpps-templates
 ## Must match name of container in Docker
 SERVICE_NAME = hmpps-template-typescript
 
+APP_VERSION ?= local
+
 ## Namespace for dev deployment
 K8S_NAMESPACE_SECRETS_FILE = docker/namespace-secrets.yaml
 
@@ -15,6 +17,7 @@ REMOTE_COMPOSE_FILES = -f docker/docker-compose.base.yml -f docker/docker-compos
 TEST_COMPOSE_FILES = -f docker/docker-compose.base.yml -f docker/docker-compose.test.yml
 TEST_HEADLESS_COMPOSE_FILES = -f docker/docker-compose.base.yml -f docker/docker-compose.test.yml -f docker/docker-compose.test-headless.yml
 
+export APP_VERSION
 export COMPOSE_PROJECT_NAME=${PROJECT_NAME}
 
 default: help
