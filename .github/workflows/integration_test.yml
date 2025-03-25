@@ -1,0 +1,65 @@
+name: Run integration tests
+
+on:
+  workflow_call:
+    inputs:
+      app_version:
+        description: App version
+        required: true
+        type: string
+      job-index:
+        description: 'The index of the current job in the matrix'
+        required: false
+        type: number
+        default: 1
+      job-total:
+        description: 'The total number of jobs in the matrix'
+        required: false
+        type: number
+        default: 1
+      matrix-container:
+        description: 'The matrix container description'
+        required: false
+        type: number
+        default: 1
+
+permissions:
+  contents: read
+
+jobs:
+  e2e_test:
+    runs-on: ubuntu-latest
+    env:
+      APP_VERSION: ${{ inputs.app_version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download docker image
+        uses: actions/download-artifact@v4
+        with:
+          name: build_image
+          path: ${{ runner.temp }}
+
+      - name: Load image
+        run: |
+          docker load --input ${{ runner.temp }}/build_image.tar
+
+      - name: Run Cypress tests
+        run: |
+          HEADLESS=true make e2e
+
+      - name: Upload test results
+        if: '!cancelled()'
+        uses: actions/upload-artifact@v4
+        with:
+          name: test_results_${{ inputs.matrix-container }}
+          path: |
+            test_results/cypress/
+
+      - name: Archive screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots_${{ inputs.matrix-container }}
+          path: |
+            ./integration_tests/screenshots/**/*
