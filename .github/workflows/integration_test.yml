@@ -27,7 +27,8 @@ permissions:
   contents: read
 
 jobs:
-  e2e_test:
+  integration_test:
+    name: Run the integration tests
     runs-on: ubuntu-latest
     env:
       APP_VERSION: ${{ inputs.app_version }}
