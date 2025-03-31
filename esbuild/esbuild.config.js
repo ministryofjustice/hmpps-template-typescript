@@ -1,4 +1,4 @@
-const { spawn } = require('node:child_process')
+const childProcess = require('node:child_process')
 const path = require('node:path')
 
 const { glob } = require('glob')
@@ -15,6 +15,7 @@ const cwd = process.cwd()
  * @returns {Function}
  */
 function debounce(fn, delay = 200) {
+  /** @type {number} */
   let timeout
   return (...args) => {
     clearTimeout(timeout)
@@ -56,9 +57,7 @@ const buildConfig = {
 }
 
 const main = () => {
-  /**
-   * @type {chokidar.WatchOptions}
-   */
+  /** @type {chokidar.WatchOptions} */
   const chokidarOptions = {
     persistent: true,
     ignoreInitial: true,
@@ -72,18 +71,20 @@ const main = () => {
     })
   }
 
-  let serverEnv
+  /** @type {string | null} */
+  let serverEnv = null
   if (args.includes('--dev-server')) serverEnv = '.env'
   if (args.includes('--dev-test-server')) serverEnv = 'feature.env'
 
   if (serverEnv) {
+    /** @type {childProcess.ChildProcess | null} */
     let serverProcess = null
     chokidar.watch(['dist']).on(
       'all',
       debounce(() => {
         if (serverProcess) serverProcess.kill()
-        process.stdout.write(`Restarting server...\n`)
-        serverProcess = spawn('node', [`--env-file=${serverEnv}`, 'dist/server.js'], { stdio: 'inherit' })
+        process.stderr.write('Restarting server...\n')
+        serverProcess = childProcess.spawn('node', [`--env-file=${serverEnv}`, 'dist/server.js'], { stdio: 'inherit' })
       }),
     )
   }
