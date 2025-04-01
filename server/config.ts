@@ -98,4 +98,5 @@ export default {
   },
   ingressUrl: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
   environmentName: get('ENVIRONMENT_NAME', ''),
+  deploymentName: get('DEPLOYMENT_NAME', ''),
 }
