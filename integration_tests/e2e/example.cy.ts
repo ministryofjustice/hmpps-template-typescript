@@ -1,4 +1,4 @@
-context('Sign In', () => {
+context('Example feature', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
