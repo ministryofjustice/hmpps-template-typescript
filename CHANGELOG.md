@@ -1,6 +1,6 @@
 # Change log
 
-**March 13th 2025** - Replace HMPPS Auth and Token Verification API 
+**April 2nd 2025** - Replace HMPPS Auth and Token Verification API 
 
 As part of the [shared libraries](https://github.com/ministryofjustice/hmpps-typescript-lib), we have introduced 
 hmpps-auth-clients, a standardized solution for handling RESTful interactions with HMPPS Auth and 
