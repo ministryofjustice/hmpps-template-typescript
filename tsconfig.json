@@ -2,6 +2,7 @@
   "extends": "@tsconfig/node22/tsconfig.json",
   "compileOnSave": true,
   "compilerOptions": {
+    "isolatedModules": true,
     "outDir": "./dist",
     "sourceMap": true,
     "noEmit": false,
