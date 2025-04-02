@@ -9,6 +9,7 @@ generic-service:
     INGRESS_URL: "https://template-typescript.hmpps.service.justice.gov.uk"
     HMPPS_AUTH_URL: "https://sign-in.hmpps.service.justice.gov.uk/auth"
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api.prison.service.justice.gov.uk"
+    EXAMPLE_API_URL: 'https://template-kotlin.hmpps.service.justice.gov.uk'
     AUDIT_ENABLED: "false"
 
 generic-prometheus-alerts:
