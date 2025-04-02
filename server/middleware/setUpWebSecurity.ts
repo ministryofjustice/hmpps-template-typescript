@@ -4,6 +4,7 @@ import helmet from 'helmet'
 import config from '../config'
 
 export default function setUpWebSecurity(): Router {
+  const production = process.env.NODE_ENV === 'production'
   const router = express.Router()
 
   // Secure code best practice - see:
@@ -28,6 +29,7 @@ export default function setUpWebSecurity(): Router {
           styleSrc: ["'self'", (_req: Request, res: Response) => `'nonce-${res.locals.cspNonce}'`],
           fontSrc: ["'self'"],
           formAction: [`'self' ${config.apis.hmppsAuth.externalUrl}`],
+          ...(production ? {} : { upgradeInsecureRequests: null }),
         },
       },
       crossOriginEmbedderPolicy: true,
