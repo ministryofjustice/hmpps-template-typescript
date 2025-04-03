@@ -13,6 +13,19 @@ services:
       - SPRING_PROFILES_ACTIVE=dev
       - APPLICATION_AUTHENTICATION_UI_ALLOWLIST=0.0.0.0/0
 
+  hmpps-template-kotlin:
+    image: ghcr.io/ministryofjustice/hmpps-template-kotlin:latest
+    networks:
+      - hmpps
+    container_name: hmpps-template-kotlin
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health/ping"]
+    environment:
+      - HMPPS_AUTH_URL=http://hmpps-auth:8080/auth
+      - EXAMPLE_API_URL=http://localhost:8080
+
   app:
     build:
       context: .
