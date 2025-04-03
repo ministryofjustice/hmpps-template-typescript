@@ -1,5 +1,17 @@
 # Change log
 
+**April 2nd 2025** - Replace HMPPS Auth and Token Verification API 
+
+As part of the [shared libraries](https://github.com/ministryofjustice/hmpps-typescript-lib), we have introduced 
+hmpps-auth-clients, a standardized solution for handling RESTful interactions with HMPPS Auth and 
+the Token Verification API.
+
+This update has allowed us to significantly streamline and simplify the existing authentication and verification logic in the template.
+
+For more details, see PR [#525](https://github.com/ministryofjustice/hmpps-template-typescript/pull/525), 
+or the [@ministryofjustice/hmpps-auth-clients](https://github.com/ministryofjustice/hmpps-typescript-lib/tree/main/packages/auth-clients) package
+
+
 **March 7th 2025** - Fix issue with AppInsights
 
 Requests for routes that define multiple patterns were failing to be processed by appinsights and were not being exported e.g:
