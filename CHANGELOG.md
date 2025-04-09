@@ -1,5 +1,9 @@
 # Change log
 
+**April 10th 2025** - Remove AgentConfig and ApiConfig
+
+These both have now been removed as they are part of the hmpps-rest-clients [shared library](https://github.com/ministryofjustice/hmpps-typescript-lib).
+
 **April 9th 2025** - Remove RestClient and SanitisedError
 
 These both have now been removed as they are part of the hmpps-rest-clients [shared library](https://github.com/ministryofjustice/hmpps-typescript-lib).
