@@ -1,10 +1,8 @@
 import { type RequestHandler, Router } from 'express'
 
-import createError from 'http-errors'
 import asyncMiddleware from '../middleware/asyncMiddleware'
 import type { Services } from '../services'
 import { Page } from '../services/auditService'
-import logger from '../../logger'
 
 export default function routes({ auditService, exampleService }: Services): Router {
   const router = Router()
@@ -13,15 +11,8 @@ export default function routes({ auditService, exampleService }: Services): Rout
   get('/', async (req, res, next) => {
     await auditService.logPageView(Page.EXAMPLE_PAGE, { who: res.locals.user.username, correlationId: req.id })
 
-    try {
-      const currentTime = await exampleService.getCurrentTime()
-
-      return res.render('pages/index', { currentTime })
-    } catch (e) {
-      logger.error(e)
-
-      return next(createError(500, 'There was an issue with the exampleApi'))
-    }
+    const currentTime = await exampleService.getCurrentTime()
+    return res.render('pages/index', { currentTime })
   })
 
   return router

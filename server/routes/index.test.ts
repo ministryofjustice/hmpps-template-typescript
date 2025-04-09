@@ -34,6 +34,7 @@ describe('GET /', () => {
     return request(app)
       .get('/')
       .expect('Content-Type', /html/)
+      .expect(200)
       .expect(res => {
         expect(res.text).toContain('This site is under construction...')
         expect(res.text).toContain('The time is currently 2025-01-01T12:00:00.000')
@@ -42,6 +43,19 @@ describe('GET /', () => {
           correlationId: expect.any(String),
         })
         expect(exampleService.getCurrentTime).toHaveBeenCalled()
+      })
+  })
+
+  it('service errors are handled', () => {
+    auditService.logPageView.mockResolvedValue(null)
+    exampleService.getCurrentTime.mockRejectedValue(new Error('Some problem calling external api!'))
+
+    return request(app)
+      .get('/')
+      .expect('Content-Type', /html/)
+      .expect(500)
+      .expect(res => {
+        expect(res.text).toContain('Some problem calling external api!')
       })
   })
 })
