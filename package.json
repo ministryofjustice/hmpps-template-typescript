@@ -20,7 +20,7 @@
     "security_audit": "npx audit-ci --config audit-ci.json",
     "int-test": "cypress run --config video=false",
     "int-test-ui": "cypress open --e2e --browser chrome",
-    "clean": "rm -rf dist node_modules",
+    "clean": "rm -rf dist test_results",
     "rebuild": "npm run clean && npm i && npm run build"
   },
   "engines": {
