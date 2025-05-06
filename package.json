@@ -86,7 +86,7 @@
     "connect-flash": "^0.1.1",
     "connect-redis": "^8.0.3",
     "csrf-sync": "^4.2.0",
-    "express": "^4.21.2",
+    "express": "^5.1.0",
     "express-session": "^1.18.1",
     "govuk-frontend": "^5.10.0",
     "helmet": "^8.1.0",
