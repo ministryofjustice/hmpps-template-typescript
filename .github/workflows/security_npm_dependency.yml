@@ -3,6 +3,10 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "19 6 * * MON-FRI" # Every weekday
+permissions:
+  contents: read
+  actions: read
+  security-events: write
 jobs:
   security-npm-dependency-check:
     name: Project security npm dependency check
