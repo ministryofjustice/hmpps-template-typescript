@@ -66,7 +66,7 @@ jobs:
       registry_org: 'ministryofjustice'
       additional_docker_tag: ${{ inputs.additional_docker_tag }}
       push: ${{ inputs.push || true }}
-      docker_multiplatform: true
+      docker_multiplatform: false
   deploy_dev:
     name: Deploy to the development environment
     needs:
