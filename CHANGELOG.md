@@ -1,5 +1,25 @@
 # Change log
 
+**April 10th 2025** - Remove AgentConfig and ApiConfig
+
+These both have now been removed as they are part of the hmpps-rest-clients [shared library](https://github.com/ministryofjustice/hmpps-typescript-lib).
+
+**April 9th 2025** - Remove RestClient and SanitisedError
+
+These both have now been removed as they are part of the hmpps-rest-clients [shared library](https://github.com/ministryofjustice/hmpps-typescript-lib).
+
+**April 2nd 2025** - Replace HMPPS Auth and Token Verification API
+
+As part of the [shared libraries](https://github.com/ministryofjustice/hmpps-typescript-lib), we have introduced
+hmpps-auth-clients, a standardized solution for handling RESTful interactions with HMPPS Auth and
+the Token Verification API.
+
+This update has allowed us to significantly streamline and simplify the existing authentication and verification logic in the template.
+
+For more details, see PR [#525](https://github.com/ministryofjustice/hmpps-template-typescript/pull/525),
+or the [@ministryofjustice/hmpps-auth-clients](https://github.com/ministryofjustice/hmpps-typescript-lib/tree/main/packages/auth-clients) package
+
+
 **March 7th 2025** - Fix issue with AppInsights
 
 Requests for routes that define multiple patterns were failing to be processed by appinsights and were not being exported e.g:
@@ -24,7 +44,7 @@ The first of these is a [new library](https://github.com/ministryofjustice/hmpps
 
 The library will attempt to self-install itself by running it via npx: `npx @ministryofjustice/hmpps-monitoring`
 
-It will then prompt you to perform some manual tasks - if you have stub tests for your health endpoints you might need add some additional stubbing.  
+It will then prompt you to perform some manual tasks - if you have stub tests for your health endpoints you might need add some additional stubbing.
 
 See PR [#479](https://github.com/ministryofjustice/hmpps-template-typescript/pull/479)
 
@@ -32,7 +52,7 @@ See PR [#479](https://github.com/ministryofjustice/hmpps-template-typescript/pul
 
 [csurf](https://www.npmjs.com/package/csurf) has been deprecated for some time and this removes that dependency and implements the [synchronizer token pattern](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#transmissing-csrf-tokens-in-synchronized-patterns) using [csrf-sync](https://www.npmjs.com/package/csrf-sync).
 
-**Note:** Previously csurf used to generate new tokens on every request. The new library generates tokens once per session which is preferrable due to the extra calls to redis that per-request would generate. It is possible to force a refresh/revocation of a token by explicitly calling: `req.csrfToken(true)`  
+**Note:** Previously csurf used to generate new tokens on every request. The new library generates tokens once per session which is preferrable due to the extra calls to redis that per-request would generate. It is possible to force a refresh/revocation of a token by explicitly calling: `req.csrfToken(true)`
 
 See PR [#481](https://github.com/ministryofjustice/hmpps-template-typescript/pull/481)
 
