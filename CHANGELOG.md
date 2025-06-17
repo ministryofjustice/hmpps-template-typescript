@@ -1,5 +1,11 @@
 # Change log
 
+**June 17th 2025** - Add precommit hook
+
+Adding the [precommit library](https://github.com/ministryofjustice/hmpps-typescript-lib/tree/main/packages/precommit-hooks). 
+
+See PR [#556](https://github.com/ministryofjustice/hmpps-template-typescript/pull/556)
+
 **April 10th 2025** - Remove AgentConfig and ApiConfig
 
 These both have now been removed as they are part of the hmpps-rest-clients [shared library](https://github.com/ministryofjustice/hmpps-typescript-lib).
