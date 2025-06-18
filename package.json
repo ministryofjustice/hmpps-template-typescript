@@ -5,7 +5,7 @@
   "repository": "git@github.com:ministryofjustice/hmpps-template-typescript.git",
   "license": "MIT",
   "scripts": {
-    "prepare": "husky",
+    "prepare": "hmpps-precommit-hooks-prepare",
     "watch-ts": "tsc -w",
     "build": "node esbuild/esbuild.config.js --build",
     "start": "node $NODE_OPTIONS dist/server.js | bunyan -o short",
@@ -21,7 +21,10 @@
     "int-test": "cypress run --config video=false",
     "int-test-ui": "cypress open --e2e --browser chrome",
     "clean": "rm -rf dist test_results",
-    "rebuild": "npm run clean && npm i && npm run build"
+    "rebuild": "npm run clean && npm i && npm run build",
+    "precommit:secrets": "gitleaks git --pre-commit --redact --staged --verbose --config .gitleaks/config.toml",
+    "precommit:lint": "node_modules/.bin/lint-staged",
+    "precommit:verify": "npm run typecheck && npm test"
   },
   "engines": {
     "node": "^22",
@@ -102,6 +105,7 @@
   "devDependencies": {
     "@jgoz/esbuild-plugin-typecheck": "^4.0.3",
     "@ministryofjustice/eslint-config-hmpps": "^0.0.1-beta.2",
+    "@ministryofjustice/hmpps-precommit-hooks": "^0.0.3",
     "@tsconfig/node22": "^22.0.2",
     "@types/bunyan": "^1.8.11",
     "@types/bunyan-format": "^0.2.9",
@@ -129,7 +133,6 @@
     "esbuild-plugin-manifest": "^1.0.5",
     "esbuild-sass-plugin": "^3.3.1",
     "glob": "^11.0.2",
-    "husky": "^9.1.7",
     "jest": "^29.7.0",
     "jest-html-reporter": "^4.1.0",
     "jest-junit": "^16.0.0",

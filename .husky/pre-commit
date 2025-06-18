@@ -1,1 +1,5 @@
-NODE_ENV=dev && node_modules/.bin/lint-staged && npm run typecheck && npm test
+#!/bin/bash
+NODE_ENV=dev \
+npm run precommit:secrets \
+&& npm run precommit:lint \
+&& npm run precommit:verify
