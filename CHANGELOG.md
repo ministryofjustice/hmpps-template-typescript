@@ -1,5 +1,9 @@
 # Change log
 
+**June 23rd 2025** - Moving to version 0.0.1 of shared libraries
+
+See PR [#559](https://github.com/ministryofjustice/hmpps-template-typescript/pull/559)
+
 **June 17th 2025** - Add precommit hook
 
 Adding the [precommit library](https://github.com/ministryofjustice/hmpps-typescript-lib/tree/main/packages/precommit-hooks). 
