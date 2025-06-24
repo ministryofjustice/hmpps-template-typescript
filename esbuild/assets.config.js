@@ -51,7 +51,7 @@ const buildAssets = buildConfig => {
         loadPaths: [process.cwd(), path.join(process.cwd(), 'node_modules')],
       }),
     ],
-  })
+  });
 }
 
 /**

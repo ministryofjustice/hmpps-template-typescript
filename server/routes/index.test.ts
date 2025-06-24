@@ -43,7 +43,7 @@ describe('GET /', () => {
           correlationId: expect.any(String),
         })
         expect(exampleService.getCurrentTime).toHaveBeenCalled()
-      })
+      });
   })
 
   it('service errors are handled', () => {
@@ -56,6 +56,6 @@ describe('GET /', () => {
       .expect(500)
       .expect(res => {
         expect(res.text).toContain('Some problem calling external api!')
-      })
+      });
   })
 })
