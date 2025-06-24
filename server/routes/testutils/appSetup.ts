@@ -38,6 +38,7 @@ function appSetup(services: Services, production: boolean, userSupplier: () => H
     res.locals = {
       user: { ...req.user } as HmppsUser,
     }
+    req.body = req.body || {}
     next()
   })
   app.use((req, res, next) => {
