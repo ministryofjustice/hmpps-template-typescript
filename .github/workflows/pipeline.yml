@@ -22,9 +22,11 @@ permissions:
   packages: write
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-# This will cancel all running build/test/release pipelines that are not on the main branch
-# If this pipeline is on the main branch, it will wait until existing runs complete
+  # Only cancel in progress when on a branch - use SHA on main to ensure uniqueness.
+  # This will allow multiple pipelines to run at the same time on main.
+  # Note that two pipelines running within a few minutes of each other will cause issues with helm deploying to
+  # a namespace, as the second one will not be able to get a lock as a deploy will be in progress.
+  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/main' && github.sha || github.ref }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
