@@ -1,17 +1,17 @@
 services:
 
-  hmpps-auth:
-    image: quay.io/hmpps/hmpps-auth:latest
-    networks:
-      - hmpps
-    container_name: hmpps-auth
-    ports:
-      - "9090:8080"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/auth/health"]
-    environment:
-      - SPRING_PROFILES_ACTIVE=dev
-      - APPLICATION_AUTHENTICATION_UI_ALLOWLIST=0.0.0.0/0
+  # hmpps-auth:
+  #   image: quay.io/hmpps/hmpps-auth:latest
+  #   networks:
+  #     - hmpps
+  #   container_name: hmpps-auth
+  #   ports:
+  #     - "9090:8080"
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost:8080/auth/health"]
+  #   environment:
+  #     - SPRING_PROFILES_ACTIVE=dev
+  #     - APPLICATION_AUTHENTICATION_UI_ALLOWLIST=0.0.0.0/0
 
   hmpps-template-kotlin:
     image: ghcr.io/ministryofjustice/hmpps-template-kotlin:latest
@@ -55,6 +55,11 @@ services:
       - TOKEN_VERIFICATION_ENABLED=false
       - INGRESS_URL=http://localhost:3000
       - NO_HTTPS=true
+      - EXAMPLE_API_URL=http://hmpps-probation-frontend-component:3000
+      - COMPONENT_API_URL=http://hmpps-probation-frontend-component:3000
+      - ENVIRONMENT_NAME=dev
 
 networks:
   hmpps:
+    name: hmpps
+    external: true

@@ -11,6 +11,8 @@ generic-service:
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api.prison.service.justice.gov.uk"
     EXAMPLE_API_URL: 'https://template-kotlin.hmpps.service.justice.gov.uk'
     AUDIT_ENABLED: "false"
+    COMPONENT_API_URL: "https://probation-frontend-components.hmpps.service.justice.gov.uk/swagger"
+    ENVIRONMENT_NAME: "PRODUCTION"
 
 generic-prometheus-alerts:
   alertSeverity: PROD_ALERTS_SEVERITY_LABEL

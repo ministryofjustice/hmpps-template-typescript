@@ -8,4 +8,5 @@ $govuk-page-width: $moj-page-width;
 @import "@ministryofjustice/frontend/moj/all";
 
 @import './components/header-bar';
+@import './components/footer';
 @import './overrides/local';

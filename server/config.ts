@@ -48,6 +48,16 @@ export default {
     expiryMinutes: Number(get('WEB_SESSION_TIMEOUT_IN_MINUTES', 120)),
   },
   apis: {
+    frontendComponents: {
+      url: get('COMPONENT_API_URL', 'http://localhost:3000', requiredInProduction),
+      testUrl: 'https://probation-frontend-components-dev.hmpps.service.justice.gov.uk',
+      healthPath: '/ping',
+      timeout: {
+        response: Number(get('HMPPS_AUTH_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('HMPPS_AUTH_TIMEOUT_DEADLINE', 10000)),
+      },
+      agent: new AgentConfig(),
+    },
     hmppsAuth: {
       url: get('HMPPS_AUTH_URL', 'http://localhost:9090/auth', requiredInProduction),
       healthPath: '/health/ping',
@@ -74,7 +84,7 @@ export default {
     },
     exampleApi: {
       url: get('EXAMPLE_API_URL', 'http://localhost:8080', requiredInProduction),
-      healthPath: '/health/ping',
+      healthPath: '/ping',
       timeout: {
         response: Number(get('EXAMPLE_API_TIMEOUT_RESPONSE', 5000)),
         deadline: Number(get('EXAMPLE_API_TIMEOUT_DEADLINE', 5000)),
