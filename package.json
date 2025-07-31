@@ -76,7 +76,7 @@
     ]
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.848.0",
+    "@aws-sdk/client-sqs": "^3.854.0",
     "@ministryofjustice/frontend": "^5.1.5",
     "@ministryofjustice/hmpps-auth-clients": "^0.0.1",
     "@ministryofjustice/hmpps-monitoring": "^0.0.1",
@@ -99,7 +99,7 @@
     "nunjucks": "^3.2.4",
     "passport": "^0.7.0",
     "passport-oauth2": "^1.8.0",
-    "redis": "^5.6.0",
+    "redis": "^5.6.1",
     "superagent": "^10.2.3"
   },
   "devDependencies": {
@@ -125,7 +125,7 @@
     "aws-sdk-client-mock": "^4.1.0",
     "chokidar": "^3.6.0",
     "concurrently": "^9.2.0",
-    "cypress": "^14.5.2",
+    "cypress": "^14.5.3",
     "cypress-multi-reporters": "^2.0.5",
     "esbuild": "^0.25.8",
     "esbuild-plugin-clean": "^1.0.1",
