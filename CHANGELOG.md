@@ -1,5 +1,11 @@
 # Change log
 
+**August 7th 2025** - Upgrading chokidar to v4 meant the paths needed changing.
+
+See PR [#575](https://github.com/ministryofjustice/hmpps-template-typescript/pull/575)
+
+See https://www.npmjs.com/package/chokidar#upgrading for details
+
 **June 23rd 2025** - Moving to version 0.0.1 of shared libraries
 
 See PR [#559](https://github.com/ministryofjustice/hmpps-template-typescript/pull/559)
