@@ -98,7 +98,7 @@ const main = () => {
     )
 
     // App
-    chokidar.watch(['server/.'], { ...chokidarOptions, ignored: filePath => !filePath.endsWith('.test.ts') }).on(
+    chokidar.watch(['server/.'], { ...chokidarOptions, ignored: filePath => filePath.endsWith('.test.ts') }).on(
       'all',
       debounce(() => buildApp(buildConfig).catch(e => process.stderr.write(`${e}\n`))),
     )
