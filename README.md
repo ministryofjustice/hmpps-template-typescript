@@ -7,7 +7,7 @@ Template github repo used for new Typescript based projects.
 
 # Instructions
 
-If this is a HMPPS project then the project will be created as part of bootstrapping
+If this is a HMPPS project then the creation of new services is automated and cloning/forking this repository is not required.  
 
 This project is community managed by the mojdt `#typescript` slack channel.
 Please raise any questions or queries there. Contributions welcome!
