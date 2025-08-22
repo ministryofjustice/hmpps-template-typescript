@@ -34,7 +34,7 @@ the [Cloud Platform User Guide](https://user-guide.cloud-platform.service.justic
 
 ## Customising the new project
 
-As part of the process to create a new service, various parts of the codebase will be updated to reflect the specific name of your service. 
+As part of the automation to create the new service, various parts of the codebase will be updated to reflect it's specific name. 
 
 ## Oauth2 Credentials
 
