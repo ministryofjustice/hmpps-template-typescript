@@ -17,7 +17,7 @@ Our security policy is located [here](https://github.com/ministryofjustice/hmpps
 More information about the template project including features can be
 found [here](https://dsdmoj.atlassian.net/wiki/spaces/NDSS/pages/3488677932/Typescript+template+project).
 
-Documentation to create new service is located [here](https://tech-docs.hmpps.service.justice.gov.uk/creating-new-services/).
+Documentation to create new services is located [here](https://tech-docs.hmpps.service.justice.gov.uk/creating-new-services/).
 
 ## Creating a Cloud Platform namespace
 
