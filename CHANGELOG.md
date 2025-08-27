@@ -1,5 +1,11 @@
 # Change log
 
+**August 27th 2025** - Extract Jest and lint-staged configuration to separate files
+
+Moved Jest and lint-staged configuration from `package.json` to dedicated config files (`jest.config.mjs` and `lint-staged.config.mjs`) for better maintainability.
+
+See PR [#582](https://github.com/ministryofjustice/hmpps-template-typescript/pull/582)
+
 **August 7th 2025** - Upgrading chokidar to v4 meant the paths needed changing.
 
 See PR [#575](https://github.com/ministryofjustice/hmpps-template-typescript/pull/575)
