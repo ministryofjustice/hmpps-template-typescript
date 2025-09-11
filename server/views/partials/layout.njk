@@ -1,7 +1,7 @@
 {% extends "govuk/template.njk" %}
 
 {% block head %}
-  <link href="{{ '/assets/css/app.css' | assetMap }}" rel="stylesheet"/>
+  <link href="{{ '/assets/css/index.css' | assetMap }}" rel="stylesheet"/>
 {% endblock %}
 
 {% block pageTitle %}{{pageTitle | default(applicationName)}}{% endblock %}
@@ -21,5 +21,5 @@
 {% endblock %}
 
 {% block bodyEnd %}
-  <script type="module" src="{{ '/assets/js/app.js' | assetMap }}"></script>
+  <script type="module" src="{{ '/assets/js/index.js' | assetMap }}"></script>
 {% endblock %}

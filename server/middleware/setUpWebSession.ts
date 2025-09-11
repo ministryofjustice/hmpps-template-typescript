@@ -29,8 +29,11 @@ export default function setUpWebSession(): Router {
     }),
   )
 
-  // Update a value in the cookie so that the set-cookie will be sent.
-  // Only changes every minute so that it's not sent with every request.
+  // Update a value in the session so that redis resets the session TTL.
+  // Only changes every minute so that it's not updated with every request.
+  // This also has the effect of sending the set-cookie header to the browser
+  // which keeps the session alive there, although this is also taken care of
+  // by using rolling: true in the configuration above.
   router.use((req, res, next) => {
     req.session.nowInMinutes = Math.floor(Date.now() / 60e3)
     next()
