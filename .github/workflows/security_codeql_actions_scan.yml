@@ -1,18 +1,19 @@
-name: Security trivy dependency check
+name: Security CodeQL actions scan
+
 on:
   workflow_dispatch:
   schedule:
     - cron: "19 6 * * MON-FRI" # Every weekday
 
 jobs:
-  security-typescript-trivy-check:
+  security-codeql-actions-check:
     permissions:
       contents: read
       actions: read
       security-events: write
-    name: Project security trivy dependency check
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/security_trivy.yml@v2 # WORKFLOW_VERSION
+    name: Project security CodeQL actions scan
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/security_codeql_actions.yml@v2 # WORKFLOW_VERSION
     with:
       channel_id: ${{ vars.SECURITY_ALERTS_SLACK_CHANNEL_ID || 'NO_SLACK' }}
-      ignore_unfixed: false
     secrets: inherit
+
