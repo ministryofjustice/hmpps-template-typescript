@@ -5,7 +5,7 @@ const { sassPlugin } = require('esbuild-sass-plugin')
 const { clean } = require('esbuild-plugin-clean')
 const manifestPlugin = require('esbuild-plugin-manifest')
 const esbuild = require('esbuild')
-const { glob } = require('glob')
+const { globSync } = require('node:fs')
 
 /**
  * Copy additional assets into distribution
@@ -40,7 +40,7 @@ const buildAssets = buildConfig => {
     bundle: true,
     plugins: [
       clean({
-        patterns: glob.sync(buildConfig.assets.clear),
+        patterns: globSync(buildConfig.assets.clear),
       }),
       manifestPlugin({
         generate: entries =>
