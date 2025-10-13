@@ -79,6 +79,7 @@ jobs:
     with:
       environment: 'dev'
       app_version: '${{ needs.build.outputs.app_version }}'
+      slack_notification: 'false' # if 'true', it needs a valid NONPROD_RELEASES_SLACK_CHANNEL variable to be set
   # deploy_preprod:
   #   name: Deploy to pre-production environment
   #   needs:
@@ -89,6 +90,7 @@ jobs:
   #   with:
   #     environment: 'preprod'
   #     app_version: '${{ needs.build.outputs.app_version }}'
+  #     slack_notification: 'false' # if 'true', it needs a valid NONPROD_RELEASES_SLACK_CHANNEL variable to be set
   # deploy_prod:
   #   name: Deploy to production environment
   #   needs:
@@ -99,3 +101,4 @@ jobs:
   #   with:
   #     environment: 'prod'
   #     app_version: '${{ needs.build.outputs.app_version }}'
+  #    slack_notification: 'false' # if 'true', it needs a valid PROD_RELEASES_SLACK_CHANNEL variable to be set
