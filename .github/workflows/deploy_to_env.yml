@@ -37,3 +37,4 @@ jobs:
     with:
       environment: ${{ inputs.environment }}
       app_version: ${{ inputs.version }}
+      slack_notification: 'false' # if 'true', it needs a valid (NON)PROD_RELEASES_SLACK_CHANNEL variable to be set
