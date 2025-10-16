@@ -1,3 +1,4 @@
+import { expect, it, describe } from 'vitest'
 import generateOauthClientToken from './clientCredentials'
 
 describe('generateOauthClientToken', () => {

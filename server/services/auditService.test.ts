@@ -1,14 +1,15 @@
+import { beforeEach, Mocked, vi, expect, it, describe } from 'vitest'
 import AuditService, { Page } from './auditService'
 import HmppsAuditClient from '../data/hmppsAuditClient'
 
-jest.mock('../data/hmppsAuditClient')
+vi.mock('../data/hmppsAuditClient')
 
 describe('Audit service', () => {
-  let hmppsAuditClient: jest.Mocked<HmppsAuditClient>
+  let hmppsAuditClient: Mocked<HmppsAuditClient>
   let auditService: AuditService
 
   beforeEach(() => {
-    hmppsAuditClient = new HmppsAuditClient(null) as jest.Mocked<HmppsAuditClient>
+    hmppsAuditClient = new HmppsAuditClient(null) as Mocked<HmppsAuditClient>
     auditService = new AuditService(hmppsAuditClient)
   })
 

@@ -1,3 +1,4 @@
+import { expect, it, describe } from 'vitest'
 import { convertToTitleCase, initialiseName } from './utils'
 
 describe('convert to title case', () => {

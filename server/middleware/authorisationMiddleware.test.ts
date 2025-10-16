@@ -1,3 +1,4 @@
+import { beforeEach, vi, expect, it, describe } from 'vitest'
 import jwt from 'jsonwebtoken'
 import type { Request, Response } from 'express'
 
@@ -18,7 +19,7 @@ function createToken(authorities: string[]) {
 
 describe('authorisationMiddleware', () => {
   let req: Request
-  const next = jest.fn()
+  const next = vi.fn()
 
   function createResWithToken({ authorities }: { authorities: string[] }): Response {
     return {
@@ -27,12 +28,12 @@ describe('authorisationMiddleware', () => {
           token: createToken(authorities),
         },
       },
-      redirect: jest.fn(),
+      redirect: vi.fn(),
     } as unknown as Response
   }
 
   beforeEach(() => {
-    jest.resetAllMocks()
+    vi.resetAllMocks()
   })
 
   it('should return next when no required roles', () => {

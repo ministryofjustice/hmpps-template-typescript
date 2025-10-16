@@ -1,3 +1,4 @@
+import { afterEach, vi, expect, it, describe } from 'vitest'
 import { mockClient } from 'aws-sdk-client-mock'
 import { SendMessageCommand, SendMessageCommandInput, SQSClient } from '@aws-sdk/client-sqs'
 
@@ -16,7 +17,7 @@ describe('hmppsAuditClient', () => {
 
   afterEach(() => {
     sqsMock.reset()
-    jest.resetAllMocks()
+    vi.resetAllMocks()
   })
 
   describe('sendMessage', () => {

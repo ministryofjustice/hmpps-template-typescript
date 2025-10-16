@@ -1,3 +1,4 @@
+import { vi, Mocked } from 'vitest'
 import express, { Express } from 'express'
 import { NotFound } from 'http-errors'
 
@@ -10,7 +11,7 @@ import AuditService from '../../services/auditService'
 import { HmppsUser } from '../../interfaces/hmppsUser'
 import setUpWebSession from '../../middleware/setUpWebSession'
 
-jest.mock('../../services/auditService')
+vi.mock('../../services/auditService')
 
 export const user: HmppsUser = {
   name: 'FIRST LAST',
@@ -23,7 +24,7 @@ export const user: HmppsUser = {
   userRoles: [],
 }
 
-export const flashProvider = jest.fn()
+export const flashProvider = vi.fn()
 
 function appSetup(services: Services, production: boolean, userSupplier: () => HmppsUser): Express {
   const app = express()
@@ -56,7 +57,7 @@ function appSetup(services: Services, production: boolean, userSupplier: () => H
 export function appWithAllRoutes({
   production = false,
   services = {
-    auditService: new AuditService(null) as jest.Mocked<AuditService>,
+    auditService: new AuditService(null) as Mocked<AuditService>,
   },
   userSupplier = () => user,
 }: {

@@ -1,10 +1,11 @@
+import { beforeEach, Mocked, vi, expect, it, describe } from 'vitest'
 import ExampleApiClient from '../data/exampleApiClient'
 import ExampleService from './exampleService'
 
-jest.mock('../data/exampleApiClient')
+vi.mock('../data/exampleApiClient')
 
 describe('ExampleService', () => {
-  const exampleApiClient = new ExampleApiClient(null) as jest.Mocked<ExampleApiClient>
+  const exampleApiClient = new ExampleApiClient(null) as Mocked<ExampleApiClient>
   let exampleService: ExampleService
 
   beforeEach(() => {
