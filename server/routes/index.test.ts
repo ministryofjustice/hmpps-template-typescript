@@ -1,14 +1,15 @@
+import { beforeEach, afterEach, Mocked, vi, expect, it, describe } from 'vitest'
 import type { Express } from 'express'
 import request from 'supertest'
 import { appWithAllRoutes, user } from './testutils/appSetup'
 import AuditService, { Page } from '../services/auditService'
 import ExampleService from '../services/exampleService'
 
-jest.mock('../services/auditService')
-jest.mock('../services/exampleService')
+vi.mock('../services/auditService')
+vi.mock('../services/exampleService')
 
-const auditService = new AuditService(null) as jest.Mocked<AuditService>
-const exampleService = new ExampleService(null) as jest.Mocked<ExampleService>
+const auditService = new AuditService(null) as Mocked<AuditService>
+const exampleService = new ExampleService(null) as Mocked<ExampleService>
 
 let app: Express
 
@@ -23,7 +24,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  jest.resetAllMocks()
+  vi.resetAllMocks()
 })
 
 describe('GET /', () => {

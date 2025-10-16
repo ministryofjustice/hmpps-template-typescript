@@ -1,3 +1,4 @@
+import { expect, it, describe } from 'vitest'
 import fs from 'fs'
 
 describe('app insights compatibility', () => {
