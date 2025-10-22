@@ -1,5 +1,11 @@
 # Change log
 
+**October 29th 2025** - Move to node 24
+
+Node 24 is now LTS. Notes [here](https://nodejs.org/en/blog/release/v24.0.0)
+
+See PR [#474](https://github.com/ministryofjustice/hmpps-template-typescript/pull/474)
+
 **August 27th 2025** - Extract Jest and lint-staged configuration to separate files
 
 Moved Jest and lint-staged configuration from `package.json` to dedicated config files (`jest.config.mjs` and `lint-staged.config.mjs`) for better maintainability.
