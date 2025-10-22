@@ -3,8 +3,13 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "19 6 * * MON-FRI" # Every weekday
+
 jobs:
   security-veracode-pipeline-scan:
+    permissions:
+      contents: read
+      actions: read
+      security-events: write
     name: Project security veracode pipeline scan
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/security_veracode_pipeline_scan.yml@v2 # WORKFLOW_VERSION
     with:
