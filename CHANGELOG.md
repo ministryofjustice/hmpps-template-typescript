@@ -4,7 +4,7 @@
 
 Node 24 is now LTS. Notes [here](https://nodejs.org/en/blog/release/v24.0.0)
 
-See PR [#474](https://github.com/ministryofjustice/hmpps-template-typescript/pull/474)
+See PR [#601](https://github.com/ministryofjustice/hmpps-template-typescript/pull/601)
 
 **August 27th 2025** - Extract Jest and lint-staged configuration to separate files
 
