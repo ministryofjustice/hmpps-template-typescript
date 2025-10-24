@@ -24,7 +24,7 @@
     "clean": "rm -rf dist test_results",
     "rebuild": "npm run clean && npm i && npm run build",
     "precommit:secrets": "gitleaks git --pre-commit --redact --staged --verbose --config .gitleaks/config.toml --gitleaks-ignore-path .gitleaks/.gitleaksignore",
-    "precommit:lint": "node_modules/.bin/lint-staged",
+    "precommit:lint": "lint-staged",
     "precommit:verify": "npm run typecheck && npm test"
   },
   "engines": {
