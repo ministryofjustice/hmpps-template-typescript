@@ -1,5 +1,6 @@
 const esbuild = require('esbuild')
-const { colors, emojis } = require('./utils')
+const { styleText } = require('node:util')
+const { emojis } = require('./utils')
 const { getAppConfig } = require('./app.config')
 const { getAssetsConfig, getAdditionalAssetsConfig } = require('./assets.config')
 const { getBuildConfig } = require('./build.config')
@@ -15,7 +16,7 @@ async function main() {
 
   // Create ESBuild contexts with watch mode conditional on isWatchMode
   if (buildConfig.isWatchMode) {
-    process.stderr.write(`${colors.bold}${emojis.eyes} Starting ESBuild watchers...${colors.reset}\n`)
+    process.stderr.write(`${styleText('bold', `${emojis.eyes} Starting ESBuild watchers...`)}\n`)
 
     return Promise.all(
       [appConfig, assetsConfig, additionalAssetsConfig].map(async config => {
@@ -26,7 +27,7 @@ async function main() {
   }
 
   // Run ESBuild in standard build mode
-  process.stderr.write(`${colors.bold}${emojis.cog} Starting ESBuild...${colors.reset}\n`)
+  process.stderr.write(`${styleText('bold', `${emojis.cog} Starting ESBuild...`)}\n`)
 
   return Promise.all([
     esbuild.build(appConfig),

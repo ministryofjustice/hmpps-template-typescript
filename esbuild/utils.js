@@ -1,15 +1,6 @@
 // eslint-disable-next-line max-classes-per-file
 const childProcess = require('node:child_process')
-
-// ANSI color codes
-const colors = {
-  reset: '\u001b[0m',
-  bold: '\u001b[1m',
-  cyan: '\u001b[36m',
-  magenta: '\u001b[35m',
-  yellow: '\u001b[33m',
-  green: '\u001b[32m',
-}
+const { styleText } = require('node:util')
 
 // Emoji constants
 const emojis = {
@@ -25,7 +16,7 @@ const emojis = {
 
 /** Build a colored "[Label]" prefix (auto-disables colors on non-TTY unless forced) */
 function makePrefix(label, color) {
-  return `${colors.bold}${color}[${label}]${colors.reset}`
+  return styleText(['bold', color], `[${label}]`)
 }
 
 /**
@@ -123,7 +114,7 @@ class ESBuildManager {
     this.watchProcess = null
     this.options = {
       label: 'ESBuild',
-      color: colors.magenta,
+      color: 'magenta',
       onBuildComplete: options.onBuildComplete || null,
     }
   }
@@ -168,7 +159,7 @@ class ServerManager {
     this.serverProcess = null
     this.options = {
       label: 'Node',
-      color: colors.green,
+      color: 'green',
       ...options,
     }
   }
@@ -213,18 +204,18 @@ function buildNotificationPlugin(buildName, isWatchMode) {
     name: 'build-notification',
     setup(build) {
       build.onStart(() => {
-        process.stderr.write(`${colors.bold}${emojis.cyclone} Building ${buildName}...${colors.reset}\n`)
+        process.stderr.write(`${styleText('bold', `${emojis.cyclone} Building ${buildName}...`)}\n`)
       })
 
       build.onEnd(result => {
         if (result.errors.length === 0) {
-          process.stderr.write(`${colors.bold}${emojis.rocket} ${buildName} build complete!${colors.reset}\n`)
+          process.stderr.write(`${styleText('bold', `${emojis.rocket} ${buildName} build complete!`)}\n`)
 
           if (isWatchMode) {
             process.send({ type: 'app-build-complete' })
           }
         } else {
-          process.stderr.write(`${colors.bold}${emojis.crossmark} ${buildName} build failed${colors.reset}\n`)
+          process.stderr.write(`${styleText('bold', `${emojis.crossmark} ${buildName} build failed`)}\n`)
         }
       })
     },
@@ -240,7 +231,6 @@ function getEnvFile(args) {
 }
 
 module.exports = {
-  colors,
   emojis,
   getEnvFile,
   buildNotificationPlugin,
