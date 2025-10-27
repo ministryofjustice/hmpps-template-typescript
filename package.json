@@ -18,8 +18,9 @@
     "test": "jest",
     "test:ci": "jest --runInBand",
     "security_audit": "npx audit-ci --config audit-ci.json",
-    "int-test": "cypress run --config video=false",
-    "int-test-ui": "cypress open --e2e --browser chrome",
+    "int-test": "npx playwright test",
+    "int-test-ui": "npx playwright test --ui",
+    "int-test-init:ci": "npx playwright install",
     "clean": "rm -rf dist test_results",
     "rebuild": "npm run clean && npm i && npm run build",
     "precommit:secrets": "gitleaks git --pre-commit --redact --staged --verbose --config .gitleaks/config.toml --gitleaks-ignore-path .gitleaks/.gitleaksignore",
@@ -36,6 +37,7 @@
     "@ministryofjustice/hmpps-auth-clients": "^0.0.3",
     "@ministryofjustice/hmpps-monitoring": "^0.0.2",
     "@ministryofjustice/hmpps-rest-client": "^0.0.3",
+    "@playwright/test": "^1.56.1",
     "applicationinsights": "^2.9.8",
     "body-parser": "^2.2.0",
     "bunyan": "^1.8.15",
@@ -80,8 +82,6 @@
     "aws-sdk-client-mock": "^4.1.0",
     "chokidar": "^4.0.3",
     "concurrently": "^9.2.1",
-    "cypress": "^15.4.0",
-    "cypress-multi-reporters": "^2.0.5",
     "esbuild": "^0.25.11",
     "esbuild-plugin-clean": "^1.0.1",
     "esbuild-plugin-copy": "^2.1.1",
@@ -105,7 +105,8 @@
       "esbuild": "$esbuild"
     },
     "nunjucks": {
-      "chokidar": "$chokidar"
+      "chokidar": "$chokidar",
+      "error-ex": "1.3.2"
     }
   }
 }
