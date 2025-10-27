@@ -1,15 +1,17 @@
-const path = require('node:path')
-const { copy } = require('esbuild-plugin-copy')
-const { sassPlugin } = require('esbuild-sass-plugin')
-const { clean } = require('esbuild-plugin-clean')
-const manifestPlugin = require('esbuild-plugin-manifest')
-const { globSync } = require('node:fs')
-const { buildNotificationPlugin } = require('./utils')
+import type { BuildOptions } from 'esbuild'
+import path from 'node:path'
+import { copy } from 'esbuild-plugin-copy'
+import { sassPlugin } from 'esbuild-sass-plugin'
+import { clean } from 'esbuild-plugin-clean'
+import manifestPlugin from 'esbuild-plugin-manifest'
+import { globSync } from 'node:fs'
+import type { BuildConfig } from './build.config'
+import { buildNotificationPlugin } from './utils.ts'
 
 /**
  * Copy additional assets into distribution
  */
-const getAdditionalAssetsConfig = buildConfig => ({
+export const getAdditionalAssetsConfig = (buildConfig: BuildConfig): BuildOptions => ({
   outdir: buildConfig.assets.outDir,
   plugins: [
     copy({
@@ -23,7 +25,7 @@ const getAdditionalAssetsConfig = buildConfig => ({
 /**
  * Build scss and javascript assets
  */
-const getAssetsConfig = buildConfig => ({
+export const getAssetsConfig = (buildConfig: BuildConfig): BuildOptions => ({
   entryPoints: buildConfig.assets.entryPoints,
   outdir: buildConfig.assets.outDir,
   entryNames: '[ext]/[name].[hash]',
@@ -48,5 +50,3 @@ const getAssetsConfig = buildConfig => ({
     buildNotificationPlugin('Assets', buildConfig.isWatchMode),
   ],
 })
-
-module.exports = { getAssetsConfig, getAdditionalAssetsConfig }

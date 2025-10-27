@@ -1,6 +1,6 @@
-const { ESBuildManager, ServerManager, getEnvFile } = require('./utils')
+import { ESBuildManager, ServerManager, getEnvFile } from './utils.ts'
 
-function main() {
+function main(): void {
   const args = process.argv
   const isWatchMode = args.includes('--watch')
   const envFile = getEnvFile(args)

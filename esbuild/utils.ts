@@ -1,18 +1,20 @@
 // eslint-disable-next-line max-classes-per-file
-const childProcess = require('node:child_process')
+import type { ChildProcess } from 'node:child_process'
+import type { Plugin } from 'esbuild'
+import { spawn } from 'node:child_process'
 
 // ANSI color codes
-const colors = {
+export const colors = {
   reset: '\u001b[0m',
   bold: '\u001b[1m',
   cyan: '\u001b[36m',
   magenta: '\u001b[35m',
   yellow: '\u001b[33m',
   green: '\u001b[32m',
-}
+} as const
 
 // Emoji constants
-const emojis = {
+export const emojis = {
   hammer: '\u{1F528}',
   checkmark: '\u{2705}',
   crossmark: '\u{274C} ',
@@ -21,10 +23,17 @@ const emojis = {
   cyclone: '\u{1F300}',
   rocket: '\u{1F680}',
   cog: '\u{2699}\u{FE0F}',
+} as const
+
+type WriteFn = (str: string, encoding: BufferEncoding) => boolean
+
+interface PrefixedLineWriter {
+  write: (data: string | Buffer) => boolean
+  flush: () => void
 }
 
 /** Build a colored "[Label]" prefix (auto-disables colors on non-TTY unless forced) */
-function makePrefix(label, color) {
+function makePrefix(label: string, color: string): string {
   return `${colors.bold}${color}[${label}]${colors.reset}`
 }
 
@@ -32,7 +41,7 @@ function makePrefix(label, color) {
  * Create a line-buffering writer that prefixes complete lines and forwards them
  * Preserves ANSI color codes across line boundaries
  */
-function createPrefixedLineWriter(label, color, writeFn) {
+function createPrefixedLineWriter(label: string, color: string, writeFn: WriteFn): PrefixedLineWriter {
   let buffer = ''
   let activeAnsiState = '' // Track active ANSI codes
   const prefix = makePrefix(label, color)
@@ -41,7 +50,7 @@ function createPrefixedLineWriter(label, color, writeFn) {
   // eslint-disable-next-line no-control-regex
   const ansiRegex = /\u001b\[[0-9;]*m/g
 
-  function write(data) {
+  function write(data: string | Buffer): boolean {
     buffer += typeof data === 'string' ? data : data.toString()
 
     // Split on \r\n | \n | \r, keep the last incomplete fragment in buffer
@@ -74,7 +83,7 @@ function createPrefixedLineWriter(label, color, writeFn) {
     return writeFn(body, 'utf8')
   }
 
-  function flush() {
+  function flush(): void {
     if (buffer.length) {
       writeFn(`${prefix} ${activeAnsiState}${buffer}\n`, 'utf8')
       buffer = ''
@@ -85,16 +94,26 @@ function createPrefixedLineWriter(label, color, writeFn) {
   return { write, flush }
 }
 
+interface SpawnPrefixedOptions {
+  label: string
+  color: string
+  ipc?: boolean
+}
+
 /**
  * Spawn a child process with automatic prefixed output
  */
-function spawnPrefixed(command, args, { label, color, ipc = false }) {
-  const child = childProcess.spawn(command, args, {
-    stdio: ['inherit', 'pipe', 'pipe', ...(ipc ? ['ipc'] : [])],
+function spawnPrefixed(
+  command: string,
+  args: string[],
+  { label, color, ipc = false }: SpawnPrefixedOptions,
+): ChildProcess {
+  const child = spawn(command, args, {
+    stdio: ['inherit', 'pipe', 'pipe', ...(ipc ? (['ipc'] as const) : [])],
   })
 
-  const destStdout = process.stdout.write.bind(process.stdout)
-  const destStderr = process.stderr.write.bind(process.stderr)
+  const destStdout = process.stdout.write.bind(process.stdout) as WriteFn
+  const destStderr = process.stderr.write.bind(process.stderr) as WriteFn
 
   if (child.stdout) {
     const outWriter = createPrefixedLineWriter(label, color, destStdout)
@@ -115,12 +134,27 @@ function spawnPrefixed(command, args, { label, color, ipc = false }) {
   return child
 }
 
+interface ESBuildManagerOptions {
+  onBuildComplete?: () => void
+}
+
+interface BuildMessage {
+  type: string
+}
+
 /**
  * ESBuild watcher process management
  */
-class ESBuildManager {
-  constructor(options = {}) {
-    this.watchProcess = null
+export class ESBuildManager {
+  private watchProcess: ChildProcess | null = null
+
+  private options: {
+    label: string
+    color: string
+    onBuildComplete: (() => void) | null
+  }
+
+  constructor(options: ESBuildManagerOptions = {}) {
     this.options = {
       label: 'ESBuild',
       color: colors.magenta,
@@ -131,8 +165,8 @@ class ESBuildManager {
   /**
    * Start the ESBuild watcher in development mode
    */
-  start(isWatchMode) {
-    const args = ['esbuild/runner.js']
+  start(isWatchMode: boolean): void {
+    const args = ['--experimental-strip-types', 'esbuild/runner.ts']
 
     if (isWatchMode) {
       args.push('--watch')
@@ -145,7 +179,7 @@ class ESBuildManager {
     })
 
     // Listen for IPC messages
-    this.watchProcess.on('message', msg => {
+    this.watchProcess.on('message', (msg: BuildMessage) => {
       if (msg.type === 'app-build-complete' && this.options.onBuildComplete) {
         this.options.onBuildComplete()
       }
@@ -160,12 +194,25 @@ class ESBuildManager {
   }
 }
 
+interface ServerManagerOptions {
+  label?: string
+  color?: string
+  envFile?: string
+}
+
 /**
  * Server process management with proper race condition handling
  */
-class ServerManager {
-  constructor(options = {}) {
-    this.serverProcess = null
+export class ServerManager {
+  private serverProcess: ChildProcess | null = null
+
+  private options: {
+    label: string
+    color: string
+    envFile?: string
+  }
+
+  constructor(options: ServerManagerOptions = {}) {
     this.options = {
       label: 'Node',
       color: colors.green,
@@ -177,15 +224,15 @@ class ServerManager {
    * Start or restart the server
    * Properly handles race conditions by waiting for old process to exit
    */
-  async restart() {
+  async restart(): Promise<void> {
     if (this.serverProcess) {
       // Check if process is still alive before waiting for exit
       const isAlive = this.serverProcess.exitCode === null && this.serverProcess.signalCode === null
 
       if (isAlive) {
-        await new Promise(resolve => {
-          this.serverProcess.once('exit', resolve)
-          this.serverProcess.kill()
+        await new Promise<void>(resolve => {
+          this.serverProcess!.once('exit', () => resolve())
+          this.serverProcess!.kill()
         })
       }
 
@@ -208,7 +255,7 @@ class ServerManager {
 /**
  * Create plugin that notifies parent process on successful build
  */
-function buildNotificationPlugin(buildName, isWatchMode) {
+export function buildNotificationPlugin(buildName: string, isWatchMode: boolean): Plugin {
   return {
     name: 'build-notification',
     setup(build) {
@@ -220,7 +267,7 @@ function buildNotificationPlugin(buildName, isWatchMode) {
         if (result.errors.length === 0) {
           process.stderr.write(`${colors.bold}${emojis.rocket} ${buildName} build complete!${colors.reset}\n`)
 
-          if (isWatchMode) {
+          if (isWatchMode && process.send) {
             process.send({ type: 'app-build-complete' })
           }
         } else {
@@ -231,19 +278,10 @@ function buildNotificationPlugin(buildName, isWatchMode) {
   }
 }
 
-function getEnvFile(args) {
+export function getEnvFile(args: string[]): string {
   const index = args.findIndex(arg => arg === '--env' || arg.startsWith('--env='))
   if (index === -1) return '.env'
 
   const value = args[index].slice(6) || args[index + 1]
   return value && !value.startsWith('--') ? value : '.env'
-}
-
-module.exports = {
-  colors,
-  emojis,
-  getEnvFile,
-  buildNotificationPlugin,
-  ESBuildManager,
-  ServerManager,
 }

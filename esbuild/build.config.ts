@@ -1,10 +1,32 @@
-const path = require('path')
-const { globSync } = require('node:fs')
+import path from 'node:path'
+import { globSync } from 'node:fs'
+
+export interface BuildConfig {
+  isProduction: boolean
+  isWatchMode: boolean
+  app: {
+    outDir: string
+    entryPoints: string[]
+    copy: Array<{
+      from: string
+      to: string
+    }>
+  }
+  assets: {
+    outDir: string
+    entryPoints: string[]
+    copy: Array<{
+      from: string
+      to: string
+    }>
+    clear: string[]
+  }
+}
 
 /**
  * Configuration for build steps
  */
-const getBuildConfig = () => {
+export const getBuildConfig = (): BuildConfig => {
   const cwd = process.cwd()
   const isProduction = process.env.NODE_ENV === 'production'
   const isWatchMode = process.argv.includes('--watch')
@@ -39,5 +61,3 @@ const getBuildConfig = () => {
     },
   }
 }
-
-module.exports = { getBuildConfig }
