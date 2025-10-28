@@ -6,11 +6,17 @@ Refactored build process to leverage ESBuild’s native watch and rebuild featur
 
 See PR [#603](https://github.com/ministryofjustice/hmpps-template-typescript/pull/603)
 
+**October 27th 2025** - Switch to Playwright for E2E testing
+
+Refactored end-to-end testing to use Playwright instead of Cypress. All existing E2E tests have been migrated to Playwright, and Cypress dependencies removed. GitHub Actions have been updated to use the new testing framework. Mocks/stubs have been reworked as appropiate. 
+
+See PR [#584](https://github.com/ministryofjustice/hmpps-template-typescript/pull/584)
+
 **September 28th 2025** - Cleaned up web-session middleware
 
 Removed middleware for keeping Redis cache alive. express-web-session handles this automatically, so this can be safely removed.
 
-See PR [593](https://github.com/ministryofjustice/hmpps-template-typescript/pull/593)
+See PR [#593](https://github.com/ministryofjustice/hmpps-template-typescript/pull/593)
 
 **August 27th 2025** - Extract Jest and lint-staged configuration to separate files
 
