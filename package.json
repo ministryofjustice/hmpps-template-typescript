@@ -7,11 +7,11 @@
   "scripts": {
     "prepare": "hmpps-precommit-hooks-prepare",
     "watch-ts": "tsc -w",
-    "build": "node esbuild/esbuild.config.js --build",
+    "build": "node esbuild/esbuild",
     "start": "node $NODE_OPTIONS dist/server.js | bunyan -o short",
-    "start:dev": "concurrently -k -p \"[{name}]\" -n \"ESBuild,Node\" -c \"yellow.bold,cyan.bold\" \"node esbuild/esbuild.config.js --build --watch\" \"node esbuild/esbuild.config.js --dev-server\"",
+    "start:dev": "node esbuild/esbuild --watch",
     "start-feature": " node $NODE_DEBUG_OPTION --env-file=feature.env dist/server.js | bunyan -o short",
-    "start-feature:dev": "concurrently -k -p \"[{name}]\" -n \"ESBuild,Node\" -c \"yellow.bold,cyan.bold\" \"node esbuild/esbuild.config.js  --build --watch \" \"node esbuild/esbuild.config.js --dev-test-server\"",
+    "start-feature:dev": "node esbuild/esbuild --watch --env feature.env",
     "lint": "eslint . --cache --max-warnings 0",
     "lint-fix": "eslint . --cache --max-warnings 0 --fix",
     "typecheck": "tsc && tsc -p integration_tests",
@@ -80,8 +80,6 @@
     "@types/supertest": "^6.0.3",
     "audit-ci": "^7.1.0",
     "aws-sdk-client-mock": "^4.1.0",
-    "chokidar": "^4.0.3",
-    "concurrently": "^9.2.1",
     "esbuild": "^0.25.11",
     "esbuild-plugin-clean": "^1.0.1",
     "esbuild-plugin-copy": "^2.1.1",
@@ -99,14 +97,5 @@
     "supertest": "^7.1.4",
     "ts-jest": "^29.4.5",
     "typescript": "^5.9.3"
-  },
-  "overrides": {
-    "@jgoz/esbuild-plugin-typecheck": {
-      "esbuild": "$esbuild"
-    },
-    "nunjucks": {
-      "chokidar": "$chokidar",
-      "error-ex": "1.3.2"
-    }
   }
 }
