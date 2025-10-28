@@ -6,6 +6,12 @@ Refactored build process to leverage ESBuild’s native watch and rebuild featur
 
 See PR [#603](https://github.com/ministryofjustice/hmpps-template-typescript/pull/603)
 
+**September 28th 2025** - Cleaned up web-session middleware
+
+Removed middleware for keeping Redis cache alive. express-web-session handles this automatically, so this can be safely removed.
+
+See PR [593](https://github.com/ministryofjustice/hmpps-template-typescript/pull/593)
+
 **August 27th 2025** - Extract Jest and lint-staged configuration to separate files
 
 Moved Jest and lint-staged configuration from `package.json` to dedicated config files (`jest.config.mjs` and `lint-staged.config.mjs`) for better maintainability.
