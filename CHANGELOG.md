@@ -1,5 +1,11 @@
 # Change log
 
+**October 28th 2025** - Build process/ESBuild refactoring
+
+Refactored build process to leverage ESBuild’s native watch and rebuild features, removing need for `chokidar` and `concurrently`, and improved watch mode stability for Node/Express. Builds should now be even faster, typechecking too, and the Express server should no longer crash the whole process on an uncaught exception.
+
+See PR [#603](https://github.com/ministryofjustice/hmpps-template-typescript/pull/603)
+
 **August 27th 2025** - Extract Jest and lint-staged configuration to separate files
 
 Moved Jest and lint-staged configuration from `package.json` to dedicated config files (`jest.config.mjs` and `lint-staged.config.mjs`) for better maintainability.
