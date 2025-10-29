@@ -28,15 +28,15 @@
     "precommit:verify": "npm run typecheck && npm test"
   },
   "engines": {
-    "node": "^22",
+    "node": "^24",
     "npm": "^11"
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.916.0",
-    "@ministryofjustice/frontend": "^6.0.0",
-    "@ministryofjustice/hmpps-auth-clients": "^0.0.3",
-    "@ministryofjustice/hmpps-monitoring": "^0.0.2",
-    "@ministryofjustice/hmpps-rest-client": "^0.0.3",
+    "@aws-sdk/client-sqs": "^3.919.0",
+    "@ministryofjustice/frontend": "^7.1.0",
+    "@ministryofjustice/hmpps-auth-clients": "^1.0.0",
+    "@ministryofjustice/hmpps-monitoring": "^1.0.0",
+    "@ministryofjustice/hmpps-rest-client": "^1.0.0",
     "@playwright/test": "^1.56.1",
     "applicationinsights": "^2.9.8",
     "body-parser": "^2.2.0",
@@ -61,9 +61,9 @@
   },
   "devDependencies": {
     "@jgoz/esbuild-plugin-typecheck": "^4.0.4",
-    "@ministryofjustice/eslint-config-hmpps": "^0.0.5",
-    "@ministryofjustice/hmpps-precommit-hooks": "^0.0.4",
-    "@tsconfig/node22": "^22.0.2",
+    "@ministryofjustice/eslint-config-hmpps": "^1.0.0",
+    "@ministryofjustice/hmpps-precommit-hooks": "^1.0.2",
+    "@tsconfig/node24": "^24.0.1",
     "@types/bunyan": "^1.8.11",
     "@types/bunyan-format": "^0.2.9",
     "@types/compression": "^1.8.1",
@@ -72,7 +72,7 @@
     "@types/http-errors": "^2.0.5",
     "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^22.18.12",
+    "@types/node": "^24.9.2",
     "@types/nunjucks": "^3.2.6",
     "@types/passport": "^1.0.17",
     "@types/passport-oauth2": "^1.8.0",

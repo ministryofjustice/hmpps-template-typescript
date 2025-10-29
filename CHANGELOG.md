@@ -1,5 +1,11 @@
 # Change log
 
+**October 29th 2025** - Move to node 24
+
+Node 24 is now LTS. Notes [here](https://nodejs.org/en/blog/release/v24.11.0)
+
+See PR [#606](https://github.com/ministryofjustice/hmpps-template-typescript/pull/606)
+
 **October 28th 2025** - Build process/ESBuild refactoring
 
 Refactored build process to leverage ESBuild’s native watch and rebuild features, removing need for `chokidar` and `concurrently`, and improved watch mode stability for Node/Express. Builds should now be even faster, typechecking too, and the Express server should no longer crash the whole process on an uncaught exception.
