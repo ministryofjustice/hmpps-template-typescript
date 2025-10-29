@@ -4,7 +4,7 @@
 
 Node 24 is now LTS. Notes [here](https://nodejs.org/en/blog/release/v24.11.0)
 
-See PR [#606](https://github.com/ministryofjustice/hmpps-template-typescript/pull/606)
+See PR [#607](https://github.com/ministryofjustice/hmpps-template-typescript/pull/607)
 
 **October 28th 2025** - Build process/ESBuild refactoring
 
