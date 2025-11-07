@@ -1,5 +1,11 @@
 # Change log
 
+**November 6th 2025** - Cleanup prettier
+
+Removed unused prettier configuration file `prettierc.json` due to prettier rules being superseded by those defined in `eslint-config-hmpps`, and removed unused prettier dependencies
+
+See PR [#609](https://github.com/ministryofjustice/hmpps-template-typescript/pull/609)
+
 **October 29th 2025** - Move to node 24
 
 Node 24 is now LTS. Notes [here](https://nodejs.org/en/blog/release/v24.11.0)
