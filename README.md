@@ -147,7 +147,7 @@ Then run the server in test mode by:
 
 After first install ensure playwright is initialised: 
 
-`npm run int-test-init`
+`npm run int-test-init:ci`
 
 And then either, run tests in headless mode with:
 
