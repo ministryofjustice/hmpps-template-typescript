@@ -1,17 +1,17 @@
 # Stage: base image
-FROM node:22-alpine AS base
+FROM node:24-alpine AS base
 
 LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
 
 RUN apk --update-cache upgrade --available \
-  && apk --no-cache add tzdata \
-  && rm -rf /var/cache/apk/*
+        && apk --no-cache add tzdata \
+        && rm -rf /var/cache/apk/*
 
 ENV TZ=Europe/London
 RUN ln -snf "/usr/share/zoneinfo/$TZ" /etc/localtime && echo "$TZ" > /etc/timezone
 
 RUN addgroup --gid 2000 --system appgroup && \
-    adduser --uid 2000 --system appuser --ingroup appgroup
+        adduser --uid 2000 --system appuser --ingroup appgroup
 
 WORKDIR /app
 
@@ -37,7 +37,7 @@ ARG GIT_REF
 ARG GIT_BRANCH
 
 COPY package*.json ./
-RUN CYPRESS_INSTALL_BINARY=0 npm ci --no-audit
+RUN npm ci --no-audit
 ENV NODE_ENV='production'
 
 COPY . .
