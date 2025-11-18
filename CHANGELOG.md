@@ -1,5 +1,14 @@
 # Change log
 
+**November 18th 2025** - Fix GHA push option
+
+The pipeline workflow contains an optional 'push' parameter to indicate whether the image generated during its build step should be pushed to gchr.io. 
+It can only be provided when triggering the workflow manually. 
+
+This should have been implemented as a coalesce operator but instead used `|| true`, meaning it was never false.
+
+See PR [#615](https://github.com/ministryofjustice/hmpps-template-typescript/pull/615)
+
 **November 6th 2025** - Cleanup prettier
 
 Removed unused prettier configuration file `prettierc.json` due to prettier rules being superseded by those defined in `eslint-config-hmpps`, and removed unused prettier dependencies
