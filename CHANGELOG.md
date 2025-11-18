@@ -1,5 +1,14 @@
 # Change log
 
+**November 18th 2025** - Fix GHA push option
+
+The pipeline workflow contains an optional 'push' parameter to indicate whether the image generated during its build step should be pushed to gchr.io.
+It can only be provided when triggering the workflow manually.
+
+This should have been implemented as a coalesce operator but instead used `|| true`, meaning it was never false.
+
+See PR [#615](https://github.com/ministryofjustice/hmpps-template-typescript/pull/615)
+
 **November 6th 2025** - Cleanup prettier
 
 Removed unused prettier configuration file `prettierc.json` due to prettier rules being superseded by those defined in `eslint-config-hmpps`, and removed unused prettier dependencies
@@ -20,7 +29,7 @@ See PR [#603](https://github.com/ministryofjustice/hmpps-template-typescript/pul
 
 **October 27th 2025** - Switch to Playwright for E2E testing
 
-Refactored end-to-end testing to use Playwright instead of Cypress. All existing E2E tests have been migrated to Playwright, and Cypress dependencies removed. GitHub Actions have been updated to use the new testing framework. Mocks/stubs have been reworked as appropiate. 
+Refactored end-to-end testing to use Playwright instead of Cypress. All existing E2E tests have been migrated to Playwright, and Cypress dependencies removed. GitHub Actions have been updated to use the new testing framework. Mocks/stubs have been reworked as appropiate.
 
 See PR [#584](https://github.com/ministryofjustice/hmpps-template-typescript/pull/584)
 
@@ -48,7 +57,7 @@ See PR [#559](https://github.com/ministryofjustice/hmpps-template-typescript/pul
 
 **June 17th 2025** - Add precommit hook
 
-Adding the [precommit library](https://github.com/ministryofjustice/hmpps-typescript-lib/tree/main/packages/precommit-hooks). 
+Adding the [precommit library](https://github.com/ministryofjustice/hmpps-typescript-lib/tree/main/packages/precommit-hooks).
 
 See PR [#556](https://github.com/ministryofjustice/hmpps-template-typescript/pull/556)
 
