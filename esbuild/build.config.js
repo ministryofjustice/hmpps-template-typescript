@@ -22,6 +22,7 @@ const getBuildConfig = () => {
         {
           from: path.join(cwd, 'server/views/**/*'),
           to: path.join(cwd, 'dist/server/views'),
+          watch: true,
         },
       ],
     },
