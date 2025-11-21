@@ -1,5 +1,11 @@
 # Change log
 
+**November 21st 2025** - Fix ESBuild watch mode
+
+Changes to nunjucks templates weren't triggering a rebuild - this fixes that. 
+
+See PR [#621](https://github.com/ministryofjustice/hmpps-template-typescript/pull/621)
+
 **November 18th 2025** - Fix GHA push option
 
 The pipeline workflow contains an optional 'push' parameter to indicate whether the image generated during its build step should be pushed to gchr.io.
