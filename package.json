@@ -32,7 +32,7 @@
     "npm": "^11"
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.932.0",
+    "@aws-sdk/client-sqs": "^3.934.0",
     "@ministryofjustice/frontend": "^7.1.0",
     "@ministryofjustice/hmpps-auth-clients": "^1.0.0",
     "@ministryofjustice/hmpps-monitoring": "^1.0.0",
@@ -63,7 +63,7 @@
     "@ministryofjustice/eslint-config-hmpps": "^1.0.1",
     "@ministryofjustice/hmpps-precommit-hooks": "^1.0.2",
     "@playwright/test": "^1.56.1",
-    "@tsconfig/node24": "^24.0.2",
+    "@tsconfig/node24": "^24.0.3",
     "@types/bunyan": "^1.8.11",
     "@types/bunyan-format": "^0.2.9",
     "@types/compression": "^1.8.1",
