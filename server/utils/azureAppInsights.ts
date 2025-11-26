@@ -77,7 +77,7 @@ function parameterisePaths(envelope: EnvelopeTelemetry, contextObjects: ContextO
 export function ignoredRequestsProcessor(envelope: EnvelopeTelemetry) {
   if (envelope.data.baseType === Contracts.TelemetryTypeString.Request) {
     const requestData = envelope.data.baseData
-    if (requestData instanceof Contracts.RequestData) {
+    if (requestData instanceof Contracts.RequestData && requestData.success) {
       const { name } = requestData
       return requestPrefixesToIgnore.every(prefix => !name.startsWith(prefix))
     }
@@ -88,7 +88,7 @@ export function ignoredRequestsProcessor(envelope: EnvelopeTelemetry) {
 export function ignoredDependenciesProcessor(envelope: EnvelopeTelemetry) {
   if (envelope.data.baseType === Contracts.TelemetryTypeString.Dependency) {
     const dependencyData = envelope.data.baseData
-    if (dependencyData instanceof Contracts.RemoteDependencyData) {
+    if (dependencyData instanceof Contracts.RemoteDependencyData && dependencyData.success) {
       const { target } = dependencyData
       return dependencyPrefixesToIgnore.every(prefix => !target.startsWith(prefix))
     }
