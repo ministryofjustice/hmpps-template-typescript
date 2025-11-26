@@ -1,0 +1,119 @@
+import { DataTelemetry, EnvelopeTelemetry } from 'applicationinsights/out/Declarations/Contracts'
+import { Contracts } from 'applicationinsights'
+import {
+  addUserDataToRequests,
+  ContextObject,
+  ignoredDependenciesProcessor,
+  ignoredRequestsProcessor,
+} from './azureAppInsights'
+import { HmppsUser } from '../interfaces/hmppsUser'
+
+const exampleUser = {
+  username: 'test-user',
+  authSource: 'nomis',
+} as HmppsUser
+
+const createEnvelope = (properties: Record<string, string | boolean>, baseType = 'RequestData') =>
+  ({
+    data: {
+      baseType,
+      baseData: { properties },
+    } as DataTelemetry,
+  }) as EnvelopeTelemetry
+
+const createContext = (user: HmppsUser) =>
+  ({
+    'http.ServerRequest': {
+      res: {
+        locals: {
+          user,
+        },
+      },
+    },
+  }) as ContextObject
+
+const context = createContext(exampleUser)
+
+describe('azureAppInsights', () => {
+  describe('addUserDataToRequests', () => {
+    it('adds user data to properties when present', () => {
+      const envelope = createEnvelope({ other: 'things' })
+
+      addUserDataToRequests(envelope, context)
+
+      expect(envelope.data.baseData.properties).toStrictEqual({
+        username: exampleUser.username,
+        authSource: exampleUser.authSource,
+        other: 'things',
+      })
+    })
+
+    it('handles absent user data', () => {
+      const envelope = createEnvelope({ other: 'things' })
+
+      addUserDataToRequests(envelope, createContext(undefined))
+
+      expect(envelope.data.baseData.properties).toStrictEqual({ other: 'things' })
+    })
+
+    it('returns true when not RequestData type', () => {
+      const envelope = createEnvelope({}, 'NOT_REQUEST_DATA')
+
+      const response = addUserDataToRequests(envelope, context)
+
+      expect(response).toStrictEqual(true)
+    })
+
+    it('handles when no properties have been set', () => {
+      const envelope = createEnvelope(undefined)
+
+      addUserDataToRequests(envelope, context)
+
+      expect(envelope.data.baseData.properties).toStrictEqual(exampleUser)
+    })
+
+    it('handles missing user details', () => {
+      const envelope = createEnvelope({ other: 'things' })
+
+      addUserDataToRequests(envelope, {
+        'http.ServerRequest': {},
+      } as ContextObject)
+
+      expect(envelope.data.baseData.properties).toEqual({
+        other: 'things',
+      })
+    })
+  })
+
+  describe('ignoredRequestsProcessor', () => {
+    it.each([
+      ['GET /assets/some.css', false],
+      ['GET /health', false],
+      ['GET /ping', false],
+      ['GET /info', false],
+      ['GET /something-else', true],
+      ['GET /something-else/random', true],
+      ['GET /sandwich/health/with-something-else', true],
+    ])(`Request '%s' logged by app insights: '%s'`, (name: string, logged: boolean) => {
+      const envelope = createEnvelope({}, 'RequestData')
+      const requestData = new Contracts.RequestData()
+      requestData.name = name
+      envelope.data.baseData = requestData
+      expect(ignoredRequestsProcessor(envelope)).toBe(logged)
+    })
+  })
+
+  describe('ignoredDependenciesProcessor', () => {
+    it.each([
+      ['sqs.eu-west-2.amazonaws.com', false],
+      ['sqs.us-east-1.amazonaws.com', false],
+      ['anything.else', true],
+    ])(`Dependency '%s' logged by app insights: '%s'`, (target: string, logged: boolean) => {
+      const envelope = createEnvelope({}, 'RemoteDependencyData')
+      const requestData = new Contracts.RemoteDependencyData()
+      requestData.target = target
+      envelope.data.baseData = requestData
+      expect(ignoredDependenciesProcessor(envelope)).toBe(logged)
+    })
+  })
+})
