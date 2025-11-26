@@ -40,7 +40,7 @@ jobs:
           path: npm_integration_test_artifacts
           merge-multiple: true
       - name: Merge reports
-        run: npx playwright merge-reports --reporter html ./npm_integration_test_artifacts/test_results/blob-report
+        run: npx playwright merge-reports --reporter html ./npm_integration_test_artifacts/test_results
       - name: Upload merged report
         uses: actions/upload-artifact@v5
         with:
