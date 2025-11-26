@@ -33,6 +33,9 @@ jobs:
         with:
           node-version-file: ${{ inputs.node_version_file }}
 
+      - name: Install Playwright
+        run: npm install @playwright/test
+
       - name: Download blob reports
         uses: actions/download-artifact@v6
         with:
