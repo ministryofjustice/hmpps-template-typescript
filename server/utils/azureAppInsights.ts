@@ -56,6 +56,7 @@ export function addUserDataToRequests(envelope: EnvelopeTelemetry, contextObject
       envelope.data.baseData.properties = {
         username,
         authSource,
+        ...(user.authSource === 'nomis' && user.activeCaseLoadId ? { activeCaseLoadId: user.activeCaseLoadId } : {}),
         ...properties,
       }
     }

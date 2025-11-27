@@ -1,5 +1,12 @@
 # Change log
 
+**November 27th 2025** - Include activeCaseLoadId for prison users in app insights instrumentation.
+
+Following on from the previous change to add username and authSource, this change is to add the activeCaseLoadId
+only for prison users with that property set.
+
+See PR [#631](https://github.com/ministryofjustice/hmpps-template-typescript/pull/631)
+
 **November 26th 2025** - Include username and authSource in app insights instrumentation.
 
 To ensure adequate tracking and monitoring of user activities within applications built using the

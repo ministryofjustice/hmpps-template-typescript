@@ -6,7 +6,7 @@ import {
   ignoredDependenciesProcessor,
   ignoredRequestsProcessor,
 } from './azureAppInsights'
-import { HmppsUser } from '../interfaces/hmppsUser'
+import { HmppsUser, PrisonUser } from '../interfaces/hmppsUser'
 
 const exampleUser = {
   username: 'test-user',
@@ -44,6 +44,31 @@ describe('azureAppInsights', () => {
       expect(envelope.data.baseData.properties).toStrictEqual({
         username: exampleUser.username,
         authSource: exampleUser.authSource,
+        other: 'things',
+      })
+    })
+
+    it('adds activeCaseLoadId to properties for a prison user with this set', () => {
+      const envelope = createEnvelope({ other: 'things' })
+
+      addUserDataToRequests(envelope, createContext({ ...exampleUser, activeCaseLoadId: 'MDI' } as PrisonUser))
+
+      expect(envelope.data.baseData.properties).toStrictEqual({
+        username: exampleUser.username,
+        authSource: exampleUser.authSource,
+        activeCaseLoadId: 'MDI',
+        other: 'things',
+      })
+    })
+
+    it.each(['delius', 'external', 'azuread'])('handles %s users', (authSource: 'delius' | 'external' | 'azuread') => {
+      const envelope = createEnvelope({ other: 'things' })
+
+      addUserDataToRequests(envelope, createContext({ ...exampleUser, authSource }))
+
+      expect(envelope.data.baseData.properties).toStrictEqual({
+        username: exampleUser.username,
+        authSource,
         other: 'things',
       })
     })
