@@ -1,8 +1,36 @@
 # Change log
 
+**November 28th 2025** - Adding @ministryofjustice/hmpps-npm-allow-scripts.
+
+Adding script allowlist library to provide some level of protection against supply chain attacks.
+
+Developers and build agents will need to run `npm run setup` rather than `npm install` or `npm ci` as otherwise, necessary `postinstall` scripts may not be run.
+ 
+See [here](https://github.com/ministryofjustice/hmpps-typescript-lib/blob/main/packages/npm-script-allowlist/README.md) for more information. 
+
+See PR [#632](https://github.com/ministryofjustice/hmpps-template-typescript/pull/632)
+
+**November 27th 2025** - Include activeCaseLoadId for prison users in app insights instrumentation.
+
+Following on from the previous change to add username and authSource, this change is to add the activeCaseLoadId
+only for prison users with that property set.
+
+See PR [#631](https://github.com/ministryofjustice/hmpps-template-typescript/pull/631)
+
+**November 26th 2025** - Include username and authSource in app insights instrumentation.
+
+To ensure adequate tracking and monitoring of user activities within applications built using the
+hmpps-template-typescript, we have enhanced the Application Insights integration to include both the username and
+authSource in the telemetry data.
+
+This PR also prevents requests for things like static assets or health endpoints from being logged to help reduce
+app insights data usage as well as SQS dependency logging.
+
+See PR [#629](https://github.com/ministryofjustice/hmpps-template-typescript/pull/629)
+
 **November 21st 2025** - Fix ESBuild watch mode
 
-Changes to nunjucks templates weren't triggering a rebuild - this fixes that. 
+Changes to nunjucks templates weren't triggering a rebuild - this fixes that.
 
 See PR [#621](https://github.com/ministryofjustice/hmpps-template-typescript/pull/621)
 
