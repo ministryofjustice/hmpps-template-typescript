@@ -1,17 +1,6 @@
 import { DataTelemetry, EnvelopeTelemetry } from 'applicationinsights/out/Declarations/Contracts'
 import { Contracts } from 'applicationinsights'
-import {
-  addUserDataToRequests,
-  ContextObject,
-  ignoredDependenciesProcessor,
-  ignoredRequestsProcessor,
-} from './azureAppInsights'
-import { HmppsUser, PrisonUser } from '../interfaces/hmppsUser'
-
-const exampleUser = {
-  username: 'test-user',
-  authSource: 'nomis',
-} as HmppsUser
+import { ignoredDependenciesProcessor, ignoredRequestsProcessor } from './azureAppInsights'
 
 const createEnvelope = (properties: Record<string, string | boolean>, baseType = 'RequestData') =>
   ({
@@ -21,95 +10,7 @@ const createEnvelope = (properties: Record<string, string | boolean>, baseType =
     } as DataTelemetry,
   }) as EnvelopeTelemetry
 
-const createContext = (user: HmppsUser) =>
-  ({
-    'http.ServerRequest': {
-      res: {
-        locals: {
-          user,
-        },
-      },
-    },
-  }) as ContextObject
-
-const context = createContext(exampleUser)
-
 describe('azureAppInsights', () => {
-  describe('addUserDataToRequests', () => {
-    it('adds user data to properties when present', () => {
-      const envelope = createEnvelope({ other: 'things' })
-
-      addUserDataToRequests(envelope, context)
-
-      expect(envelope.data.baseData.properties).toStrictEqual({
-        username: exampleUser.username,
-        authSource: exampleUser.authSource,
-        other: 'things',
-      })
-    })
-
-    it('adds activeCaseLoadId to properties for a prison user with this set', () => {
-      const envelope = createEnvelope({ other: 'things' })
-
-      addUserDataToRequests(envelope, createContext({ ...exampleUser, activeCaseLoadId: 'MDI' } as PrisonUser))
-
-      expect(envelope.data.baseData.properties).toStrictEqual({
-        username: exampleUser.username,
-        authSource: exampleUser.authSource,
-        activeCaseLoadId: 'MDI',
-        other: 'things',
-      })
-    })
-
-    it.each(['delius', 'external', 'azuread'])('handles %s users', (authSource: 'delius' | 'external' | 'azuread') => {
-      const envelope = createEnvelope({ other: 'things' })
-
-      addUserDataToRequests(envelope, createContext({ ...exampleUser, authSource }))
-
-      expect(envelope.data.baseData.properties).toStrictEqual({
-        username: exampleUser.username,
-        authSource,
-        other: 'things',
-      })
-    })
-
-    it('handles absent user data', () => {
-      const envelope = createEnvelope({ other: 'things' })
-
-      addUserDataToRequests(envelope, createContext(undefined))
-
-      expect(envelope.data.baseData.properties).toStrictEqual({ other: 'things' })
-    })
-
-    it('returns true when not RequestData type', () => {
-      const envelope = createEnvelope({}, 'NOT_REQUEST_DATA')
-
-      const response = addUserDataToRequests(envelope, context)
-
-      expect(response).toStrictEqual(true)
-    })
-
-    it('handles when no properties have been set', () => {
-      const envelope = createEnvelope(undefined)
-
-      addUserDataToRequests(envelope, context)
-
-      expect(envelope.data.baseData.properties).toStrictEqual(exampleUser)
-    })
-
-    it('handles missing user details', () => {
-      const envelope = createEnvelope({ other: 'things' })
-
-      addUserDataToRequests(envelope, {
-        'http.ServerRequest': {},
-      } as ContextObject)
-
-      expect(envelope.data.baseData.properties).toEqual({
-        other: 'things',
-      })
-    })
-  })
-
   describe('ignoredRequestsProcessor', () => {
     it.each([
       ['GET /assets/some.css', false],
