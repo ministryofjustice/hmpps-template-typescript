@@ -10,7 +10,6 @@ import { Request, RequestHandler } from 'express'
 import { CorrelationContext } from 'applicationinsights/out/AutoCollection/CorrelationContextManager'
 import { EnvelopeTelemetry } from 'applicationinsights/out/Declarations/Contracts'
 import type { ApplicationInfo } from '../applicationInfo'
-import { HmppsUser } from '../interfaces/hmppsUser'
 
 const requestPrefixesToIgnore = ['GET /assets/', 'GET /health', 'GET /ping', 'GET /info']
 const dependencyPrefixesToIgnore = ['sqs']
@@ -36,32 +35,12 @@ export function buildAppInsightsClient(
   if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
     defaultClient.context.tags['ai.cloud.role'] = overrideName || applicationName
     defaultClient.context.tags['ai.application.ver'] = buildNumber
-    defaultClient.addTelemetryProcessor(addUserDataToRequests)
     defaultClient.addTelemetryProcessor(parameterisePaths)
     defaultClient.addTelemetryProcessor(ignoredRequestsProcessor)
     defaultClient.addTelemetryProcessor(ignoredDependenciesProcessor)
     return defaultClient
   }
   return null
-}
-
-export function addUserDataToRequests(envelope: EnvelopeTelemetry, contextObjects: ContextObject) {
-  const isRequest = envelope.data.baseType === Contracts.TelemetryTypeString.Request
-  if (isRequest) {
-    const user = contextObjects?.['http.ServerRequest']?.res?.locals?.user || ({} as HmppsUser)
-    const { username, authSource } = user
-    if (username) {
-      const { properties } = envelope.data.baseData
-      // eslint-disable-next-line no-param-reassign
-      envelope.data.baseData.properties = {
-        username,
-        authSource,
-        ...(user.authSource === 'nomis' && user.activeCaseLoadId ? { activeCaseLoadId: user.activeCaseLoadId } : {}),
-        ...properties,
-      }
-    }
-  }
-  return true
 }
 
 function parameterisePaths(envelope: EnvelopeTelemetry, contextObjects: ContextObject) {

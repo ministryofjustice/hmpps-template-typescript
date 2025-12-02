@@ -1,5 +1,15 @@
 # Change log
 
+**November 28th 2025** - Adding @ministryofjustice/hmpps-npm-allow-scripts.
+
+Adding script allowlist library to provide some level of protection against supply chain attacks.
+
+Developers and build agents will need to run `npm run setup` rather than `npm install` or `npm ci` as otherwise, necessary `postinstall` scripts may not be run.
+ 
+See [here](https://github.com/ministryofjustice/hmpps-typescript-lib/blob/main/packages/npm-script-allowlist/README.md) for more information. 
+
+See PR [#632](https://github.com/ministryofjustice/hmpps-template-typescript/pull/632)
+
 **November 27th 2025** - Include activeCaseLoadId for prison users in app insights instrumentation.
 
 Following on from the previous change to add username and authSource, this change is to add the activeCaseLoadId
