@@ -1,19 +1,5 @@
 # Stage: base image
-FROM node:24-alpine AS base
-
-LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
-
-RUN apk --update-cache upgrade --available \
-        && apk --no-cache add tzdata \
-        && rm -rf /var/cache/apk/*
-
-ENV TZ=Europe/London
-RUN ln -snf "/usr/share/zoneinfo/$TZ" /etc/localtime && echo "$TZ" > /etc/timezone
-
-RUN addgroup --gid 2000 --system appgroup && \
-        adduser --uid 2000 --system appuser --ingroup appgroup
-
-WORKDIR /app
+FROM ghcr.io/ministryofjustice/hmpps-node:24-alpine AS base
 
 ARG BUILD_NUMBER
 ARG GIT_REF
