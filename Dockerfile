@@ -1,10 +1,6 @@
 # Stage: base image
 FROM ghcr.io/ministryofjustice/hmpps-node:24-alpine AS base
 
-RUN apk --update-cache upgrade --available \
-        && apk --no-cache add tzdata \
-        && rm -rf /var/cache/apk/*
-
 ARG BUILD_NUMBER
 ARG GIT_REF
 ARG GIT_BRANCH
