@@ -1,5 +1,12 @@
 # Change log
 
+
+**December 4th 2025** - Remove mocha-junit-reporter and reporter-config.json.
+
+Replaced the custom Node.js base image setup with the standardized `hmpps-node:24-alpine` base image from GitHub Container Registry `hmpps-base-container-images`. This simplifies maintenance and ensures consistency across projects. 
+
+See PR [#638](https://github.com/ministryofjustice/hmpps-template-typescript/pull/638)
+
 **December 2nd 2025** - Remove mocha-junit-reporter and reporter-config.json.
 
 The reporter was used for cypress (as cypress is built on top of Mocha) so is no longer needed as we have switched to playwright.
