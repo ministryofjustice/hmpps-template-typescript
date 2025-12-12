@@ -1,5 +1,12 @@
 # Change log
 
+**December 12th 2025** - Updating shared linting library to 1.0.2.
+
+Updating: `@ministryofjustice/eslint-config-hmpps@1.0.1` -> `@ministryofjustice/eslint-config-hmpps@1.0.2`
+
+This has an improvement which means `.allowed-scripts.mjs` no longer needs to be added to `extraPathsAllowingDevDependencies` in `eslint.config.mjs` config.
+
+See PR [#643](https://github.com/ministryofjustice/hmpps-template-typescript/pull/643)
 
 **December 4th 2025** - Remove mocha-junit-reporter and reporter-config.json.
 
