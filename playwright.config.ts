@@ -30,6 +30,7 @@ export default defineConfig({
     ['list'],
     ['html', { outputFolder: 'test_results/playwright/report', open: process.env.CI ? 'never' : 'on-failure' }],
     ['junit', { outputFile: 'test_results/playwright/junit.xml' }],
+    ...(process.env.CI ? [['blob', { outputDir: 'test_results/blob-report' }] as const] : []),
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
