@@ -1,0 +1,47 @@
+# This workflow automates dependency updates using Renovate bot.
+# 
+# Triggers:
+# - Scheduled: Runs daily at midnight UTC (cron: "0 0 * * *")
+# - Manual: Can be triggered manually via workflow_dispatch
+#
+# Jobs:
+# - dependencies: Checks and updates project dependencies
+#   - Checks out the repository
+#   - Runs Renovate bot to scan for outdated dependencies
+#   - Creates/updates pull requests for dependency updates
+#
+# Permissions:
+# - contents: write - Required to create branches and commits
+# - pull-requests: write - Required to create and update pull requests
+#
+# Note: "renovatebot" refers to the Renovate dependency update tool
+#
+
+name: Renovate ⚡️
+run-name: Renovate ⚡️
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  # 1. Dependencies review
+  dependencies:
+    permissions:
+      contents: write
+      pull-requests: write
+
+    name: Dependencies ⚡️
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
+      - name: Renovate
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: renovatebot/github-action@822441559e94f98b67b82d97ab89fe3003b0a247 # v44.2.0
