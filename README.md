@@ -157,6 +157,78 @@ Or run tests with the UI:
 
 `npm run int-test-ui`
 
+## Git hooks
+
+Repository uses [MoJ DevSecOps hooks](https://github.com/ministryofjustice/devsecops-hooks) to ensure `pre-commit` git hook is evaluated for series of checks before pushing the changes from staging area. Engineers should ensure `pre-commit` hook is configured and activated.
+
+1. **Installation**:
+
+   Ensure [prek](https://github.com/j178/prek?tab=readme-ov-file#installation) is installed globally
+
+   Linux / MacOS
+
+   ```bash
+   curl --proto '=https' --tlsv1.2 -LsSf https://raw.githubusercontent.com/ministryofjustice/devsecops-hooks/e85ca6127808ef407bc1e8ff21efed0bbd32bb1a/prek/prek-installer.sh | sh
+   ```
+
+   or 
+
+   ```bash
+   brew install prek
+   ```
+
+   Windows
+
+   ```bash
+   powershell -ExecutionPolicy ByPass -c "irm https://raw.githubusercontent.com/ministryofjustice/devsecops-hooks/e85ca6127808ef407bc1e8ff21efed0bbd32bb1a/prek/prek-installer.ps1 | iex"
+   ```
+
+3. **Activation**
+
+   Execute the following command in the repository directory
+
+   ```bash
+   prek install
+   ```
+
+4. **Test**
+
+    To dry-run the hook
+
+   ```bash
+   prek run
+   ```
+
+## 🔧 Configuration
+
+### Exclusion list
+
+One can exclude files and directories by adding them to `exclude` property. Exclude property accepts [regular expression](https://pre-commit.com/#regular-expressions).
+
+Ignore everything under `reports` and `docs` directories for `baseline` hook as an example.
+
+```yaml
+   repos:
+     - repo: https://github.com/ministryofjustice/devsecops-hooks
+       rev: v1.0.0
+       hooks:
+         - id: baseline
+            exclude: |
+            ^reports/|
+            ^docs/
+```
+
+Or one can also create a file with list of exclusions.
+
+```yaml
+repos:
+  - repo: https://github.com/ministryofjustice/devsecops-hooks
+    rev: v1.0.0
+    hooks:
+      - id: baseline
+        exclude: .pre-commit-ignore
+```
+
 ## Change log
 
 A changelog for the service is available [here](./CHANGELOG.md)
