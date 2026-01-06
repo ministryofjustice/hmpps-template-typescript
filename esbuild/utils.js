@@ -231,7 +231,9 @@ function cleanPlugin(patterns = []) {
         return
       }
 
-      registerOnStartCallback(() => deleteSync(patterns))
+      registerOnStartCallback(() => {
+        deleteSync(patterns)
+      })
     },
   }
 }
