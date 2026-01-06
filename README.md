@@ -157,6 +157,28 @@ Or run tests with the UI:
 
 `npm run int-test-ui`
 
+## Keeping your app up-to-date
+
+While there are multiple ways to keep your project up-to-date this [method](https://mojdt.slack.com/archives/C69NWE339/p1694009011413449) doesn't require you to keep cherry picking the changes, however if that works for you there is no reason to stop.
+
+In your service, add the template as a remote:
+
+`git remote add template https://github.com/ministryofjustice/hmpps-template-typescript`
+
+Create a branch and switch to it, eg:
+
+`git checkout -b template-changes-2309`
+
+Fetch all remotes:
+
+`git fetch --all`
+
+Merge the changes from the template into your service source:
+
+`git merge template/main --allow-unrelated-histories`
+
+You'll need to manually handle the merge of the changes, but if you do it early, carefully, and regularly, it won't be too much of a hassle.
+
 ## Change log
 
 A changelog for the service is available [here](./CHANGELOG.md)
