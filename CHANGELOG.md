@@ -1,5 +1,21 @@
 # Change log
 
+**January 6th 2026** - Fix asset build bug.
+
+This fixes an issue where every second asset build would result in this error:
+
+```
+ℹ  Typecheck started…
+[ESBuild] ✘ [ERROR] Invalid option from onStart() callback in plugin "clean": "0" [plugin clean]
+[ESBuild] 
+[ESBuild]     node_modules/esbuild/lib/main.js:259:12:
+[ESBuild]       259 │       throw new Error(`Invalid option ${where}: ${quote(key)}`);
+```
+
+deleteSync would return an array which esbuild baulks at. It would succeed the second time as the files were already deleted.
+
+See PR [#648](https://github.com/ministryofjustice/hmpps-template-typescript/pull/648)
+
 **December 12th 2025** - Updating shared linting library to 1.0.2.
 
 Updating: `@ministryofjustice/eslint-config-hmpps@1.0.1` -> `@ministryofjustice/eslint-config-hmpps@1.0.2`
