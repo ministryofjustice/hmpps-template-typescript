@@ -1,0 +1,49 @@
+name: Merge integration test reports
+
+on:
+  workflow_call:
+    inputs:
+      artifact_pattern:
+        description: 'Pattern to match blob report artifacts'
+        required: false
+        type: string
+        default: 'npm_integration_test_artifacts-*'
+      retention_days:
+        description: 'Number of days to retain the merged report'
+        required: false
+        type: number
+        default: 14
+      node_version_file:
+        description: "Passed to setup-node action to specify where to source the version of node from"
+        required: false
+        type: string
+        default: ".nvmrc"
+
+permissions:
+  contents: read
+
+jobs:
+  merge_reports:
+    name: Merge reports
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: ${{ inputs.node_version_file }}
+      - name: Init testing framework if necessary
+        run: npm run int-test-init:ci --if-present
+      - name: Download reports
+        uses: actions/download-artifact@v6
+        with:
+          pattern: ${{ inputs.artifact_pattern }}
+          path: npm_integration_test_artifacts
+          merge-multiple: true
+      - name: Merge reports
+        run: npx playwright merge-reports --reporter html ./npm_integration_test_artifacts/test_results/blob-report
+      - name: Upload merged report
+        uses: actions/upload-artifact@v5
+        with:
+          name: npm_integration_test_artifacts
+          path: playwright-report/
+          retention-days: ${{ inputs.retention_days }}
