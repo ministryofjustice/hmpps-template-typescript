@@ -29,7 +29,7 @@ ENV NODE_ENV='production'
 COPY . .
 RUN npm run build
 
-RUN npm prune --no-audit --omit=dev
+RUN npm prune --omit=dev
 
 # Stage: copy production assets and dependencies
 FROM base
