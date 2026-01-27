@@ -1,0 +1,11 @@
+.custom-deployment-banner {
+  padding: govuk-spacing(2);
+  background-color: govuk-tint(govuk-colour("blue"), 70%);
+
+  span {
+    color: govuk-shade(govuk-colour("blue"), 60%);
+    display: block;
+    width: $govuk-page-width;
+    margin: auto;
+  }
+}
