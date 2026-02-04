@@ -5,6 +5,7 @@ README.md
 node_modules
 npm-debug.log
 .*
+!.allowed-scripts.mjs
 **/*.test.js
 scss-report.txt
 eslint-report.html
