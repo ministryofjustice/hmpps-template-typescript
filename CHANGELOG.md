@@ -1,5 +1,17 @@
 # Change log
 
+**February 4th 2026** - Fix issue with running allowed scripts silently failing .
+
+This fixes an issue where allowed scripts were not running on the docker image:
+
+```
+An error occurred: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/app/.allowed-scripts.mjs' imported from /app/node_modules/@ministryofjustice/hmpps-npm-script-allowlist/dist/index.cjs.js
+```
+
+This was because the allowlist config file wasn't being copied onto the docker image and this was silently failing
+
+See PR [#665](https://github.com/ministryofjustice/hmpps-template-typescript/pull/665)
+
 **January 6th 2026** - Fix asset build bug.
 
 This fixes an issue where every second asset build would result in this error:
