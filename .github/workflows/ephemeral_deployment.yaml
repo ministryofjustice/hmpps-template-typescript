@@ -1,0 +1,16 @@
+name: Create ephemeral deployment
+
+on:
+  pull_request:
+    types: [ synchronize, opened, reopened, labeled ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy_ephemeral:
+    name: Create ephemeral deployment
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_ephemeral.yml@ephemeral-deployment
+    if: contains(github.event.pull_request.labels.*.name, 'ephemeral')
+    secrets: inherit

@@ -1,0 +1,16 @@
+name: Cleanup ephemeral deployment
+
+on:
+  pull_request:
+    types: [ closed, unlabeled ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cleanup_ephemeral:
+    name: Removes ephemeral deployment
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/cleanup_ephemeral.yml@ephemeral-deployment
+    if: (github.event.action == 'unlabeled' && github.event.label.name == 'ephemeral') || (github.event.action == 'closed' && contains(github.event.pull_request.labels.*.name, 'ephemeral'))
+    secrets: inherit
