@@ -38,6 +38,10 @@
     {
       "matchManagers": ["github-actions"],
       "fileMatch": ["^\\.github/workflows/.*\\.yml$"]
+    },
+    {
+      "matchManagers": ["pre-commit"],
+      "groupName": "all pre-commit dependencies"
     }
   ],
   "vulnerabilityAlerts": {
