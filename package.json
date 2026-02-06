@@ -23,9 +23,6 @@
     "int-test-init:ci": "npx playwright install",
     "clean": "rm -rf dist test_results",
     "rebuild": "npm run clean && npm run setup && npm run build",
-    "precommit:secrets": "gitleaks git --pre-commit --redact --staged --verbose --config .gitleaks/config.toml --gitleaks-ignore-path .gitleaks/.gitleaksignore",
-    "precommit:lint": "lint-staged",
-    "precommit:verify": "npm run typecheck && npm test",
     "setup": "npm ci && hmpps-npm-script-run-allowlist"
   },
   "engines": {
@@ -33,7 +30,7 @@
     "npm": "^11"
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.978.0",
+    "@aws-sdk/client-sqs": "^3.982.0",
     "@ministryofjustice/frontend": "^8.0.0",
     "@ministryofjustice/hmpps-auth-clients": "^1.0.1",
     "@ministryofjustice/hmpps-monitoring": "^1.0.1",
@@ -62,7 +59,7 @@
     "@jgoz/esbuild-plugin-typecheck": "^4.0.4",
     "@ministryofjustice/eslint-config-hmpps": "^1.0.2",
     "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.3",
-    "@ministryofjustice/hmpps-precommit-hooks": "^1.0.2",
+    "@ministryofjustice/hmpps-precommit-hooks": "2.0.0",
     "@playwright/test": "^1.58.0",
     "@tsconfig/node24": "^24.0.4",
     "@types/bunyan": "^1.8.11",
@@ -73,7 +70,7 @@
     "@types/http-errors": "^2.0.5",
     "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^24.10.9",
+    "@types/node": "^24.10.10",
     "@types/nunjucks": "^3.2.6",
     "@types/passport": "^1.0.17",
     "@types/passport-oauth2": "^1.8.0",
