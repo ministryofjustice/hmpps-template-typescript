@@ -22,14 +22,14 @@ ARG BUILD_NUMBER
 ARG GIT_REF
 ARG GIT_BRANCH
 
-COPY package*.json ./
-RUN npm run setup
+COPY package*.json .allowed-scripts.mjs ./
+RUN NPM_CONFIG_AUDIT=false NPM_CONFIG_FUND=false npm run setup
 ENV NODE_ENV='production'
 
 COPY . .
 RUN npm run build
 
-RUN npm prune --no-audit --omit=dev
+RUN npm prune --no-audit --no-fund --omit=dev
 
 # Stage: copy production assets and dependencies
 FROM base
