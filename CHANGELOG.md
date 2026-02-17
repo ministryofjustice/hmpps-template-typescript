@@ -1,5 +1,11 @@
 # Change log
 
+**February 17th 2026** - Adopting the hmpps-audit-client library.
+
+Moving over to use the new hmpps-audit-client library.
+
+See PR [#674](https://github.com/ministryofjustice/hmpps-template-typescript/pull/674)
+
 **February 5th 2026** - Move over to use new version of pre-commit library.
 
 The new version of the library moves away from pre-commit to [prek](https://prek.j178.dev/cli/), which is a rust port of [pre-commit](https://pre-commit.com/).

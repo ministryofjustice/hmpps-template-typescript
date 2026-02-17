@@ -30,8 +30,8 @@
     "npm": "^11"
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.987.0",
     "@ministryofjustice/frontend": "^8.0.0",
+    "@ministryofjustice/hmpps-audit-client": "file:../../ministryofjustice-hmpps-audit-client-2.0.0-beta.1.tgz",
     "@ministryofjustice/hmpps-auth-clients": "^1.0.2",
     "@ministryofjustice/hmpps-monitoring": "^1.0.2",
     "@ministryofjustice/hmpps-rest-client": "^1.0.1",

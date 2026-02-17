@@ -1,13 +1,15 @@
+import { AuditServiceFactory } from '@ministryofjustice/hmpps-audit-client'
 import { dataAccess } from '../data'
-import AuditService from './auditService'
 import ExampleService from './exampleService'
+import logger from '../../logger'
+import config from '../config'
 
 export const services = () => {
-  const { applicationInfo, hmppsAuditClient, exampleApiClient } = dataAccess()
+  const { applicationInfo, exampleApiClient } = dataAccess()
 
   return {
     applicationInfo,
-    auditService: new AuditService(hmppsAuditClient),
+    auditService: AuditServiceFactory.createInstance(config.sqs.audit, logger),
     exampleService: new ExampleService(exampleApiClient),
   }
 }
