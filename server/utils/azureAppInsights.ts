@@ -8,7 +8,6 @@ initialiseTelemetry({
   debug: process.env.DEBUG_TELEMETRY === 'true',
 })
   .addFilter(telemetry.processors.filterSpanWherePath(['/health', '/ping', '/info', '/assets/*', '/favicon.ico']))
-  .addFilter(telemetry.processors.filterSpanWhereClient())
   .addModifier(telemetry.processors.enrichSpanNameWithHttpRoute())
   .startRecording()
 
