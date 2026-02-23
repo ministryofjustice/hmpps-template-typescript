@@ -37,7 +37,8 @@
     },
     {
       "matchManagers": ["github-actions"],
-      "fileMatch": ["^\\.github/workflows/.*\\.yml$"]
+      "matchFileNames": ["**/.github/workflows/**/*.ya?ml"],
+      "separateMinorPatch": true
     },
     {
       "matchManagers": ["pre-commit"],
