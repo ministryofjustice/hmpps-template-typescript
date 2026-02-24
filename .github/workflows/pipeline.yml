@@ -46,8 +46,21 @@ jobs:
   # generic node integration tests using wiremock - feel free to override with local tests if required
   node_integration_tests:
     name: node integration tests
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_integration_tests.yml@v2 # WORKFLOW_VERSION
     needs: [node_build]
+    secrets: inherit
+    with:
+      npm_script: int-test -- --shard=${{ matrix.shard }}/4
+      test_results_artifact_name: npm_integration_test_artifacts-${{ matrix.shard }}
+  node_integration_merge_reports:
+    name: Merge integration test reports
+    if: ${{ !cancelled() }}
+    needs: [node_integration_tests]
+    uses: ./.github/workflows/node_integration_merge_reports.yml
     secrets: inherit
   helm_lint:
     strategy:
