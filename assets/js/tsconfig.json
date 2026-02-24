@@ -1,0 +1,15 @@
+{
+  "$schema": "https://www.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2020",
+    "noEmit": true,
+    "lib": ["dom", "dom.iterable", "es2020"],
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "typeRoots": ["../../node_modules/@types", "../../server/@types"]
+  },
+  "exclude": [],
+  "include": ["**/*.js", "**/*.ts"]
+}
