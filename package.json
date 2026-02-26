@@ -30,8 +30,8 @@
     "npm": "^11"
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.987.0",
-    "@ministryofjustice/frontend": "^8.0.0",
+    "@aws-sdk/client-sqs": "^3.995.0",
+    "@ministryofjustice/frontend": "^8.0.1",
     "@ministryofjustice/hmpps-auth-clients": "^1.0.2",
     "@ministryofjustice/hmpps-monitoring": "^1.0.2",
     "@ministryofjustice/hmpps-rest-client": "^1.0.1",
@@ -52,7 +52,7 @@
     "nunjucks": "^3.2.4",
     "passport": "^0.7.0",
     "passport-oauth2": "^1.8.0",
-    "redis": "^5.10.0",
+    "redis": "^5.11.0",
     "superagent": "^10.3.0"
   },
   "devDependencies": {
