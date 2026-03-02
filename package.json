@@ -75,7 +75,7 @@
     "@types/passport": "^1.0.17",
     "@types/passport-oauth2": "^1.8.0",
     "@types/superagent": "^8.1.9",
-    "@types/supertest": "^6.0.3",
+    "@types/supertest": "^7.2.0",
     "audit-ci": "^7.1.0",
     "aws-sdk-client-mock": "^4.1.0",
     "del": "8.0.1",
