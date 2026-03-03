@@ -30,8 +30,8 @@
     "npm": "^11"
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.997.0",
-    "@ministryofjustice/frontend": "^8.0.1",
+    "@aws-sdk/client-sqs": "^3.998.0",
+    "@ministryofjustice/frontend": "^9.0.0",
     "@ministryofjustice/hmpps-auth-clients": "^1.0.2",
     "@ministryofjustice/hmpps-monitoring": "^1.0.2",
     "@ministryofjustice/hmpps-rest-client": "^1.0.1",
@@ -44,7 +44,7 @@
     "csrf-sync": "^4.2.1",
     "express": "^5.2.1",
     "express-session": "^1.19.0",
-    "govuk-frontend": "^5.14.0",
+    "govuk-frontend": "^6.1.0",
     "helmet": "^8.1.0",
     "http-errors": "^2.0.1",
     "jwt-decode": "^4.0.0",
@@ -70,7 +70,7 @@
     "@types/http-errors": "^2.0.5",
     "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^24.10.13",
+    "@types/node": "^24.10.14",
     "@types/nunjucks": "^3.2.6",
     "@types/passport": "^1.0.17",
     "@types/passport-oauth2": "^1.8.0",
