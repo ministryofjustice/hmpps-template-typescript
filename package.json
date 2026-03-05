@@ -58,6 +58,7 @@
   "devDependencies": {
     "@jgoz/esbuild-plugin-typecheck": "^4.0.4",
     "@ministryofjustice/eslint-config-hmpps": "^1.0.3",
+    "@ministryofjustice/frontend-types": "1.0.0-alpha.2",
     "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.3",
     "@ministryofjustice/hmpps-precommit-hooks": "2.0.1",
     "@playwright/test": "^1.58.2",
@@ -92,5 +93,10 @@
     "supertest": "^7.2.2",
     "ts-jest": "^29.4.6",
     "typescript": "^5.9.3"
+  },
+  "overrides": {
+    "@aws-sdk/xml-builder": {
+      "fast-xml-parser": "^5.3.8"
+    }
   }
 }
