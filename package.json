@@ -30,11 +30,11 @@
     "npm": "^11"
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.998.0",
+    "@aws-sdk/client-sqs": "^3.1000.0",
     "@ministryofjustice/frontend": "^9.0.0",
     "@ministryofjustice/hmpps-auth-clients": "^1.0.2",
     "@ministryofjustice/hmpps-monitoring": "^1.0.2",
-    "@ministryofjustice/hmpps-rest-client": "^1.0.1",
+    "@ministryofjustice/hmpps-rest-client": "^1.1.0",
     "applicationinsights": "^2.9.8",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",
@@ -60,7 +60,7 @@
     "@ministryofjustice/eslint-config-hmpps": "^1.0.3",
     "@ministryofjustice/frontend-types": "1.0.0-alpha.2",
     "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.3",
-    "@ministryofjustice/hmpps-precommit-hooks": "2.0.1",
+    "@ministryofjustice/hmpps-precommit-hooks": "2.0.2",
     "@playwright/test": "^1.58.2",
     "@tsconfig/node24": "^24.0.4",
     "@types/bunyan": "^1.8.11",
@@ -71,7 +71,7 @@
     "@types/http-errors": "^2.0.5",
     "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^24.10.14",
+    "@types/node": "^24.11.0",
     "@types/nunjucks": "^3.2.6",
     "@types/passport": "^1.0.17",
     "@types/passport-oauth2": "^1.8.0",
@@ -96,7 +96,7 @@
   },
   "overrides": {
     "@aws-sdk/xml-builder": {
-      "fast-xml-parser": "^5.3.8"
+      "fast-xml-parser": "^5.4.1"
     }
   }
 }
