@@ -8,7 +8,7 @@ services:
     ports:
       - "9090:8080"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/auth/health"]
+      test: ["CMD", "bash", "-c", "echo > /dev/tcp/localhost/8080"]
     environment:
       - SPRING_PROFILES_ACTIVE=dev
       - APPLICATION_AUTHENTICATION_UI_ALLOWLIST=0.0.0.0/0
@@ -21,7 +21,7 @@ services:
     ports:
       - "8080:8080"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health/ping"]
+      test: ["CMD", "bash", "-c", "echo > /dev/tcp/localhost/8080"]
     environment:
       - HMPPS_AUTH_URL=http://hmpps-auth:8080/auth
       - EXAMPLE_API_URL=http://localhost:8080
@@ -38,7 +38,7 @@ services:
     ports:
       - "3000:3000"
     healthcheck:
-      test: ["CMD", "wget", "-q", "-O", "-", "http://localhost:3000/health"]
+      test: ["CMD", "bash", "-c", "echo > /dev/tcp/localhost/3000"]
     environment:
       - PRODUCT_ID=UNASSIGNED
       - REDIS_ENABLED=false
