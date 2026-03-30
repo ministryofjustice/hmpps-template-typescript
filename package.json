@@ -96,7 +96,7 @@
   },
   "overrides": {
     "@aws-sdk/xml-builder": {
-      "fast-xml-parser": "^5.5.6"
+      "fast-xml-parser": "^5.5.9"
     }
   }
 }
