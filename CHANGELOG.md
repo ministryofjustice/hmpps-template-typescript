@@ -1,5 +1,18 @@
 # Change log
 
+**March 30th 2026** - `.npmrc` security improvements.
+
+Adding new support for:
+
+* [disabling git dependencies](https://docs.npmjs.com/cli/v11/commands/npm-install#allow-git) 
+  * These can allow malicious actors to alias common executables with nefarious versions
+* [Set a minimum release age of dependencies](https://docs.npmjs.com/cli/v11/commands/npm-install#min-release-age) 
+  * To reduce risk of incorporating maliciously published packages
+
+To override min-release-age for manual audit fixes, might need to do: `npm audit fix --min-release-age=null`
+
+See PR [#706](https://github.com/ministryofjustice/hmpps-template-typescript/pull/706)
+
 **February 26th 2026** - Run lint, tests and type checking on package-lock changes.
 
 There was an issue where precommit hooks weren't firing for package-lock changes.
