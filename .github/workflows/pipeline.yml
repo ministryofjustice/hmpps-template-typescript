@@ -33,7 +33,7 @@ jobs:
   # main node build workflow
   node_build:
     name: node build
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_build.yml@d62c342faf77bc22d517060f8e3e551ebc9345b0 # WORKFLOW_VERSION
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_build.yml@e0df5e27317a668198e45584b2d132b195c8f638 # WORKFLOW_VERSION
     secrets: inherit
     with:
       install_command: 'npm run setup'
