@@ -1,5 +1,11 @@
 # Change log
 
+**April 13th 2026** - Fix renovate config for stability days.
+
+Ensure renovate config matches npmrc config for stability days
+
+See PR [#711](https://github.com/ministryofjustice/hmpps-template-typescript/pull/711)
+
 **March 30th 2026** - `.npmrc` security improvements.
 
 Adding new support for:
