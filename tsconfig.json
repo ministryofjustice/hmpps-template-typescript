@@ -5,7 +5,7 @@
     "isolatedModules": true,
     "outDir": "./dist",
     "sourceMap": true,
-    "noEmit": false,
+    "noEmit": true,
     "allowJs": false,
     "strict": false,
     "resolveJsonModule": true,
@@ -16,6 +16,6 @@
     "types": ["node", "jest"],
     "rootDir": "."
   },
-  "exclude": ["node_modules", "assets", "integration_tests", "dist", "esbuild", "eslint.config.mjs", "playwright.config.ts", "logger.ts", "server.ts"],
+  "exclude": ["node_modules", "assets", "integration_tests", "dist", "esbuild", "eslint.config.mjs"],
   "include": ["**/*.js", "**/*.ts"]
 }
