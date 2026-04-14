@@ -20,6 +20,9 @@ on:
 permissions:
   contents: read
   packages: write
+  id-token: write
+  attestations: write
+  artifact-metadata: write
 
 concurrency:
   # Only cancel in progress when on a branch - use SHA on main to ensure uniqueness.
