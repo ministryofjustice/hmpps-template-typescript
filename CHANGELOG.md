@@ -1,5 +1,9 @@
 # Change log
 
+**April 14th 2026** - Move to Typescript v6.
+
+See PR [#715](https://github.com/ministryofjustice/hmpps-template-typescript/pull/715)
+
 **April 13th 2026** - Fix renovate config for stability days.
 
 Ensure renovate config matches npmrc config for stability days
