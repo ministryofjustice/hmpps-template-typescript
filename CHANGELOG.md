@@ -1,5 +1,34 @@
 # Change log
 
+**April 14th 2026** - Move to Typescript v6.
+
+See PR [#715](https://github.com/ministryofjustice/hmpps-template-typescript/pull/715)
+
+**April 13th 2026** - Fix renovate config for stability days.
+
+Ensure renovate config matches npmrc config for stability days
+
+See PR [#711](https://github.com/ministryofjustice/hmpps-template-typescript/pull/711)
+
+**March 30th 2026** - `.npmrc` security improvements.
+
+Adding new support for:
+
+* [disabling git dependencies](https://docs.npmjs.com/cli/v11/commands/npm-install#allow-git) 
+  * These can allow malicious actors to alias common executables with nefarious versions
+* [Set a minimum release age of dependencies](https://docs.npmjs.com/cli/v11/commands/npm-install#min-release-age) 
+  * To reduce risk of incorporating maliciously published packages
+
+To override min-release-age for manual audit fixes, might need to do: `npm audit fix --min-release-age=null`
+
+See PR [#706](https://github.com/ministryofjustice/hmpps-template-typescript/pull/706)
+
+**February 26th 2026** - Run lint, tests and type checking on package-lock changes.
+
+There was an issue where precommit hooks weren't firing for package-lock changes.
+
+See PR [#679](https://github.com/ministryofjustice/hmpps-template-typescript/pull/679)
+
 **February 5th 2026** - Move over to use new version of pre-commit library.
 
 The new version of the library moves away from pre-commit to [prek](https://prek.j178.dev/cli/), which is a rust port of [pre-commit](https://pre-commit.com/).
@@ -45,7 +74,7 @@ This has an improvement which means `.allowed-scripts.mjs` no longer needs to be
 
 See PR [#643](https://github.com/ministryofjustice/hmpps-template-typescript/pull/643)
 
-**December 4th 2025** - Remove mocha-junit-reporter and reporter-config.json.
+**December 4th 2025** - Move to use shared HMPPS typescript base image
 
 Replaced the custom Node.js base image setup with the standardized `hmpps-node:24-alpine` base image from GitHub Container Registry `hmpps-base-container-images`. This simplifies maintenance and ensures consistency across projects.
 
