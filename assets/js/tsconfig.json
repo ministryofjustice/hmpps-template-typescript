@@ -1,0 +1,15 @@
+{
+  "$schema": "https://www.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "strict": false,
+    "target": "es2020",
+    "noEmit": true,
+    "lib": ["dom", "dom.iterable", "es2020"],
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "types": ["@ministryofjustice/frontend-types"]
+  },
+  "exclude": [],
+  "include": ["**/*.js", "**/*.ts"]
+}
