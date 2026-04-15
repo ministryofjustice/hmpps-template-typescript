@@ -1,5 +1,141 @@
 # Change log
 
+**April 14th 2026** - Move to Typescript v6.
+
+See PR [#715](https://github.com/ministryofjustice/hmpps-template-typescript/pull/715)
+
+**April 13th 2026** - Fix renovate config for stability days.
+
+Ensure renovate config matches npmrc config for stability days
+
+See PR [#711](https://github.com/ministryofjustice/hmpps-template-typescript/pull/711)
+
+**March 30th 2026** - `.npmrc` security improvements.
+
+Adding new support for:
+
+* [disabling git dependencies](https://docs.npmjs.com/cli/v11/commands/npm-install#allow-git) 
+  * These can allow malicious actors to alias common executables with nefarious versions
+* [Set a minimum release age of dependencies](https://docs.npmjs.com/cli/v11/commands/npm-install#min-release-age) 
+  * To reduce risk of incorporating maliciously published packages
+
+To override min-release-age for manual audit fixes, might need to do: `npm audit fix --min-release-age=null`
+
+See PR [#706](https://github.com/ministryofjustice/hmpps-template-typescript/pull/706)
+
+**February 26th 2026** - Run lint, tests and type checking on package-lock changes.
+
+There was an issue where precommit hooks weren't firing for package-lock changes.
+
+See PR [#679](https://github.com/ministryofjustice/hmpps-template-typescript/pull/679)
+
+**February 5th 2026** - Move over to use new version of pre-commit library.
+
+The new version of the library moves away from pre-commit to [prek](https://prek.j178.dev/cli/), which is a rust port of [pre-commit](https://pre-commit.com/).
+
+See pre-commit library README for more details of how to use [here](https://github.com/ministryofjustice/hmpps-typescript-lib/tree/main/packages/precommit-hooks).
+
+See PR [#648](https://github.com/ministryofjustice/hmpps-template-typescript/pull/648)
+
+
+**February 4th 2026** - Fix issue with running allowed scripts silently failing .
+
+This fixes an issue where allowed scripts were not running on the docker image:
+
+```
+An error occurred: Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/app/.allowed-scripts.mjs' imported from /app/node_modules/@ministryofjustice/hmpps-npm-script-allowlist/dist/index.cjs.js
+```
+
+This was because the allowlist config file wasn't being copied onto the docker image and this was silently failing
+
+See PR [#665](https://github.com/ministryofjustice/hmpps-template-typescript/pull/665)
+
+**January 6th 2026** - Fix asset build bug.
+
+This fixes an issue where every second asset build would result in this error:
+
+```
+ℹ  Typecheck started…
+[ESBuild] ✘ [ERROR] Invalid option from onStart() callback in plugin "clean": "0" [plugin clean]
+[ESBuild]
+[ESBuild]     node_modules/esbuild/lib/main.js:259:12:
+[ESBuild]       259 │       throw new Error(`Invalid option ${where}: ${quote(key)}`);
+```
+
+deleteSync would return an array which esbuild baulks at. It would succeed the second time as the files were already deleted.
+
+See PR [#648](https://github.com/ministryofjustice/hmpps-template-typescript/pull/648)
+
+**December 12th 2025** - Updating shared linting library to 1.0.2.
+
+Updating: `@ministryofjustice/eslint-config-hmpps@1.0.1` -> `@ministryofjustice/eslint-config-hmpps@1.0.2`
+
+This has an improvement which means `.allowed-scripts.mjs` no longer needs to be added to `extraPathsAllowingDevDependencies` in `eslint.config.mjs` config.
+
+See PR [#643](https://github.com/ministryofjustice/hmpps-template-typescript/pull/643)
+
+**December 4th 2025** - Move to use shared HMPPS typescript base image
+
+Replaced the custom Node.js base image setup with the standardized `hmpps-node:24-alpine` base image from GitHub Container Registry `hmpps-base-container-images`. This simplifies maintenance and ensures consistency across projects.
+
+See PR [#638](https://github.com/ministryofjustice/hmpps-template-typescript/pull/638)
+
+**December 2nd 2025** - Remove mocha-junit-reporter and reporter-config.json.
+
+The reporter was used for cypress (as cypress is built on top of Mocha) so is no longer needed as we have switched to playwright.
+
+See PR [#636](https://github.com/ministryofjustice/hmpps-template-typescript/pull/636)
+
+**December 2nd 2025** - Remove body-parser.
+
+Body-parser is no longer referenced in the template.
+`setupRequestParsing.ts` - seems to do what body-parser would have done, but uses express provided functions.
+
+See PR [#635](https://github.com/ministryofjustice/hmpps-template-typescript/pull/635)
+
+**November 28th 2025** - Adding @ministryofjustice/hmpps-npm-allow-scripts.
+
+Adding script allowlist library to provide some level of protection against supply chain attacks.
+
+Developers and build agents will need to run `npm run setup` rather than `npm install` or `npm ci` as otherwise, necessary `postinstall` scripts may not be run.
+
+See [here](https://github.com/ministryofjustice/hmpps-typescript-lib/blob/main/packages/npm-script-allowlist/README.md) for more information.
+
+See PR [#632](https://github.com/ministryofjustice/hmpps-template-typescript/pull/632)
+
+**November 27th 2025** - Include activeCaseLoadId for prison users in app insights instrumentation.
+
+Following on from the previous change to add username and authSource, this change is to add the activeCaseLoadId
+only for prison users with that property set.
+
+See PR [#631](https://github.com/ministryofjustice/hmpps-template-typescript/pull/631)
+
+**November 26th 2025** - Include username and authSource in app insights instrumentation.
+
+To ensure adequate tracking and monitoring of user activities within applications built using the
+hmpps-template-typescript, we have enhanced the Application Insights integration to include both the username and
+authSource in the telemetry data.
+
+This PR also prevents requests for things like static assets or health endpoints from being logged to help reduce
+app insights data usage as well as SQS dependency logging.
+
+See PR [#629](https://github.com/ministryofjustice/hmpps-template-typescript/pull/629)
+
+**November 21st 2025** - Fix ESBuild watch mode
+
+Changes to nunjucks templates weren't triggering a rebuild - this fixes that.
+
+See PR [#621](https://github.com/ministryofjustice/hmpps-template-typescript/pull/621)
+
+**November 18th 2025** - Fix GHA push option
+
+The pipeline workflow contains an optional 'push' parameter to indicate whether the image generated during its build step should be pushed to gchr.io.
+It can only be provided when triggering the workflow manually.
+
+This should have been implemented as a coalesce operator but instead used `|| true`, meaning it was never false.
+
+See PR [#615](https://github.com/ministryofjustice/hmpps-template-typescript/pull/615)
+
 **November 6th 2025** - Cleanup prettier
 
 Removed unused prettier configuration file `prettierc.json` due to prettier rules being superseded by those defined in `eslint-config-hmpps`, and removed unused prettier dependencies
@@ -20,7 +156,7 @@ See PR [#603](https://github.com/ministryofjustice/hmpps-template-typescript/pul
 
 **October 27th 2025** - Switch to Playwright for E2E testing
 
-Refactored end-to-end testing to use Playwright instead of Cypress. All existing E2E tests have been migrated to Playwright, and Cypress dependencies removed. GitHub Actions have been updated to use the new testing framework. Mocks/stubs have been reworked as appropiate. 
+Refactored end-to-end testing to use Playwright instead of Cypress. All existing E2E tests have been migrated to Playwright, and Cypress dependencies removed. GitHub Actions have been updated to use the new testing framework. Mocks/stubs have been reworked as appropiate.
 
 See PR [#584](https://github.com/ministryofjustice/hmpps-template-typescript/pull/584)
 
@@ -48,7 +184,7 @@ See PR [#559](https://github.com/ministryofjustice/hmpps-template-typescript/pul
 
 **June 17th 2025** - Add precommit hook
 
-Adding the [precommit library](https://github.com/ministryofjustice/hmpps-typescript-lib/tree/main/packages/precommit-hooks). 
+Adding the [precommit library](https://github.com/ministryofjustice/hmpps-typescript-lib/tree/main/packages/precommit-hooks).
 
 See PR [#556](https://github.com/ministryofjustice/hmpps-template-typescript/pull/556)
 

@@ -22,17 +22,23 @@ const getBuildConfig = () => {
         {
           from: path.join(cwd, 'server/views/**/*'),
           to: path.join(cwd, 'dist/server/views'),
+          watch: isWatchMode,
         },
       ],
     },
 
     assets: {
       outDir: path.join(cwd, 'dist/assets'),
-      entryPoints: globSync([path.join(cwd, 'assets/js/*.js'), path.join(cwd, 'assets/scss/*.scss')]),
+      entryPoints: globSync([
+        path.join(cwd, 'assets/js/*.js'),
+        path.join(cwd, 'assets/js/*.ts'),
+        path.join(cwd, 'assets/scss/*.scss'),
+      ]),
       copy: [
         {
           from: path.join(cwd, 'assets/images/**/*'),
           to: path.join(cwd, 'dist/assets/images'),
+          watch: isWatchMode,
         },
       ],
       clear: globSync([path.join(cwd, 'dist/assets/{css,js}')]),

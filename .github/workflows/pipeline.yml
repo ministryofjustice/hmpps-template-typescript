@@ -35,6 +35,8 @@ jobs:
     name: node build
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_build.yml@v2 # WORKFLOW_VERSION
     secrets: inherit
+    with: 
+      install_command: 'npm run setup'
   # generic node unit tests - feel free to override with local tests if required
   node_unit_tests:
     name: node unit tests
@@ -67,7 +69,7 @@ jobs:
       docker_registry: 'ghcr.io'
       registry_org: 'ministryofjustice'
       additional_docker_tag: ${{ inputs.additional_docker_tag }}
-      push: ${{ inputs.push || true }}
+      push: ${{ inputs.push || inputs.push == null }}
       docker_multiplatform: false
   deploy_dev:
     name: Deploy to the development environment
