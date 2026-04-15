@@ -18,21 +18,21 @@ repos:
         name: linting code
         language: system
         entry: ./node_modules/.bin/lint-staged
-        types_or: [ts,javascript,css]
+        files: (\.(ts|js|css)$|^package-lock\.json$)
         require_serial: true
         pass_filenames: false
       - id: typecheck
         name: verify types
         language: system
         entry: npm run typecheck
-        types: [ts]
+        files: (\.(ts)$|^package-lock\.json$)
         require_serial: true
         pass_filenames: false
       - id: test
         name: running tests
         language: system
         entry: npm run test
-        types: [ts]
+        files: (\.(ts)$|^package-lock\.json$)
         require_serial: true
         pass_filenames: false
   - repo: builtin
