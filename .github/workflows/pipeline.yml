@@ -33,10 +33,11 @@ jobs:
   # main node build workflow
   node_build:
     name: node build
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_build.yml@v2 # WORKFLOW_VERSION
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_build.yml@4a17e53e75f20ad779ad6d5cf22e6923a743bd21 # WORKFLOW_VERSION
     secrets: inherit
-    with: 
+    with:
       install_command: 'npm run setup'
+      enable_slsa_action: true
   # generic node unit tests - feel free to override with local tests if required
   node_unit_tests:
     name: node unit tests
