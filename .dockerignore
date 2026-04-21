@@ -6,6 +6,7 @@ node_modules
 npm-debug.log
 .*
 !.allowed-scripts.mjs
+!.npmrc
 **/*.test.js
 scss-report.txt
 eslint-report.html
