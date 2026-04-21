@@ -1,5 +1,11 @@
 # Change log
 
+**April 21st 2026** - Use .npmrc during docker build
+
+Ensure repo `.npmrc` is present when building docker image to inherit security settings. 
+
+See PR [#719](https://github.com/ministryofjustice/hmpps-template-typescript/pull/719)
+
 **April 14th 2026** - Move to Typescript v6.
 
 See PR [#715](https://github.com/ministryofjustice/hmpps-template-typescript/pull/715)
