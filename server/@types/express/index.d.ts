@@ -24,7 +24,7 @@ export declare global {
     interface Locals {
       user: HmppsUser
       cspNonce: string
-      csrfToken: ReturnType<CsrfTokenGenerator>
+      csrfToken: string
       asset_path: string
       applicationName: string
       environmentName: string

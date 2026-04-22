@@ -6,7 +6,7 @@ import { Page } from '../services/auditService'
 export default function routes({ auditService, exampleService }: Services): Router {
   const router = Router()
 
-  router.get('/', async (req, res, next) => {
+  router.get('/', async (req, res, _next) => {
     await auditService.logPageView(Page.EXAMPLE_PAGE, { who: res.locals.user.username, correlationId: req.id })
 
     const currentTime = await exampleService.getCurrentTime()
