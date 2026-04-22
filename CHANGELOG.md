@@ -1,5 +1,17 @@
 # Change log
 
+**April 22nd 2026** - Remove npm from final image using new alpine-runtime image.
+
+Consolidate to a 2-stage Docker build with an `alpine-runtime` final stage, removing npm from the shipped image, reducing attack surface, and limiting the number of vulnerabilities found by scanning tools.
+
+See PR [#693](https://github.com/ministryofjustice/hmpps-template-typescript/pull/693)
+
+**April 21st 2026** - Use .npmrc during docker build
+
+Ensure repo `.npmrc` is present when building docker image to inherit security settings. 
+
+See PR [#719](https://github.com/ministryofjustice/hmpps-template-typescript/pull/719)
+
 **April 14th 2026** - Move to Typescript v6.
 
 See PR [#715](https://github.com/ministryofjustice/hmpps-template-typescript/pull/715)
