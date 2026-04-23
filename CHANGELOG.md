@@ -1,6 +1,6 @@
 # Change log
 
-**April 22nd 2026** - Improve type safety
+**April 23rd 2026** - Improve type safety
 
 Update type definitions in the codebase so that they are compatible with strict mode if enabled in [tsconfig.json](/tsconfig.json).
 
