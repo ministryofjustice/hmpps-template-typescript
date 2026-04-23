@@ -1,5 +1,11 @@
 # Change log
 
+**April 23rd 2026** - Improve type safety
+
+Update type definitions in the codebase so that they are compatible with strict mode if enabled in [tsconfig.json](/tsconfig.json).
+
+See PR [#718](https://github.com/ministryofjustice/hmpps-template-typescript/pull/718)
+
 **April 22nd 2026** - Remove npm from final image using new alpine-runtime image.
 
 Consolidate to a 2-stage Docker build with an `alpine-runtime` final stage, removing npm from the shipped image, reducing attack surface, and limiting the number of vulnerabilities found by scanning tools.
@@ -8,7 +14,7 @@ See PR [#693](https://github.com/ministryofjustice/hmpps-template-typescript/pul
 
 **April 21st 2026** - Use .npmrc during docker build
 
-Ensure repo `.npmrc` is present when building docker image to inherit security settings. 
+Ensure repo `.npmrc` is present when building docker image to inherit security settings.
 
 See PR [#719](https://github.com/ministryofjustice/hmpps-template-typescript/pull/719)
 
@@ -26,9 +32,9 @@ See PR [#711](https://github.com/ministryofjustice/hmpps-template-typescript/pul
 
 Adding new support for:
 
-* [disabling git dependencies](https://docs.npmjs.com/cli/v11/commands/npm-install#allow-git) 
+* [disabling git dependencies](https://docs.npmjs.com/cli/v11/commands/npm-install#allow-git)
   * These can allow malicious actors to alias common executables with nefarious versions
-* [Set a minimum release age of dependencies](https://docs.npmjs.com/cli/v11/commands/npm-install#min-release-age) 
+* [Set a minimum release age of dependencies](https://docs.npmjs.com/cli/v11/commands/npm-install#min-release-age)
   * To reduce risk of incorporating maliciously published packages
 
 To override min-release-age for manual audit fixes, might need to do: `npm audit fix --min-release-age=null`
