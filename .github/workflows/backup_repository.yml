@@ -1,0 +1,20 @@
+name: Backup Repository to SharePoint
+
+on:
+  workflow_dispatch: # manual trigger
+  schedule:
+    - cron: '5 3 * * *'
+
+jobs:
+  backup:
+    name: Backup to SharePoint
+    runs-on: ubuntu-latest
+    env:
+      SP_CLIENT_ID: ${{ secrets.SHAREPOINT_CLIENT_ID }}
+      SP_CLIENT_SECRET: ${{ secrets.SHAREPOINT_CLIENT_SECRET }}
+      AZ_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+    steps:
+      - name: Backup repository to SharePoint
+        uses: ministryofjustice/hmpps-github-shared-actions/.github/actions/sharepoint_repository_backup@c9b92b85a2aa7e313fb377a81fec08dd4f6f15b8
+        with:
+          retention_count: 5 # optional, defaults to 5
