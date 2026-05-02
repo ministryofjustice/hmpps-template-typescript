@@ -6,7 +6,7 @@ import { VerificationClient, AuthenticatedRequest } from '@ministryofjustice/hmp
 import config from '../config'
 import { HmppsUser } from '../interfaces/hmppsUser'
 import generateOauthClientToken from '../utils/clientCredentials'
-import logger from '../../logger'
+import logger from '../logger'
 
 passport.serializeUser((user, done) => {
   // Not used but required for Passport

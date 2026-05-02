@@ -4,7 +4,7 @@ import express, { Router } from 'express'
 import { randomUUID } from 'crypto'
 import { createRedisClient } from '../data/redisClient'
 import config from '../config'
-import logger from '../../logger'
+import logger from '../logger'
 
 export default function setUpWebSession(): Router {
   let store: Store

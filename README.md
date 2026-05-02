@@ -94,20 +94,17 @@ The template app is, by default, configured not to use REDIS when running locall
 
 The easiest way to run the app is to use docker compose to create the service and all dependencies.
 
-The production image now uses the `hmpps-node:24-alpine-runtime` base image and starts with `node dist/server.js` directly, so npm is not present in the final runtime stage.
+The Docker setup is managed through the Makefile and compose files in `docker/`.
 
-`docker compose pull`
+`make update`
 
-`docker compose up`
+`make prod-up`
 
 ### Running the app for development
 
-To start the main services excluding the example typescript template app:
+To start the app and supporting services in development mode:
 
-`docker compose up --scale=app=0`
-
-Create an environment file by copying `.env.example` -> `.env`
-Environment variables set in here will be available when running `start:dev`
+`make dev-up`
 
 Install dependencies using `npm run setup`, ensuring you are using `node v24`
 
@@ -159,25 +156,17 @@ The secret scanner hook can also be configured as described [here](https://githu
 
 ### Running integration tests
 
-For local running, start a wiremock instance by:
+Run Playwright tests locally against a running development environment with:
 
-`docker compose -f docker-compose-test.yml up`
-
-Then run the server in test mode by:
-
-`npm run start-feature` (or `npm run start-feature:dev` to run with auto-restart on changes)
-
-After first install ensure playwright is initialised:
-
-`npm run int-test-init:ci`
-
-And then either, run tests in headless mode with:
-
-`npm run int-test`
+`make e2e`
 
 Or run tests with the UI:
 
-`npm run int-test-ui`
+`make e2e-ui`
+
+To run the app, WireMock, and Playwright in Docker:
+
+`make e2e-ci`
 
 ## Keeping your app up-to-date
 

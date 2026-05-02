@@ -1,7 +1,8 @@
 import { RestClient, asSystem } from '@ministryofjustice/hmpps-rest-client'
 import type { AuthenticationClient } from '@ministryofjustice/hmpps-auth-clients'
+import type { Response } from 'superagent'
 import config from '../config'
-import logger from '../../logger'
+import logger from '../logger'
 
 export default class ExampleApiClient extends RestClient {
   constructor(authenticationClient: AuthenticationClient) {
@@ -15,8 +16,23 @@ export default class ExampleApiClient extends RestClient {
    * This is useful for service-to-service authorization when no user context is required.
    *
    */
-  getCurrentTime() {
-    return this.get<string>({ path: '/example/time' }, asSystem())
+  async getCurrentTime(): Promise<string> {
+    const response = await this.get<Response>({ path: '/example/time', raw: true, responseType: 'text' }, asSystem())
+    const responseBody: unknown = response.body
+
+    if (typeof response.text === 'string') {
+      return response.text
+    }
+
+    if (typeof responseBody === 'string') {
+      return responseBody
+    }
+
+    if (Buffer.isBuffer(responseBody)) {
+      return responseBody.toString('utf8')
+    }
+
+    throw new Error('Example API returned an unsupported current time response')
   }
 
   /**

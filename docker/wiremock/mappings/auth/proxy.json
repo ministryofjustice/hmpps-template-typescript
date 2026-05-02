@@ -1,0 +1,10 @@
+{
+  "name": "Proxy to HMPPS Auth",
+  "request": {
+    "urlPattern": "/auth/.*"
+  },
+  "response": {
+    "proxyBaseUrl": "{{systemValue type='ENVIRONMENT' key='WIREMOCK_HMPPS_AUTH_URL'}}"
+  },
+  "priority": 100
+}

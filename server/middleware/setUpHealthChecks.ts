@@ -2,7 +2,7 @@ import express, { Router } from 'express'
 
 import { monitoringMiddleware, endpointHealthComponent } from '@ministryofjustice/hmpps-monitoring'
 import type { ApplicationInfo } from '../applicationInfo'
-import logger from '../../logger'
+import logger from '../logger'
 import config from '../config'
 
 export default function setUpHealthChecks(applicationInfo: ApplicationInfo): Router {

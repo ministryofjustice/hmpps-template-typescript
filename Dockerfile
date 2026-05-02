@@ -1,54 +1,61 @@
-# Build args available to all stages
+# Stage: base image
+FROM node:24-slim AS base
+RUN apt-get update && apt-get install -y --no-install-recommends wget && rm -rf /var/lib/apt/lists/* && \
+    groupadd --gid 2000 appgroup && \
+    useradd --uid 2000 --gid appgroup --create-home appuser
+
+WORKDIR /app
+
+# Stage: install ALL dependencies (dev + prod) for building
+FROM base AS deps
+COPY package.json package-lock.json .allowed-scripts.mjs .npmrc ./
+RUN --mount=type=cache,target=/npm_cache \
+    npm ci --cache /npm_cache --prefer-offline --ignore-scripts
+
+# Stage: install ONLY production dependencies
+FROM base AS prod-deps
+COPY package.json package-lock.json .allowed-scripts.mjs .npmrc ./
+RUN --mount=type=cache,target=/npm_cache \
+    npm ci --cache /npm_cache --prefer-offline --omit=dev --ignore-scripts
+
+# Stage: development target (used by docker-compose.dev.yml)
+FROM base AS development
+ENV NODE_ENV=development
+
+# Stage: build assets using full deps
+FROM deps AS build
+COPY . .
+RUN npm run build
+
+# Stage: production image
+FROM base AS production
+
 ARG BUILD_NUMBER
 ARG GIT_REF
 ARG GIT_BRANCH
 
-# Stage: build assets
-FROM ghcr.io/ministryofjustice/hmpps-node:24-alpine AS build
-
-ARG BUILD_NUMBER
-ARG GIT_REF
-ARG GIT_BRANCH
-
-# Cache breaking and ensure required build / git args defined
 RUN test -n "$BUILD_NUMBER" || (echo "BUILD_NUMBER not set" && false)
 RUN test -n "$GIT_REF" || (echo "GIT_REF not set" && false)
 RUN test -n "$GIT_BRANCH" || (echo "GIT_BRANCH not set" && false)
 
-WORKDIR /app
-
-COPY package*.json .allowed-scripts.mjs .npmrc ./
-RUN NPM_CONFIG_AUDIT=false NPM_CONFIG_FUND=false npm run setup
-ENV NODE_ENV='production'
-
-COPY . .
-RUN npm run build
-
-RUN npm prune --no-audit --no-fund --omit=dev
-
-# Stage: copy production assets and dependencies
-FROM ghcr.io/ministryofjustice/hmpps-node:24-alpine-runtime
-
-ARG BUILD_NUMBER
-ARG GIT_REF
-ARG GIT_BRANCH
+ENV BUILD_NUMBER=${BUILD_NUMBER} \
+    GIT_REF=${GIT_REF} \
+    GIT_BRANCH=${GIT_BRANCH} \
+    NODE_ENV=production
 
 COPY --from=build --chown=appuser:appgroup \
         /app/package.json \
-        /app/package-lock.json \
-        ./
+        ./package.json
 
 COPY --from=build --chown=appuser:appgroup \
-        /app/dist ./dist
+        /app/dist \
+        ./dist
 
-COPY --from=build --chown=appuser:appgroup \
-        /app/node_modules ./node_modules
+COPY --from=prod-deps --chown=appuser:appgroup \
+        /app/node_modules \
+        ./node_modules
 
 EXPOSE 3000
-ENV BUILD_NUMBER=${BUILD_NUMBER}
-ENV GIT_REF=${GIT_REF}
-ENV GIT_BRANCH=${GIT_BRANCH}
-ENV NODE_ENV='production'
 USER 2000
 
-CMD [ "node", "dist/server.js" ]
+CMD [ "npm", "start" ]

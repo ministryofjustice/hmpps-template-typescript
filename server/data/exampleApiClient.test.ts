@@ -22,14 +22,19 @@ describe('ExampleApiClient', () => {
 
   describe('getCurrentTime', () => {
     it('should make a GET request to /example/time using system token and return the response body', async () => {
+      // Arrange
+      const expectedTime = '2025-01-01T12:00:00Z'
+
       nock(config.apis.exampleApi.url)
         .get('/example/time')
         .matchHeader('authorization', 'Bearer test-system-token')
-        .reply(200, { time: '2025-01-01T12:00:00Z' })
+        .reply(200, expectedTime, { 'Content-Type': 'text/plain' })
 
+      // Act
       const response = await exampleApiClient.getCurrentTime()
 
-      expect(response).toEqual({ time: '2025-01-01T12:00:00Z' })
+      // Assert
+      expect(response).toEqual(expectedTime)
       expect(mockAuthenticationClient.getToken).toHaveBeenCalledTimes(1)
     })
   })

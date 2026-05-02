@@ -1,0 +1,38 @@
+
+services:
+  hmpps-template-kotlin:
+    ports:
+      - "8080:8080"
+
+  hmpps-auth:
+    ports:
+      - "9090:8080"
+
+  wiremock:
+    ports:
+      - "9091:8080"
+
+  ui:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+      target: development
+    working_dir: /app
+    command: npm run start:dev
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+    volumes:
+      - ..:/app
+      - node_modules:/app/node_modules
+      - dist:/app/dist
+    environment:
+      NODE_ENV: development
+      ENVIRONMENT_NAME: dev
+      TOKEN_VERIFICATION_ENABLED: true
+
+volumes:
+  node_modules:
+    external: true
+    name: ${COMPOSE_PROJECT_NAME}_node_modules
+  dist:

@@ -1,0 +1,11 @@
+{
+  "name": "Proxy to Example API",
+  "request": {
+    "urlPattern": "/example-api/.*"
+  },
+  "response": {
+    "proxyBaseUrl": "{{systemValue type='ENVIRONMENT' key='WIREMOCK_EXAMPLE_API_URL'}}",
+    "proxyUrlPrefixToRemove": "/example-api"
+  },
+  "priority": 100
+}

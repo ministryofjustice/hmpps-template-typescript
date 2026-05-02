@@ -1,7 +1,7 @@
 import { jwtDecode } from 'jwt-decode'
 import express from 'express'
 import { convertToTitleCase } from '../utils/utils'
-import logger from '../../logger'
+import logger from '../logger'
 
 export default function setUpCurrentUser() {
   const router = express.Router()

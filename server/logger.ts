@@ -1,6 +1,6 @@
 import bunyan from 'bunyan'
 import bunyanFormat from 'bunyan-format'
-import config from './server/config'
+import config from './config'
 
 const formatOut = bunyanFormat({ outputMode: 'short', color: !config.production })
 

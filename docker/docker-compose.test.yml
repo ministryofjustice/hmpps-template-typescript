@@ -1,0 +1,63 @@
+# docker-compose.test.yml is used to spin up the app specifically for integration testing.
+
+services:
+  ui:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+      target: production
+    command: npm run start
+    depends_on:
+      - redis
+      - wiremock
+    environment:
+      NODE_ENV: production
+      ENVIRONMENT_NAME: dev
+      PRODUCT_ID: UNASSIGNED
+      REDIS_ENABLED: false
+      REDIS_HOST: redis
+      SESSION_SECRET: somesecretvalue
+      HMPPS_AUTH_EXTERNAL_URL: http://wiremock:8080/auth
+      HMPPS_AUTH_URL: http://wiremock:8080/auth
+      AUTH_CODE_CLIENT_ID: clientid
+      AUTH_CODE_CLIENT_SECRET: clientsecret
+      CLIENT_CREDS_CLIENT_ID: clientid
+      CLIENT_CREDS_CLIENT_SECRET: clientsecret
+      TOKEN_VERIFICATION_API_URL: http://wiremock:8080/verification
+      TOKEN_VERIFICATION_ENABLED: true
+      EXAMPLE_API_URL: http://wiremock:8080/example-api
+      NO_HTTPS: true
+      INGRESS_URL: http://ui:3000
+
+  wiremock:
+    environment:
+      WIREMOCK_HMPPS_AUTH_URL: http://hmpps-auth:8080
+      WIREMOCK_EXAMPLE_API_URL: http://hmpps-template-kotlin:8080
+      WIREMOCK_TOKEN_VERIFICATION_URL: http://hmpps-auth:8080/auth
+    command: --global-response-templating
+
+  playwright:
+    image: mcr.microsoft.com/playwright:v1.59.1-noble
+    networks:
+      - hmpps
+    depends_on:
+      - ui
+      - wiremock
+    environment:
+      CI: true
+      BASE_URL: http://ui:3000
+      WIREMOCK_URL: http://wiremock:8080/__admin
+    working_dir: /playwright
+    command: npx playwright test
+    volumes:
+      - ../package.json:/playwright/package.json
+      - ../package-lock.json:/playwright/package-lock.json
+      - ../playwright.config.ts:/playwright/playwright.config.ts
+      - ../integration_tests:/playwright/integration_tests
+      - ../test_results:/playwright/test_results
+      - node_modules:/playwright/node_modules
+
+volumes:
+  node_modules:
+    external: true
+    name: ${COMPOSE_PROJECT_NAME}_node_modules

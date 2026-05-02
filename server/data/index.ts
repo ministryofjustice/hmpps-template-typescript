@@ -14,7 +14,7 @@ buildAppInsightsClient(applicationInfo)
 import { createRedisClient } from './redisClient'
 import config from '../config'
 import HmppsAuditClient from './hmppsAuditClient'
-import logger from '../../logger'
+import logger from '../logger'
 import ExampleApiClient from './exampleApiClient'
 
 export const dataAccess = () => {

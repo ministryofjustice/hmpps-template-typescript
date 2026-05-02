@@ -1,0 +1,17 @@
+{
+  "name": "Token verification - default success",
+  "request": {
+    "method": "POST",
+    "urlPattern": "/verification/token/verify"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json;charset=UTF-8"
+    },
+    "jsonBody": {
+      "active": true
+    }
+  },
+  "priority": 50
+}

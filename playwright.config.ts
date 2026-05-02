@@ -40,7 +40,7 @@ export default defineConfig({
     trace: process.env.CI ? 'off' : 'on',
     ...devices['Desktop Chrome'],
     testIdAttribute: 'data-qa',
-    baseURL: 'http://localhost:3007',
+    baseURL: process.env.BASE_URL ?? 'http://localhost:3000',
   },
 
   /* Configure projects */

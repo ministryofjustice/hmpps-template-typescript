@@ -186,6 +186,7 @@ class ServerManager {
 
     const nodeArgs = [
       ...(this.options.envFile ? [`--env-file=${this.options.envFile}`] : []),
+      '--inspect=0.0.0.0:9229',
       '--enable-source-maps',
       'dist/server.js',
     ]
@@ -240,10 +241,10 @@ function cleanPlugin(patterns = []) {
 
 function getEnvFile(args) {
   const index = args.findIndex(arg => arg === '--env' || arg.startsWith('--env='))
-  if (index === -1) return '.env'
+  if (index === -1) return undefined
 
   const value = args[index].slice(6) || args[index + 1]
-  return value && !value.startsWith('--') ? value : '.env'
+  return value && !value.startsWith('--') ? value : undefined
 }
 
 module.exports = {

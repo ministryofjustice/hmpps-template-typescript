@@ -1,0 +1,22 @@
+{% extends "partials/layout.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% set mainClasses = "govuk-body" %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if fieldValidationErrors | length %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: fieldValidationErrors
+        }) }}
+      {% endif %}
+
+      {% for block in blocks %}
+        {{ block | safe }}
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

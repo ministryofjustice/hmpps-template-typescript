@@ -2,16 +2,20 @@ import express, { Express } from 'express'
 import { NotFound } from 'http-errors'
 
 import { randomUUID } from 'crypto'
-import routes from '../index'
-import nunjucksSetup from '../../utils/nunjucksSetup'
-import errorHandler from '../../errorHandler'
-import type { Services } from '../../services'
-import AuditService from '../../services/auditService'
-import { HmppsUser } from '../../interfaces/hmppsUser'
-import setUpWebSession from '../../middleware/setUpWebSession'
-import HmppsAuditClient from '../../data/hmppsAuditClient'
+import { Forge } from '@ministryofjustice/hmpps-forge/core'
+import { ExpressFrameworkAdapter } from '@ministryofjustice/hmpps-forge/express-nunjucks'
+import { govukComponents } from '@ministryofjustice/hmpps-forge/govuk-components'
+import { mojComponents } from '@ministryofjustice/hmpps-forge/moj-components'
+import examplePackage from '../journeys/example'
+import nunjucksSetup from '../utils/nunjucksSetup'
+import errorHandler from '../errorHandler'
+import type { Services } from '../services'
+import AuditService from '../services/auditService'
+import { HmppsUser } from '../interfaces/hmppsUser'
+import setUpWebSession from '../middleware/setUpWebSession'
+import HmppsAuditClient from '../data/hmppsAuditClient'
 
-jest.mock('../../services/auditService')
+jest.mock('../services/auditService')
 
 export const user: HmppsUser = {
   name: 'FIRST LAST',
@@ -31,7 +35,18 @@ function appSetup(services: Services, production: boolean, userSupplier: () => H
 
   app.set('view engine', 'njk')
 
-  nunjucksSetup(app)
+  const nunjucksEnv = nunjucksSetup(app)
+
+  const forge = new Forge({
+    frameworkAdapter: ExpressFrameworkAdapter.configure({ nunjucksEnv }),
+  })
+  forge.registerGlobalComponents(govukComponents)
+  forge.registerGlobalComponents(mojComponents)
+  forge.registerPackage(examplePackage, {
+    auditService: services.auditService,
+    exampleService: services.exampleService,
+  })
+
   app.use(setUpWebSession())
   app.use((req, res, next) => {
     req.user = userSupplier() as Express.User
@@ -53,7 +68,7 @@ function appSetup(services: Services, production: boolean, userSupplier: () => H
   })
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
-  app.use(routes(services))
+  app.use(forge.getRouter() as express.Router)
   app.use((_req, _res, next) => next(new NotFound()))
   app.use(errorHandler(production))
 

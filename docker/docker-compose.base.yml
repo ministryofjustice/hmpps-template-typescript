@@ -1,0 +1,77 @@
+# `docker-compose.base.yml` defines common configuration shared across all deployment states.
+# Other compose files (local, test) extend or override these settings as needed.
+
+services:
+  hmpps-auth:
+    image: ghcr.io/ministryofjustice/hmpps-auth:latest
+    networks:
+      - hmpps
+    healthcheck:
+      test: ["CMD", "bash", "-c", "echo > /dev/tcp/localhost/8080"]
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      APPLICATION_AUTHENTICATION_UI_ALLOWLIST: 0.0.0.0/0
+
+  hmpps-template-kotlin:
+    image: ghcr.io/ministryofjustice/hmpps-template-kotlin:latest
+    networks:
+      - hmpps
+    healthcheck:
+      test: ["CMD", "bash", "-c", "echo > /dev/tcp/localhost/8080"]
+    environment:
+      HMPPS_AUTH_URL: http://hmpps-auth:8080/auth
+      EXAMPLE_API_URL: http://localhost:8080
+
+  redis:
+    image: redis:8.6
+    networks:
+      - hmpps
+    environment:
+      ALLOW_EMPTY_PASSWORD: yes
+
+  wiremock:
+    image: wiremock/wiremock:3.13.2
+    networks:
+      - hmpps
+    depends_on:
+      - hmpps-auth
+      - hmpps-template-kotlin
+    restart: always
+    volumes:
+      - ./wiremock/mappings:/home/wiremock/mappings
+    environment:
+      WIREMOCK_HMPPS_AUTH_URL: http://hmpps-auth:8080
+      WIREMOCK_EXAMPLE_API_URL: http://hmpps-template-kotlin:8080
+      WIREMOCK_TOKEN_VERIFICATION_URL: http://hmpps-auth:8080/auth
+    command: --global-response-templating
+
+  ui:
+    image: ghcr.io/ministryofjustice/hmpps-template-typescript:${APP_VERSION:-local}
+    networks:
+      - hmpps
+    depends_on:
+      - redis
+      - wiremock
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/ping"]
+      interval: 5s
+      retries: 20
+    environment:
+      PRODUCT_ID: UNASSIGNED
+      REDIS_ENABLED: true
+      REDIS_HOST: redis
+      HMPPS_AUTH_EXTERNAL_URL: http://localhost:9090/auth
+      HMPPS_AUTH_URL: http://wiremock:8080/auth
+      AUTH_CODE_CLIENT_ID: hmpps-typescript-template
+      AUTH_CODE_CLIENT_SECRET: clientsecret
+      CLIENT_CREDS_CLIENT_ID: hmpps-typescript-template-system
+      CLIENT_CREDS_CLIENT_SECRET: clientsecret
+      SESSION_SECRET: somesecretvalue
+      TOKEN_VERIFICATION_API_URL: http://wiremock:8080/verification
+      TOKEN_VERIFICATION_ENABLED: false
+      EXAMPLE_API_URL: http://wiremock:8080/example-api
+      INGRESS_URL: http://localhost:3000
+      NO_HTTPS: true
+
+networks:
+  hmpps:

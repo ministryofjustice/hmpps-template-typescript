@@ -58,7 +58,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        urlPattern: '/auth/oauth/authorize\\?response_type=code&redirect_uri=.+?&state=.+?&client_id=clientid',
+        urlPattern: '/auth/oauth/authorize\\?response_type=code&redirect_uri=.+?&state=.+?&client_id=.+?',
       },
       response: {
         status: 200,

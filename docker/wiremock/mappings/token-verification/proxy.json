@@ -1,0 +1,11 @@
+{
+  "name": "Proxy to Token Verification API",
+  "request": {
+    "urlPattern": "/verification/.*"
+  },
+  "response": {
+    "proxyBaseUrl": "{{systemValue type='ENVIRONMENT' key='WIREMOCK_TOKEN_VERIFICATION_URL'}}",
+    "proxyUrlPrefixToRemove": "/verification"
+  },
+  "priority": 100
+}
