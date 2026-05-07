@@ -32,6 +32,16 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
+  # Determines whether the pipeline should publish the docker image.
+  # Referenced by build and deploy jobs to avoid repeating the condition.
+  check_publish:
+    name: Check publish flag
+    runs-on: ubuntu-latest
+    outputs:
+      enabled: ${{ github.ref == 'refs/heads/main' && (inputs.push || inputs.push == null) }}
+    steps:
+      - name: Set publish flag
+        run: echo "Publishing enabled ${{ github.ref == 'refs/heads/main' && (inputs.push || inputs.push == null) }}"
   # main node build workflow
   node_build:
     name: node build
@@ -66,21 +76,23 @@ jobs:
     needs:
       - node_integration_tests
       - node_unit_tests
+      - check_publish
     with:
       docker_registry: 'ghcr.io'
       registry_org: 'ministryofjustice'
       additional_docker_tag: ${{ inputs.additional_docker_tag }}
-      push: ${{ github.ref == 'refs/heads/main' && (inputs.push || inputs.push == null) }}
+      push: ${{ needs.check_publish.outputs.enabled == 'true' }}
       docker_multiplatform: false
-      generate_sbom: ${{ github.ref == 'refs/heads/main' && (inputs.push || inputs.push == null) }}
-      attach_sbom_to_registry: ${{ github.ref == 'refs/heads/main' && (inputs.push || inputs.push == null) }}
-      sign_image: ${{ github.ref == 'refs/heads/main' && (inputs.push || inputs.push == null) }}
+      generate_sbom: ${{ needs.check_publish.outputs.enabled == 'true' }}
+      attach_sbom_to_registry: ${{ needs.check_publish.outputs.enabled == 'true' }}
+      sign_image: ${{ needs.check_publish.outputs.enabled == 'true' }}
   deploy_dev:
     name: Deploy to the development environment
-    if: github.ref == 'refs/heads/main' && (inputs.push || inputs.push == null)
+    if: needs.check_publish.outputs.enabled == 'true'
     needs:
       - build
       - helm_lint
+      - check_publish
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2 # WORKFLOW_VERSION
     secrets: inherit
     with:
@@ -89,9 +101,11 @@ jobs:
       slack_notification: 'false' # if 'true', it needs a valid NONPROD_RELEASES_SLACK_CHANNEL variable to be set
   # deploy_preprod:
   #   name: Deploy to pre-production environment
+  #   if: needs.check_publish.outputs.enabled == 'true'
   #   needs:
   #     - build
   #     - deploy_dev
+  #     - check_publish
   #   uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2 # WORKFLOW_VERSION
   #   secrets: inherit
   #   with:
@@ -100,9 +114,11 @@ jobs:
   #     slack_notification: 'false' # if 'true', it needs a valid NONPROD_RELEASES_SLACK_CHANNEL variable to be set
   # deploy_prod:
   #   name: Deploy to production environment
+  #   if: needs.check_publish.outputs.enabled == 'true'
   #   needs:
   #     - build
   #     - deploy_preprod
+  #     - check_publish
   #   uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2 # WORKFLOW_VERSION
   #   secrets: inherit
   #   with:
