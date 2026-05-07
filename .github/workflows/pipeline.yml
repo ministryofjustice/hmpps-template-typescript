@@ -72,9 +72,9 @@ jobs:
       additional_docker_tag: ${{ inputs.additional_docker_tag }}
       push: ${{ github.ref == 'refs/heads/main' && (inputs.push || inputs.push == null) }}
       docker_multiplatform: false
-      generate_sbom: ${{ github.ref == 'refs/heads/main' }}
-      attach_sbom_to_registry: ${{ github.ref == 'refs/heads/main' }}
-      sign_image: ${{ github.ref == 'refs/heads/main' }}
+      generate_sbom: true
+      attach_sbom_to_registry: true
+      sign_image: true
   deploy_dev:
     name: Deploy to the development environment
     if: github.ref == 'refs/heads/main'
