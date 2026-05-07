@@ -72,12 +72,12 @@ jobs:
       additional_docker_tag: ${{ inputs.additional_docker_tag }}
       push: ${{ github.ref == 'refs/heads/main' && (inputs.push || inputs.push == null) }}
       docker_multiplatform: false
-      generate_sbom: true
-      attach_sbom_to_registry: true
-      sign_image: true
+      generate_sbom: ${{ github.ref == 'refs/heads/main' && (inputs.push || inputs.push == null) }}
+      attach_sbom_to_registry: ${{ github.ref == 'refs/heads/main' && (inputs.push || inputs.push == null) }}
+      sign_image: ${{ github.ref == 'refs/heads/main' && (inputs.push || inputs.push == null) }}
   deploy_dev:
     name: Deploy to the development environment
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && (inputs.push || inputs.push == null)
     needs:
       - build
       - helm_lint
