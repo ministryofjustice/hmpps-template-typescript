@@ -32,6 +32,16 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
+  # Determines whether the pipeline should publish the docker image.
+  # Referenced by build and deploy jobs to avoid repeating the condition.
+  check_publish:
+    name: Check publish flag
+    runs-on: ubuntu-latest
+    outputs:
+      enabled: ${{ github.ref == 'refs/heads/main' && (inputs.push || inputs.push == null) }}
+    steps:
+      - name: Set publish flag
+        run: echo "Publishing enabled ${{ github.ref == 'refs/heads/main' && (inputs.push || inputs.push == null) }}"
   # main node build workflow
   node_build:
     name: node build
@@ -62,25 +72,27 @@ jobs:
       environment: ${{ matrix.environments }}
   build:
     name: Build docker image from hmpps-github-actions
-    if: github.ref == 'refs/heads/main'
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/docker_build.yml@v2 # WORKFLOW_VERSION
     needs:
       - node_integration_tests
       - node_unit_tests
+      - check_publish
     with:
       docker_registry: 'ghcr.io'
       registry_org: 'ministryofjustice'
       additional_docker_tag: ${{ inputs.additional_docker_tag }}
-      push: ${{ inputs.push || inputs.push == null }}
+      push: ${{ needs.check_publish.outputs.enabled == 'true' }}
       docker_multiplatform: false
-      generate_sbom: true
-      attach_sbom_to_registry: true
-      sign_image: true
+      generate_sbom: ${{ needs.check_publish.outputs.enabled == 'true' }}
+      attach_sbom_to_registry: ${{ needs.check_publish.outputs.enabled == 'true' }}
+      sign_image: ${{ needs.check_publish.outputs.enabled == 'true' }}
   deploy_dev:
     name: Deploy to the development environment
+    if: needs.check_publish.outputs.enabled == 'true'
     needs:
       - build
       - helm_lint
+      - check_publish
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2 # WORKFLOW_VERSION
     secrets: inherit
     with:
