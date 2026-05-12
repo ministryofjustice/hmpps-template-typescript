@@ -1,5 +1,11 @@
 # Change log
 
+**May 12th 2026** - Add codeql scan for typescript
+
+Adding an action for codeql security scanning of the application source code
+
+See PR [#742](https://github.com/ministryofjustice/hmpps-template-typescript/pull/742)
+
 **April 23rd 2026** - Improve type safety
 
 Update type definitions in the codebase so that they are compatible with strict mode if enabled in [tsconfig.json](/tsconfig.json).
