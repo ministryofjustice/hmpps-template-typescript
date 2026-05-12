@@ -4,7 +4,7 @@
 
 Adding an action for codeql security scanning of the application source code
 
-See PR [#742](https://github.com/ministryofjustice/hmpps-template-typescript/pull/742)
+See PR [#742](https://github.com/ministryofjustice/hmpps-template-typescript/pull/742) and [#743](https://github.com/ministryofjustice/hmpps-template-typescript/pull/743)
 
 **May 11th 2026** - Build docker image on PR branches
 
