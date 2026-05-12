@@ -1,5 +1,11 @@
 # Change log
 
+**May 11th 2026** - Build docker image on PR branches
+
+Moving to automatically build docker images on PR branches to more quickly identify issues which would result in broken deployments.
+
+See PR [#738](https://github.com/ministryofjustice/hmpps-template-typescript/pull/738)
+
 **April 23rd 2026** - Improve type safety
 
 Update type definitions in the codebase so that they are compatible with strict mode if enabled in [tsconfig.json](/tsconfig.json).
