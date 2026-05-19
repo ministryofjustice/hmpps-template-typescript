@@ -32,7 +32,7 @@
   "dependencies": {
     "@aws-sdk/client-sqs": "^3.1036.0",
     "@ministryofjustice/frontend": "^9.0.0",
-    "@ministryofjustice/hmpps-auth-clients": "^1.0.2",
+    "@ministryofjustice/hmpps-auth-clients": "^2.0.0",
     "@ministryofjustice/hmpps-monitoring": "^2.0.0",
     "@ministryofjustice/hmpps-rest-client": "^2.0.0",
     "applicationinsights": "^2.9.8",
