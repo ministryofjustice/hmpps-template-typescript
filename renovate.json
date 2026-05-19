@@ -47,5 +47,6 @@
   ],
   "vulnerabilityAlerts": {
     "stabilityDays": 0
-  }
+  },
+  "platformCommit": "enabled"
 }
