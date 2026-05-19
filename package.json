@@ -58,7 +58,7 @@
   "devDependencies": {
     "@jgoz/esbuild-plugin-typecheck": "^4.0.4",
     "@ministryofjustice/eslint-config-hmpps": "^1.0.3",
-    "@ministryofjustice/frontend-types": "1.0.0",
+    "@ministryofjustice/frontend-types": "2.0.0",
     "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.4",
     "@ministryofjustice/hmpps-precommit-hooks": "3.0.0",
     "@playwright/test": "^1.59.1",
