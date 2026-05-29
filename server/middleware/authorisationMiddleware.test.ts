@@ -17,7 +17,7 @@ function createToken(authorities: string[]) {
 }
 
 describe('authorisationMiddleware', () => {
-  let req: Request
+  const req: Request = {} as jest.Mocked<Request>
   const next = jest.fn()
 
   function createResWithToken({ authorities }: { authorities: string[] }): Response {

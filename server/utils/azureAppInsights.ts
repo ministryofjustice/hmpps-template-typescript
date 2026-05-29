@@ -31,7 +31,7 @@ export function initialiseAppInsights(): void {
 export function buildAppInsightsClient(
   { applicationName, buildNumber }: ApplicationInfo,
   overrideName?: string,
-): TelemetryClient {
+): TelemetryClient | null {
   if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
     defaultClient.context.tags['ai.cloud.role'] = overrideName || applicationName
     defaultClient.context.tags['ai.application.ver'] = buildNumber
@@ -43,12 +43,14 @@ export function buildAppInsightsClient(
   return null
 }
 
-function parameterisePaths(envelope: EnvelopeTelemetry, contextObjects: ContextObject) {
-  const operationNameOverride = contextObjects.correlationContext?.customProperties?.getProperty('operationName')
+function parameterisePaths(envelope: EnvelopeTelemetry, contextObjects: Record<string, unknown> | undefined) {
+  const operationNameOverride = (
+    contextObjects?.correlationContext as CorrelationContext
+  )?.customProperties?.getProperty('operationName')
   if (operationNameOverride) {
     /*  eslint-disable no-param-reassign */
     envelope.tags['ai.operation.name'] = operationNameOverride
-    envelope.data.baseData.name = operationNameOverride
+    if (envelope.data.baseData) envelope.data.baseData.name = operationNameOverride
     /*  eslint-enable no-param-reassign */
   }
   return true

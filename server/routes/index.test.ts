@@ -3,12 +3,14 @@ import request from 'supertest'
 import { appWithAllRoutes, user } from './testutils/appSetup'
 import AuditService, { Page } from '../services/auditService'
 import ExampleService from '../services/exampleService'
+import HmppsAuditClient from '../data/hmppsAuditClient'
+import ExampleApiClient from '../data/exampleApiClient'
 
 jest.mock('../services/auditService')
 jest.mock('../services/exampleService')
 
-const auditService = new AuditService(null) as jest.Mocked<AuditService>
-const exampleService = new ExampleService(null) as jest.Mocked<ExampleService>
+const auditService = new AuditService({} as HmppsAuditClient) as jest.Mocked<AuditService>
+const exampleService = new ExampleService({} as ExampleApiClient) as jest.Mocked<ExampleService>
 
 let app: Express
 
@@ -28,7 +30,7 @@ afterEach(() => {
 
 describe('GET /', () => {
   it('should render index page', () => {
-    auditService.logPageView.mockResolvedValue(null)
+    auditService.logPageView.mockResolvedValue(undefined)
     exampleService.getCurrentTime.mockResolvedValue('2025-01-01T12:00:00.000')
 
     return request(app)
@@ -47,7 +49,7 @@ describe('GET /', () => {
   })
 
   it('service errors are handled', () => {
-    auditService.logPageView.mockResolvedValue(null)
+    auditService.logPageView.mockResolvedValue(undefined)
     exampleService.getCurrentTime.mockRejectedValue(new Error('Some problem calling external api!'))
 
     return request(app)

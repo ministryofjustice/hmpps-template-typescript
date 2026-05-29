@@ -12,7 +12,7 @@
       "matchUpdateTypes": ["minor", "patch"],
       "groupName": "all non major NPM dependencies",
       "groupSlug": "all-npm-minor-patch",
-      "stabilityDays": 5
+      "stabilityDays": 7
     },
     {
       "matchDepTypes": ["engines"],
@@ -37,7 +37,9 @@
     },
     {
       "matchManagers": ["github-actions"],
-      "fileMatch": ["^\\.github/workflows/.*\\.yml$"]
+      "matchFileNames": ["**/.github/workflows/**/*.ya?ml"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "enabled": false
     },
     {
       "matchManagers": ["pre-commit"],
@@ -46,5 +48,6 @@
   ],
   "vulnerabilityAlerts": {
     "stabilityDays": 0
-  }
+  },
+  "platformCommit": "enabled"
 }
