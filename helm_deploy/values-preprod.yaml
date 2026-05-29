@@ -6,6 +6,7 @@ generic-service:
 
   ingress:
     host: template-typescript-preprod.hmpps.service.justice.gov.uk
+    # modsecurity_enabled: true
 
   env:
     INGRESS_URL: "https://template-typescript-preprod.hmpps.service.justice.gov.uk"

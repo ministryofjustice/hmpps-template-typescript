@@ -62,6 +62,12 @@ generic-service:
   allowlist:
     groups:
       - internal
+  # NOTE: If you intend to make this application accessible from the internet in any environment by clearing 
+  #       the allowlist groups here or within an environment's values file, please ensure you uncomment the
+  #       'modsecurity_enabled=true' entries in the corresponding file.
+  #       This will enable WAF protection of the endpoint. You may need to adapt modsecurity rules
+  #       to suit your needs. Further information can be found here:
+  #       https://user-guide.cloud-platform.service.justice.gov.uk/documentation/networking/modsecurity.html#modsecurity-web-application-firewall
 
 generic-prometheus-alerts:
   targetApplication: hmpps-template-typescript
