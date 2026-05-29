@@ -30,7 +30,7 @@
     "npm": "^11"
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.1047.0",
+    "@aws-sdk/client-sqs": "^3.1053.0",
     "@ministryofjustice/frontend": "^9.0.0",
     "@ministryofjustice/hmpps-auth-clients": "^2.0.0",
     "@ministryofjustice/hmpps-azure-telemetry": "^1.0.0",
@@ -45,7 +45,7 @@
     "express": "^5.2.1",
     "express-session": "^1.19.0",
     "govuk-frontend": "^6.1.0",
-    "helmet": "^8.1.0",
+    "helmet": "^8.2.0",
     "http-errors": "^2.0.1",
     "jwt-decode": "^4.0.0",
     "nocache": "^4.0.0",
@@ -59,8 +59,8 @@
     "@jgoz/esbuild-plugin-typecheck": "^4.0.4",
     "@ministryofjustice/eslint-config-hmpps": "^1.0.3",
     "@ministryofjustice/frontend-types": "2.0.0",
-    "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.5",
-    "@ministryofjustice/hmpps-precommit-hooks": "3.0.0",
+    "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.6",
+    "@ministryofjustice/hmpps-precommit-hooks": "3.0.1",
     "@playwright/test": "^1.60.0",
     "@tsconfig/node24": "^24.0.4",
     "@types/bunyan": "^1.8.11",
@@ -75,7 +75,7 @@
     "@types/nunjucks": "^3.2.6",
     "@types/passport": "^1.0.17",
     "@types/passport-oauth2": "^1.8.0",
-    "@types/superagent": "^8.1.9",
+    "@types/superagent": "^8.1.10",
     "@types/supertest": "^7.2.0",
     "audit-ci": "^7.1.0",
     "aws-sdk-client-mock": "^4.1.0",
@@ -88,10 +88,10 @@
     "jest-html-reporter": "^4.4.0",
     "jest-junit": "^17.0.0",
     "jsonwebtoken": "^9.0.3",
-    "lint-staged": "^17.0.4",
+    "lint-staged": "^17.0.5",
     "nock": "^14.0.15",
     "supertest": "^7.2.2",
-    "ts-jest": "^29.4.9",
+    "ts-jest": "^29.4.11",
     "typescript": "^6.0.3"
   }
 }
