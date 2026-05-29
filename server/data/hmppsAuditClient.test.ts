@@ -53,7 +53,7 @@ describe('hmppsAuditClient', () => {
 
       expect(actualMessageInput.QueueUrl).toEqual('http://localhost:4566/000000000000/mainQueue')
 
-      const actualMessageBody = JSON.parse(actualMessageInput.MessageBody)
+      const actualMessageBody = JSON.parse(actualMessageInput.MessageBody as string)
       expect(actualMessageBody).toEqual(expectedSqsMessageBody)
 
       const eventTime = Date.parse(actualMessageBody.when)

@@ -1,0 +1,44 @@
+# Pre-commit hook configuration file
+#
+# This contains the list of hooks to be run before committing code.
+# Other hooks maybe added or removed as needed to suit individual project requirements.
+
+repos:
+  - repo: https://github.com/ministryofjustice/devsecops-hooks
+    rev: v1.4.1
+    hooks:
+      - id: baseline
+        env:
+          GITLEAKS_CONFIGURATION_FILE: ./.gitleaks/config.toml
+          GITLEAKS_IGNORE_FILE: ./.gitleaks/.gitleaksignore
+
+  - repo: local
+    hooks:
+      - id: lint
+        name: linting code
+        language: system
+        entry: ./node_modules/.bin/lint-staged
+        files: (\.(ts|js|css)$|^package-lock\.json$)
+        require_serial: true
+        pass_filenames: false
+      - id: typecheck
+        name: verify types
+        language: system
+        entry: npm run typecheck
+        files: (\.(ts)$|^package-lock\.json$)
+        require_serial: true
+        pass_filenames: false
+      - id: test
+        name: running tests
+        language: system
+        entry: npm run test
+        files: (\.(ts)$|^package-lock\.json$)
+        require_serial: true
+        pass_filenames: false
+  - repo: builtin
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-json
+      - id: check-yaml
+      - id: check-merge-conflict
