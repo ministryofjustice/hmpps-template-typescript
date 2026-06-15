@@ -33,6 +33,8 @@ generic-service:
     TOKEN_VERIFICATION_ENABLED: 'true'
     AUDIT_SQS_REGION: 'eu-west-2'
     AUDIT_SERVICE_NAME: 'UNASSIGNED' # Your audit service name
+    NODE_USE_ENV_PROXY: '1' # Enable proxy support for Node.js HTTP clients
+    APPLICATION_INSIGHTS_NO_STATSBEAT: 'true' # Disable Application Insights statsbeat telemetry
 
   # Pre-existing kubernetes secrets to load as environment variables in the deployment.
   # namespace_secrets:
@@ -54,6 +56,16 @@ generic-service:
       REDIS_AUTH_TOKEN: 'auth_token'
     hmpps-template-typescript-application-insights:
       APPLICATIONINSIGHTS_CONNECTION_STRING: "APPLICATIONINSIGHTS_CONNECTION_STRING"
+    # Uncomment the section below when your namespace has egress controls deployed.
+    # This is required for services to route outbound HTTPS traffic through the Envoy proxy.
+    # See: https://tech-docs.hmpps.service.justice.gov.uk/service-standard/egress-controls
+    # hmpps-envoy-https-proxy-env:
+    #   HTTP_PROXY: "HTTP_PROXY"
+    #   HTTPS_PROXY: "HTTPS_PROXY"
+    #   NO_PROXY: "NO_PROXY"
+    #   http_proxy: "HTTP_PROXY"
+    #   https_proxy: "HTTPS_PROXY"
+    #   no_proxy: "NO_PROXY"
     # This secret will need to be created in your namespace (note it isn't in hmpps-templates-dev)
     # IRSA configuration in your namespace will also be required, and then uncomment serviceAccountName above.
     # sqs-hmpps-audit-secret:
