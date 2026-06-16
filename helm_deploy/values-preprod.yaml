@@ -7,6 +7,12 @@ generic-service:
   ingress:
     host: template-typescript-preprod.hmpps.service.justice.gov.uk
     # modsecurity_enabled: true
+    # modsecurity_github_team: '<YOUR TEAM>'
+    # modsecurity_snippet: |
+    #   SecAuditEngine On
+    #   SecRuleEngine DetectionOnly
+    #   SecDefaultAction 'phase:2,pass,log,tag:github_team=<YOUR TEAM>,tag:namespace={{ .Release.Namespace }}''
+
 
   env:
     INGRESS_URL: "https://template-typescript-preprod.hmpps.service.justice.gov.uk"
