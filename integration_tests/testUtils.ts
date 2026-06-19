@@ -11,7 +11,7 @@ export const attemptHmppsAuthLogin = async (page: Page) => {
   await page.goto('/')
   page.locator('h1', { hasText: 'Sign in' })
   const url = await hmppsAuth.getSignInUrl()
-  await page.goto(url)
+  return page.goto(url)
 }
 
 export const login = async (
@@ -25,5 +25,5 @@ export const login = async (
     hmppsAuth.token({ name, roles, authSource }),
     tokenVerification.stubVerifyToken(active),
   ])
-  await attemptHmppsAuthLogin(page)
+  return attemptHmppsAuthLogin(page)
 }
