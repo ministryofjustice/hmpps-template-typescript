@@ -20,6 +20,19 @@ interface Mapping {
 
 export const stubFor = (mapping: Mapping): SuperAgentRequest => superagent.post(`${url}/mappings`).send(mapping)
 
+export const stubPing = (urlPrefix: string, httpStatus = 200): SuperAgentRequest =>
+  stubFor({
+    request: {
+      method: 'GET',
+      urlPath: `${urlPrefix}/health/ping`,
+    },
+    response: {
+      status: httpStatus,
+      headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+      jsonBody: { status: httpStatus === 200 ? 'UP' : 'DOWN' },
+    },
+  })
+
 /**
  * Incomplete definition of options used for searching requests
  * https://wiremock.org/docs/standalone/admin-api-reference/#tag/Requests/operation/findRequestsByCriteria

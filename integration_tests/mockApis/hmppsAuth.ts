@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
-import { stubFor, getMatchingRequests } from './wiremock'
+import type { SuperAgentRequest } from 'superagent'
+import { getMatchingRequests, stubFor, stubPing } from './wiremock'
 
 export interface UserToken {
   name?: string
@@ -31,7 +32,7 @@ export default {
       return `/sign-in/callback?code=codexxxx&state=${stateValue}`
     }),
 
-  favicon: () =>
+  favicon: (): SuperAgentRequest =>
     stubFor({
       request: {
         method: 'GET',
@@ -42,18 +43,9 @@ export default {
       },
     }),
 
-  stubPing: () =>
-    stubFor({
-      request: {
-        method: 'GET',
-        urlPattern: '/auth/health/ping',
-      },
-      response: {
-        status: 200,
-      },
-    }),
+  stubPing: (httpStatus = 200): SuperAgentRequest => stubPing('/auth', httpStatus),
 
-  stubSignInPage: () =>
+  stubSignInPage: (): SuperAgentRequest =>
     stubFor({
       request: {
         method: 'GET',
@@ -69,7 +61,7 @@ export default {
       },
     }),
 
-  stubSignOutPage: () =>
+  stubSignOutPage: (): SuperAgentRequest =>
     stubFor({
       request: {
         method: 'GET',
@@ -84,7 +76,7 @@ export default {
       },
     }),
 
-  stubManageDetailsPage: () =>
+  stubManageDetailsPage: (): SuperAgentRequest =>
     stubFor({
       request: {
         method: 'GET',
@@ -99,7 +91,7 @@ export default {
       },
     }),
 
-  token: (userToken: UserToken) =>
+  token: (userToken: UserToken): SuperAgentRequest =>
     stubFor({
       request: {
         method: 'POST',
