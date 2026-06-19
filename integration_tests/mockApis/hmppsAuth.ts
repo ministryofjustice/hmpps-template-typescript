@@ -36,7 +36,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        urlPattern: '/favicon.ico',
+        urlPath: '/favicon.ico',
       },
       response: {
         status: 200,
@@ -95,7 +95,7 @@ export default {
     stubFor({
       request: {
         method: 'POST',
-        urlPattern: '/auth/oauth/token',
+        urlPath: '/auth/oauth/token',
       },
       response: {
         status: 200,

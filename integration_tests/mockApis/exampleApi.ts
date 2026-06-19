@@ -8,7 +8,7 @@ export default {
     stubFor({
       request: {
         method: 'GET',
-        urlPattern: '/example-api/example/time',
+        urlPath: '/example-api/example/time',
       },
       response: {
         status: httpStatus,

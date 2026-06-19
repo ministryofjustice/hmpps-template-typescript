@@ -8,7 +8,7 @@ export default {
     stubFor({
       request: {
         method: 'POST',
-        urlPattern: '/verification/token/verify',
+        urlPath: '/verification/token/verify',
       },
       response: {
         status: 200,
