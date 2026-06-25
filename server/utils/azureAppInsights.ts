@@ -1,5 +1,4 @@
 import { initialiseTelemetry, flushTelemetry, telemetry } from '@ministryofjustice/hmpps-azure-telemetry'
-import logger from '../../logger'
 
 initialiseTelemetry({
   serviceName: 'hmpps-template-typescript',
@@ -12,7 +11,6 @@ initialiseTelemetry({
   .startRecording()
 
 const shutdown = async (signal: string) => {
-  logger.info(`${signal} received, shutting down...`)
   await flushTelemetry()
   process.exit(0)
 }
