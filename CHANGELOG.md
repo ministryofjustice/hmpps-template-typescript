@@ -1,5 +1,11 @@
 # Change log
 
+**June 25th 2026** - Fix appinsights logging
+
+Logger was inadvertently being loaded before the azure-telemetry model, causing instrumentation to be incorrectly configured. Removing this logging fixes AppTraces reporting in Azure
+
+See PR [#778](https://github.com/ministryofjustice/hmpps-template-typescript/pull/778)
+
 **May 12th 2026** - Add codeql scan for typescript
 
 Adding an action for codeql security scanning of the application source code
