@@ -10,7 +10,7 @@ initialiseTelemetry({
   .addModifier(telemetry.processors.enrichSpanNameWithHttpRoute())
   .startRecording()
 
-const shutdown = async (signal: string) => {
+const shutdown = async () => {
   await flushTelemetry()
   process.exit(0)
 }
