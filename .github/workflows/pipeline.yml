@@ -49,7 +49,7 @@ jobs:
     secrets: inherit
     with: 
       install_command: 'npm run setup'
-      npm_version: '12'
+      npm_version: '11'
   # generic node unit tests - feel free to override with local tests if required
   node_unit_tests:
     name: node unit tests
