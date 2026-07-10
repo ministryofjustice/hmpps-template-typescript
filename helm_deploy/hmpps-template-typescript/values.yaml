@@ -59,9 +59,5 @@ generic-service:
     # sqs-hmpps-audit-secret:
     #   AUDIT_SQS_QUEUE_URL: 'sqs_queue_url'
 
-  allowlist:
-    groups:
-      - internal
-
 generic-prometheus-alerts:
   targetApplication: hmpps-template-typescript

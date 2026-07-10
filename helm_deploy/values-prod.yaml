@@ -12,5 +12,14 @@ generic-service:
     EXAMPLE_API_URL: 'https://template-kotlin.hmpps.service.justice.gov.uk'
     AUDIT_ENABLED: "false"
 
+  allowlist:
+    # remove groups as appropriate to give the minimum ingress access required:
+    #   digital_staff_and_mojo: devices on the MoJ network
+    #   moj_cloud_platform: services on Cloud Platform
+    groups:
+      - digital_staff_and_mojo
+      - moj_cloud_platform
+
+
 generic-prometheus-alerts:
   alertSeverity: PROD_ALERTS_SEVERITY_LABEL
