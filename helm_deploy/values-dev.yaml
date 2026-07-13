@@ -16,9 +16,21 @@ generic-service:
     AUDIT_ENABLED: "false"
 
   allowlist:
+    # Configure groups as appropriate to give the minimum ingress access required:
+    #   digital_staff_and_mojo: devices on the MoJ network
+    #   moj_cloud_platform: services on Cloud Platform
+    # Other IP allowlist groups are here: 
+    # https://github.com/ministryofjustice/hmpps-ip-allowlists/blob/main/ip-allowlist-groups.yaml
+
     groups:
       - digital_staff_and_mojo
       - moj_cloud_platform
+
+  # NOTE: Removing ALL allowlist groups will make the application accessible from the internet. 
+  #       If you are intending to do this, please ensure you uncomment the 'modsecurity_enabled=true' 
+  #       entry in the ingress above. This will enable WAF protection of the endpoint. You will need 
+  #       to configure modsecurity rules to suit your needs. Further information can be found here:
+  #       https://user-guide.cloud-platform.service.justice.gov.uk/documentation/networking/modsecurity.html#modsecurity-web-application-firewall
 
 
 
