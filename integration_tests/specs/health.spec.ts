@@ -5,6 +5,9 @@ import tokenVerification from '../mockApis/tokenVerification'
 
 import { resetStubs } from '../testUtils'
 
+// NB: add new mock apis here:
+const mockApis = [hmppsAuth, tokenVerification, exampleApi]
+
 test.describe('Health', () => {
   test.afterEach(async () => {
     await resetStubs()
@@ -12,7 +15,7 @@ test.describe('Health', () => {
 
   test.describe('All healthy', () => {
     test.beforeEach(async () => {
-      await Promise.all([hmppsAuth.stubPing(), exampleApi.stubPing(), tokenVerification.stubPing()])
+      await Promise.all(mockApis.map(api => api.stubPing()))
     })
 
     test('Health check is accessible and status is UP', async ({ page }) => {
@@ -35,11 +38,9 @@ test.describe('Health', () => {
   })
 
   test.describe('Some unhealthy', () => {
-    test.beforeEach(async () => {
-      await Promise.all([hmppsAuth.stubPing(), exampleApi.stubPing(), tokenVerification.stubPing(500)])
-    })
+    test('Health check status is down for 1 api', async ({ page }) => {
+      await Promise.all(mockApis.map(api => (api === tokenVerification ? api.stubPing(500) : api.stubPing())))
 
-    test('Health check status is down', async ({ page }) => {
       const response = await page.request.get('/health')
       const payload = await response.json()
       expect(payload.status).toBe('DOWN')
@@ -47,6 +48,12 @@ test.describe('Health', () => {
       expect(payload.components.tokenVerification.status).toBe('DOWN')
       expect(payload.components.tokenVerification.details.status).toBe(500)
       expect(payload.components.tokenVerification.details.attempts).toBe(3)
+      expect(
+        Object.values<{ status: 'UP' | 'DOWN' }>(payload.components).reduce(
+          (downCount, api) => (api.status === 'DOWN' ? downCount + 1 : downCount),
+          0,
+        ),
+      ).toEqual(1)
     })
   })
 })

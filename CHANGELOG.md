@@ -1,5 +1,33 @@
 # Change log
 
+**June 25th 2026** - Fancier wiremock interface
+
+Should make it easier to write stubs correctly, especially when you want to match query parameters
+(using `urlPattern` is sensitive to parameter order so is not very effective).
+
+Since most apis will want a /health/ping stub, it’s convenient to have something to reuse and
+for the health check integration tests to be simpler to update.
+
+See PR [#774](https://github.com/ministryofjustice/hmpps-template-typescript/pull/774)
+
+**June 25th 2026** - Fix appinsights logging
+
+Logger was inadvertently being loaded before the azure-telemetry model, causing instrumentation to be incorrectly configured. Removing this logging fixes AppTraces reporting in Azure
+
+See PR [#778](https://github.com/ministryofjustice/hmpps-template-typescript/pull/778)
+
+**May 12th 2026** - Add codeql scan for typescript
+
+Adding an action for codeql security scanning of the application source code
+
+See PR [#742](https://github.com/ministryofjustice/hmpps-template-typescript/pull/742) and [#743](https://github.com/ministryofjustice/hmpps-template-typescript/pull/743)
+
+**May 11th 2026** - Build docker image on PR branches
+
+Moving to automatically build docker images on PR branches to more quickly identify issues which would result in broken deployments.
+
+See PR [#738](https://github.com/ministryofjustice/hmpps-template-typescript/pull/738)
+
 **April 23rd 2026** - Improve type safety
 
 Update type definitions in the codebase so that they are compatible with strict mode if enabled in [tsconfig.json](/tsconfig.json).
