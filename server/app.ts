@@ -1,7 +1,7 @@
 import express from 'express'
 import createError from 'http-errors'
 import { Forge } from '@ministryofjustice/hmpps-forge/core'
-import { ExpressFrameworkAdapter } from '@ministryofjustice/hmpps-forge/express-nunjucks'
+import { createExpressRouter } from '@ministryofjustice/hmpps-forge/express-nunjucks'
 import { govukComponents } from '@ministryofjustice/hmpps-forge/govuk-components'
 import { mojComponents } from '@ministryofjustice/hmpps-forge/moj-components'
 import nunjucksSetup from './utils/nunjucksSetup'
@@ -36,10 +36,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpStaticResources())
   const nunjucksEnv = nunjucksSetup(app)
 
-  const forge = new Forge({
-    frameworkAdapter: ExpressFrameworkAdapter.configure({ nunjucksEnv }),
-    logger,
-  })
+  const forge = new Forge({ logger })
   forge.registerGlobalComponents(govukComponents)
   forge.registerGlobalComponents(mojComponents)
   forge.registerPackage(examplePackage, {
@@ -53,7 +50,7 @@ export default function createApp(services: Services): express.Application {
   // app.use(setUpCurrentUser())
   app.use(setUpCsrf())
 
-  app.use(forge.getRouter() as express.Router)
+  app.use(createExpressRouter(forge, { nunjucksEnv }))
 
   app.use((_req, _res, next) => next(createError(404, 'Not found')))
   app.use(errorHandler(process.env.NODE_ENV === 'production'))

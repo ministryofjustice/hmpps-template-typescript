@@ -3,7 +3,7 @@ import { NotFound } from 'http-errors'
 
 import { randomUUID } from 'crypto'
 import { Forge } from '@ministryofjustice/hmpps-forge/core'
-import { ExpressFrameworkAdapter } from '@ministryofjustice/hmpps-forge/express-nunjucks'
+import { createExpressRouter } from '@ministryofjustice/hmpps-forge/express-nunjucks'
 import { govukComponents } from '@ministryofjustice/hmpps-forge/govuk-components'
 import { mojComponents } from '@ministryofjustice/hmpps-forge/moj-components'
 import examplePackage from '../journeys/example'
@@ -37,9 +37,7 @@ function appSetup(services: Services, production: boolean, userSupplier: () => H
 
   const nunjucksEnv = nunjucksSetup(app)
 
-  const forge = new Forge({
-    frameworkAdapter: ExpressFrameworkAdapter.configure({ nunjucksEnv }),
-  })
+  const forge = new Forge({})
   forge.registerGlobalComponents(govukComponents)
   forge.registerGlobalComponents(mojComponents)
   forge.registerPackage(examplePackage, {
@@ -68,7 +66,7 @@ function appSetup(services: Services, production: boolean, userSupplier: () => H
   })
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
-  app.use(forge.getRouter() as express.Router)
+  app.use(createExpressRouter(forge, { nunjucksEnv }))
   app.use((_req, _res, next) => next(new NotFound()))
   app.use(errorHandler(production))
 
