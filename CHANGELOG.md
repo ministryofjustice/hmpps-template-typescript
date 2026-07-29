@@ -1,5 +1,17 @@
 # Change log
 
+**July 29th 2026** - Move to devsecops-hooks 2.0.2
+
+There's been a big rewrite of the [secret scanner precommit hook](https://github.com/ministryofjustice/devsecops-hooks) to simplify things.
+
+It now no longer uses docker which is much quicker but requires gitleaks to be installed locally on dev machines.
+
+The hook will prevent the commit if gitleaks isn't installed and provide a prompt to visit: https://github.com/gitleaks/gitleaks#installing
+
+For Mac users, gitleaks can be installed via brew: `brew install gitleaks`
+
+See PR [#792](https://github.com/ministryofjustice/hmpps-template-typescript/pull/792)
+
 **June 25th 2026** - Fancier wiremock interface
 
 Should make it easier to write stubs correctly, especially when you want to match query parameters
