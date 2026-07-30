@@ -30,7 +30,7 @@
     "npm": "^11"
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.1093.0",
+    "@aws-sdk/client-sqs": "^3.1094.0",
     "@ministryofjustice/frontend": "^9.0.0",
     "@ministryofjustice/hmpps-auth-clients": "3.0.0",
     "@ministryofjustice/hmpps-azure-telemetry": "^1.0.2",
@@ -88,7 +88,7 @@
     "jest-html-reporter": "^4.4.0",
     "jest-junit": "^17.0.0",
     "jsonwebtoken": "^9.0.3",
-    "lint-staged": "^17.1.1",
+    "lint-staged": "^17.2.0",
     "nock": "^14.0.16",
     "supertest": "^7.2.2",
     "ts-jest": "^29.4.12",
@@ -96,6 +96,6 @@
   },
   "overrides": {
     "@opentelemetry/core": "2.10.0",
-    "brace-expansion": "5.0.7"
+    "brace-expansion": "5.0.8"
   }
 }
