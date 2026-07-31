@@ -1,5 +1,33 @@
 # Change log
 
+**July 29th 2026** - Move to devsecops-hooks 2.0.2
+
+There's been a big rewrite of the [secret scanner precommit hook](https://github.com/ministryofjustice/devsecops-hooks) to simplify things.
+
+It now no longer uses docker which is much quicker but requires gitleaks to be installed locally on dev machines.
+
+The hook will prevent the commit if gitleaks isn't installed and provide a prompt to visit: https://github.com/gitleaks/gitleaks#installing
+
+For Mac users, gitleaks can be installed via brew: `brew install gitleaks`
+
+See PR [#792](https://github.com/ministryofjustice/hmpps-template-typescript/pull/792)
+
+**June 25th 2026** - Fancier wiremock interface
+
+Should make it easier to write stubs correctly, especially when you want to match query parameters
+(using `urlPattern` is sensitive to parameter order so is not very effective).
+
+Since most apis will want a /health/ping stub, it’s convenient to have something to reuse and
+for the health check integration tests to be simpler to update.
+
+See PR [#774](https://github.com/ministryofjustice/hmpps-template-typescript/pull/774)
+
+**June 25th 2026** - Fix appinsights logging
+
+Logger was inadvertently being loaded before the azure-telemetry model, causing instrumentation to be incorrectly configured. Removing this logging fixes AppTraces reporting in Azure
+
+See PR [#778](https://github.com/ministryofjustice/hmpps-template-typescript/pull/778)
+
 **May 12th 2026** - Add codeql scan for typescript
 
 Adding an action for codeql security scanning of the application source code
