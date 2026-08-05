@@ -2,6 +2,7 @@ import HmppsAuditClient, { AuditEvent } from '../data/hmppsAuditClient'
 
 export enum Page {
   EXAMPLE_PAGE = 'EXAMPLE_PAGE',
+  SEARCH_OFFENDERS = 'SEARCH_OFFENDERS',
 }
 
 export interface PageViewEventDetails {
@@ -9,7 +10,7 @@ export interface PageViewEventDetails {
   subjectId?: string
   subjectType?: string
   correlationId?: string
-  details?: object
+  details?: Record<string, unknown>
 }
 
 export default class AuditService {

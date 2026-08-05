@@ -61,3 +61,25 @@ describe('GET /', () => {
       })
   })
 })
+
+describe('GET /perform-search', () => {
+  it('should render index page', () => {
+    exampleService.getCurrentTime.mockResolvedValue('2025-01-01T12:00:00.000')
+
+    return request(app)
+      .get('/perform-search?searchTerm=12345')
+      .expect('Content-Type', /text\/plain/)
+      .expect(302)
+      .expect('Location', '/')
+      .expect(() => {
+        expect(auditService.logAuditEvent).toHaveBeenCalledWith({
+          correlationId: '4d0fd4da-ecc1-454d-8308-cdee6b8b91f7',
+          details: { build: 'abc123', userRoles: [] },
+          subjectId: '12345',
+          subjectType: 'SEARCH_TERM',
+          what: 'SEARCH_OFFENDERS',
+          who: 'user1',
+        })
+      })
+  })
+})

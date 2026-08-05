@@ -7,7 +7,7 @@ export interface AuditEvent {
   subjectId?: string
   subjectType?: string
   correlationId?: string
-  details?: object
+  details?: Record<string, unknown>
 }
 
 export interface SqsMessage {
