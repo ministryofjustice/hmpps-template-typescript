@@ -33,4 +33,4 @@ generic-service:
 
 
 generic-prometheus-alerts:
-  alertSeverity: PROD_ALERTS_SEVERITY_LABEL
+  alertSeverity: hmpps_alerts_prod
