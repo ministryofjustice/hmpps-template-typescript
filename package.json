@@ -30,7 +30,7 @@
     "npm": "^11"
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.1094.0",
+    "@aws-sdk/client-sqs": "^3.1102.0",
     "@ministryofjustice/frontend": "^9.0.0",
     "@ministryofjustice/hmpps-auth-clients": "3.0.0",
     "@ministryofjustice/hmpps-azure-telemetry": "^1.0.2",
@@ -40,7 +40,7 @@
     "bunyan-format": "^0.2.1",
     "compression": "^1.8.1",
     "connect-flash": "^0.1.1",
-    "connect-redis": "^9.0.0",
+    "connect-redis": "^10.0.0",
     "csrf-sync": "^4.2.1",
     "express": "^5.2.1",
     "express-session": "^1.19.0",
@@ -52,16 +52,16 @@
     "nunjucks": "^3.2.4",
     "passport": "^0.7.0",
     "passport-oauth2": "^1.8.0",
-    "redis": "6.1.0",
+    "redis": "6.2.0",
     "superagent": "^10.3.0"
   },
   "devDependencies": {
     "@jgoz/esbuild-plugin-typecheck": "^4.0.4",
     "@ministryofjustice/eslint-config-hmpps": "^1.0.3",
-    "@ministryofjustice/frontend-types": "2.0.0",
+    "@ministryofjustice/frontend-types": "2.0.1",
     "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.6",
     "@ministryofjustice/hmpps-precommit-hooks": "3.0.1",
-    "@playwright/test": "^1.61.1",
+    "@playwright/test": "^1.62.1",
     "@tsconfig/node24": "^24.0.4",
     "@types/bunyan": "^1.8.11",
     "@types/bunyan-format": "^0.2.9",
@@ -88,14 +88,15 @@
     "jest-html-reporter": "^4.4.0",
     "jest-junit": "^17.0.0",
     "jsonwebtoken": "^9.0.3",
-    "lint-staged": "^17.2.0",
-    "nock": "^14.0.16",
+    "lint-staged": "^17.3.0",
+    "nock": "^14.0.17",
     "supertest": "^7.2.2",
     "ts-jest": "^29.4.12",
     "typescript": "^6.0.3"
   },
   "overrides": {
     "@opentelemetry/core": "2.10.0",
-    "brace-expansion": "5.0.9"
+    "brace-expansion": "5.0.9",
+    "js-yaml": "3.15.1"
   }
 }
