@@ -28,6 +28,7 @@ generic-service:
   # Environment variables to load into the deployment
   env:
     NODE_ENV: 'production'
+    LOG_LEVEL: 'info'
     REDIS_ENABLED: 'true'
     REDIS_TLS_ENABLED: 'true'
     TOKEN_VERIFICATION_ENABLED: 'true'
