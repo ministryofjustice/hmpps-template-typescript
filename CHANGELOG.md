@@ -5,7 +5,7 @@
 As part of this we can remove reliance on the [hmpps allowlist scripts library](https://github.com/ministryofjustice/hmpps-typescript-lib/tree/main/packages/npm-script-allowlist) as this functionality is included in npm. 
 See [here](https://docs.npmjs.com/cli/v12/commands/npm-install-scripts) for more information
 
-Note: need to enforce `strict-engines` in .npmrc, to ensure that npm 12 is enabled - the allowlist script functionality relies on disabling `ignore-scripts`. This is unsafe in npm < 12.
+Note: ensure `engine-strict=true` is set in .npmrc so installs fail on npm < 12; the allowlist script functionality relies on disabling `ignore-scripts`, which is unsafe in npm < 12.
 
 See PR [#806](https://github.com/ministryofjustice/hmpps-template-typescript/pull/806)
 
