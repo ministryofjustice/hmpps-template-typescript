@@ -17,7 +17,9 @@ RUN test -n "$GIT_BRANCH" || (echo "GIT_BRANCH not set" && false)
 
 WORKDIR /app
 
-COPY package*.json .allowed-scripts.mjs .npmrc ./
+COPY package*.json .npmrc ./
+
+RUN npm install -g npm@12.0.2
 RUN NPM_CONFIG_AUDIT=false NPM_CONFIG_FUND=false npm run setup
 ENV NODE_ENV='production'
 
