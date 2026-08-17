@@ -23,11 +23,11 @@
     "int-test-init:ci": "npx playwright install",
     "clean": "rm -rf dist test_results",
     "rebuild": "npm run clean && npm run setup && npm run build",
-    "setup": "npm ci && hmpps-npm-script-run-allowlist"
+    "setup": "npm ci"
   },
   "engines": {
     "node": "^24",
-    "npm": "^11"
+    "npm": "^12"
   },
   "dependencies": {
     "@aws-sdk/client-sqs": "^3.1105.0",
@@ -59,7 +59,6 @@
     "@jgoz/esbuild-plugin-typecheck": "^4.0.4",
     "@ministryofjustice/eslint-config-hmpps": "^1.0.3",
     "@ministryofjustice/frontend-types": "2.0.1",
-    "@ministryofjustice/hmpps-npm-script-allowlist": "0.0.6",
     "@ministryofjustice/hmpps-precommit-hooks": "3.0.1",
     "@playwright/test": "^1.62.1",
     "@tsconfig/node24": "^24.0.4",
@@ -98,5 +97,13 @@
     "@opentelemetry/core": "2.10.0",
     "brace-expansion": "5.0.9",
     "js-yaml": "3.15.1"
+  },
+  "allowScripts": {
+    "@parcel/watcher@2.6.0": true,
+    "dtrace-provider@0.8.8": false,
+    "esbuild@0.28.1": true,
+    "fsevents@2.3.3": true,
+    "fsevents@2.3.2": true,
+    "unrs-resolver@1.12.2": true
   }
 }
