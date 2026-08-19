@@ -8,6 +8,7 @@ generic-service:
     host: template-typescript-dev.hmpps.service.justice.gov.uk
 
   env:
+    LOG_LEVEL: 'debug'
     INGRESS_URL: "https://template-typescript-dev.hmpps.service.justice.gov.uk"
     HMPPS_AUTH_URL: "https://sign-in-dev.hmpps.service.justice.gov.uk/auth"
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api-dev.prison.service.justice.gov.uk"
