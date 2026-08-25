@@ -1,9 +1,9 @@
 generic-service:
   nameOverride: hmpps-template-typescript
   productId: 'UNASSIGNED' # productId for the product that this belongs too, i.e. DPS001, see README.md for details
-
-  # the IRSA service account name for accessing AWS resources
-  # serviceAccountName: "hmpps-template-typescript"
+  
+  # the IRSA service account name for accessing AWS resources, comment out if you haven't configured IRSA in your namespace yet.
+  serviceAccountName: "hmpps-template-typescript"
 
   replicaCount: 4
 
@@ -55,10 +55,11 @@ generic-service:
       REDIS_AUTH_TOKEN: 'auth_token'
     hmpps-template-typescript-application-insights:
       APPLICATIONINSIGHTS_CONNECTION_STRING: "APPLICATIONINSIGHTS_CONNECTION_STRING"
-    # This secret will need to be created in your namespace (note it isn't in hmpps-templates-dev)
-    # IRSA configuration in your namespace will also be required, and then uncomment serviceAccountName above.
-    # sqs-hmpps-audit-secret:
-    #   AUDIT_SQS_QUEUE_URL: 'sqs_queue_url'
+    # This secret will need to be created in your namespace if you add audit integration 
+    # IRSA configuration in your namespace will also be required.
+    sqs-hmpps-audit-secret:
+      AUDIT_SQS_QUEUE_URL: "sqs_queue_url"
+      AUDIT_SQS_QUEUE_NAME: "sqs_queue_name"
 
 generic-prometheus-alerts:
   targetApplication: hmpps-template-typescript
