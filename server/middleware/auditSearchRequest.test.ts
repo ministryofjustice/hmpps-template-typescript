@@ -1,8 +1,8 @@
 import type { Request, Response } from 'express'
 
 import auditSearchRequest from './auditSearchRequest'
-import { Page } from '../services/auditService'
 import { Services } from '../services'
+import { Page } from '../routes'
 
 describe('auditSearchRequest', () => {
   const logAuditEvent = jest.fn()
@@ -31,7 +31,7 @@ describe('auditSearchRequest', () => {
     expect(logAuditEvent).toHaveBeenCalledWith({
       correlationId: 'request123',
       who: 'user1',
-      what: Page.SEARCH_OFFENDERS,
+      action: Page.SEARCH_OFFENDERS,
       subjectType: 'SEARCH_TERM',
       subjectId: 'X123456',
       details: { build: 'abc1234', userRoles: ['ROLE_EXAMPLE'] },

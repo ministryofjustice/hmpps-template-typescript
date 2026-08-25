@@ -1,6 +1,6 @@
 import type { RequestHandler } from 'express'
-import { Page } from '../services/auditService'
 import { Services } from '../services'
+import type { Page } from '../routes'
 
 export default function auditSearchRequest({ services, page }: { services: Services; page: Page }): RequestHandler {
   const { auditService, applicationInfo } = services
@@ -13,7 +13,7 @@ export default function auditSearchRequest({ services, page }: { services: Servi
       await auditService.logAuditEvent({
         correlationId: req.id,
         who: user.username,
-        what: page,
+        action: page,
         subjectType: 'SEARCH_TERM',
         subjectId: searchTerm,
         details: { build: applicationInfo.gitRef, userRoles: user.userRoles },

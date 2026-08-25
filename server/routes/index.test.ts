@@ -1,15 +1,15 @@
 import type { Express } from 'express'
+import { AuditService } from '@ministryofjustice/hmpps-audit-client'
 import request from 'supertest'
 import { appWithAllRoutes, user } from './testutils/appSetup'
-import AuditService, { Page } from '../services/auditService'
 import ExampleService from '../services/exampleService'
-import HmppsAuditClient from '../data/hmppsAuditClient'
 import ExampleApiClient from '../data/exampleApiClient'
+import { Page } from '.'
 
-jest.mock('../services/auditService')
+jest.mock('@ministryofjustice/hmpps-audit-client')
 jest.mock('../services/exampleService')
 
-const auditService = new AuditService({} as HmppsAuditClient) as jest.Mocked<AuditService>
+const auditService = new AuditService(undefined) as jest.Mocked<AuditService>
 const exampleService = new ExampleService({} as ExampleApiClient) as jest.Mocked<ExampleService>
 
 let app: Express
@@ -77,7 +77,7 @@ describe('GET /perform-search', () => {
           details: { build: 'abc123', userRoles: [] },
           subjectId: '12345',
           subjectType: 'SEARCH_TERM',
-          what: 'SEARCH_OFFENDERS',
+          action: 'SEARCH_OFFENDERS',
           who: 'user1',
         })
       })
