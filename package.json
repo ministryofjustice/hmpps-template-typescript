@@ -32,6 +32,7 @@
   "dependencies": {
     "@aws-sdk/client-sqs": "^3.1112.0",
     "@ministryofjustice/frontend": "^9.0.0",
+    "@ministryofjustice/hmpps-audit-client": "2.0.0-beta.4",
     "@ministryofjustice/hmpps-auth-clients": "3.0.0",
     "@ministryofjustice/hmpps-azure-telemetry": "^1.0.2",
     "@ministryofjustice/hmpps-monitoring": "^2.1.0",
@@ -101,9 +102,9 @@
   "allowScripts": {
     "@parcel/watcher@2.6.0": true,
     "dtrace-provider@0.8.8": false,
-    "esbuild@0.28.1": true,
     "fsevents@2.3.3": true,
     "fsevents@2.3.2": true,
-    "unrs-resolver@1.12.2": true
+    "unrs-resolver@1.12.2": true,
+    "esbuild@0.28.2": true
   }
 }
