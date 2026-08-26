@@ -1,9 +1,9 @@
 generic-service:
   nameOverride: hmpps-template-typescript
   productId: 'UNASSIGNED' # productId for the product that this belongs too, i.e. DPS001, see README.md for details
-  
-  # the IRSA service account name for accessing AWS resources, comment out if you haven't configured IRSA in your namespace yet.
-  serviceAccountName: "hmpps-template-typescript"
+
+  # the IRSA service account name for accessing AWS resources (e.g: audit SQS queue)
+  # serviceAccountName: "hmpps-template-typescript"
 
   replicaCount: 4
 
@@ -32,8 +32,8 @@ generic-service:
     REDIS_ENABLED: 'true'
     REDIS_TLS_ENABLED: 'true'
     TOKEN_VERIFICATION_ENABLED: 'true'
-    AUDIT_SQS_REGION: 'eu-west-2'
-    AUDIT_SERVICE_NAME: 'UNASSIGNED' # Your audit service name
+    AUDIT_ENABLED: 'true'
+    AUDIT_SERVICE_NAME: 'hmpps-template-typescript' # Your audit service name
 
   # Pre-existing kubernetes secrets to load as environment variables in the deployment.
   # namespace_secrets:
@@ -47,7 +47,7 @@ generic-service:
       CLIENT_CREDS_CLIENT_SECRET: 'CLIENT_CREDS_CLIENT_SECRET'
     hmpps-template-typescript-auth-code:
       AUTH_CODE_CLIENT_ID: 'AUTH_CODE_CLIENT_ID'
-      AUTH_CODE_CLIENT_SECRET: 'AUTH_CODE_CLIENT_SECRET'    
+      AUTH_CODE_CLIENT_SECRET: 'AUTH_CODE_CLIENT_SECRET'
     hmpps-template-typescript-session-secret:
       SESSION_SECRET: 'SESSION_SECRET'
     hmpps-template-typescript-elasticache-redis:
@@ -55,11 +55,11 @@ generic-service:
       REDIS_AUTH_TOKEN: 'auth_token'
     hmpps-template-typescript-application-insights:
       APPLICATIONINSIGHTS_CONNECTION_STRING: "APPLICATIONINSIGHTS_CONNECTION_STRING"
-    # This secret will need to be created in your namespace if you add audit integration 
+    # This secret will need to be created in your namespace if you add audit integration
     # IRSA configuration in your namespace will also be required.
-    sqs-hmpps-audit-secret:
-      AUDIT_SQS_QUEUE_URL: "sqs_queue_url"
-      AUDIT_SQS_QUEUE_NAME: "sqs_queue_name"
+    # sqs-hmpps-audit-secret:
+    #  AUDIT_SQS_QUEUE_URL: "sqs_queue_url"
+    #  AUDIT_SQS_QUEUE_NAME: "sqs_queue_name"
 
 generic-prometheus-alerts:
   targetApplication: hmpps-template-typescript
