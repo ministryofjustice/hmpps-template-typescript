@@ -1,5 +1,14 @@
 # Change log
 
+**August 26th 2026** - Adding audit client library
+
+Removing the local version of the audit client and replacing with the hmpps-audit-client.
+
+There's a breaking change: the `what` field has been replaced with `action`.
+The audit client is disabled by default in the hosted version of the template project.
+
+See PR [#804](https://github.com/ministryofjustice/hmpps-template-typescript/pull/804)
+
 **August 19th 2026** - Allow setting default log level per environment
 
 Provide a mechanism to specify the log level via environmental variables.
