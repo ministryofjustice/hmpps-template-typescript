@@ -9,7 +9,7 @@ The audit client is disabled by default in the hosted version of the template pr
 
 See PR [#810](https://github.com/ministryofjustice/hmpps-template-typescript/pull/810)
 
-Or diff [here](https://github.com/ministryofjustice/hmpps-template-typescript/compare/7382729%5E...8c85af6)
+Or the diff [here](https://github.com/ministryofjustice/hmpps-template-typescript/compare/7382729%5E...8c85af6)
 
 **August 19th 2026** - Allow setting default log level per environment
 
