@@ -7,7 +7,9 @@ Removing the local version of the audit client and replacing with the hmpps-audi
 There's a breaking change: the `what` field has been replaced with `action`.
 The audit client is disabled by default in the hosted version of the template project.
 
-See PR [#804](https://github.com/ministryofjustice/hmpps-template-typescript/pull/804)
+See PR [#810](https://github.com/ministryofjustice/hmpps-template-typescript/pull/810)
+
+Or diff [here](https://github.com/ministryofjustice/hmpps-template-typescript/compare/7382729%5E...8c85af6)
 
 **August 19th 2026** - Allow setting default log level per environment
 
