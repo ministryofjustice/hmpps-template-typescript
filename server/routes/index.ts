@@ -25,7 +25,7 @@ export default function routes(services: Services): Router {
   router.get(
     '/perform-search',
     auditSearchRequest({ services, page: Page.SEARCH_OFFENDERS }),
-    async (req, res, _next) => {
+    async (_req, res, _next) => {
       return res.redirect('/')
     },
   )
