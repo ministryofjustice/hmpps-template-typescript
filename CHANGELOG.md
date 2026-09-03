@@ -2,7 +2,7 @@
 
 **September 3rd 2026** - Enforce strict allowscripts
 
-To ensure that builds fails if there are packages with scripts that haven't been explicitly allowed/denied
+To ensure that builds fail if there are packages with scripts that haven't been explicitly allowed/denied.
 
 See PR [#818](https://github.com/ministryofjustice/hmpps-template-typescript/pull/818)
 
