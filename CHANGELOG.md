@@ -3,6 +3,7 @@
 **September 3rd 2026** - Enforce strict allowscripts
 
 To ensure that builds fail if there are packages with scripts that haven't been explicitly allowed/denied.
+Related npm docs [here](https://docs.npmjs.com/cli/v11/commands/npm-install#strict-allow-scripts).
 
 See PR [#818](https://github.com/ministryofjustice/hmpps-template-typescript/pull/818)
 
@@ -39,7 +40,7 @@ Note: ensure `engine-strict=true` is set in .npmrc so installs fail on npm < 12;
 
 See PR [#806](https://github.com/ministryofjustice/hmpps-template-typescript/pull/806)
 
-Also see PR [#817](https://github.com/ministryofjustice/hmpps-template-typescript/pull/817) for strict allow listing.
+Also see PR [#818](https://github.com/ministryofjustice/hmpps-template-typescript/pull/818) to force [strict script allowlisting](https://docs.npmjs.com/cli/v11/commands/npm-install#strict-allow-scripts).
 
 **July 29th 2026** - Move to devsecops-hooks 2.0.2
 
