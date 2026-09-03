@@ -34,7 +34,7 @@ const applicationInfo: ApplicationInfo = {
 
 export const flashProvider = jest.fn()
 
-function appSetup(services: Services, production: boolean, userSupplier: () => HmppsUser): Express {
+function appSetup(services: Partial<Services>, production: boolean, userSupplier: () => HmppsUser): Express {
   const app = express()
 
   app.set('view engine', 'njk')
@@ -61,7 +61,7 @@ function appSetup(services: Services, production: boolean, userSupplier: () => H
   })
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
-  app.use(routes({ applicationInfo, ...services }))
+  app.use(routes({ applicationInfo, ...services } as Services))
   app.use((_req, _res, next) => next(new NotFound()))
   app.use(errorHandler(production))
 
@@ -71,7 +71,7 @@ function appSetup(services: Services, production: boolean, userSupplier: () => H
 export function appWithAllRoutes({
   production = false,
   services = {
-    auditService: new AuditService(null) as jest.Mocked<AuditService>,
+    auditService: new AuditService({} as never) as jest.Mocked<AuditService>,
   },
   userSupplier = () => user,
 }: {

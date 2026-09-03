@@ -9,7 +9,7 @@ import { Page } from '.'
 jest.mock('@ministryofjustice/hmpps-audit-client')
 jest.mock('../services/exampleService')
 
-const auditService = new AuditService(undefined) as jest.Mocked<AuditService>
+const auditService = new AuditService({} as never) as jest.Mocked<AuditService>
 const exampleService = new ExampleService({} as ExampleApiClient) as jest.Mocked<ExampleService>
 
 let app: Express
