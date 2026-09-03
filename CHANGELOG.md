@@ -1,5 +1,18 @@
 # Change log
 
+**September 3rd 2026** - Enforce strict allowscripts
+
+To ensure that builds fail if there are packages with scripts that haven't been explicitly allowed/denied.
+Related npm docs [here](https://docs.npmjs.com/cli/v11/commands/npm-install#strict-allow-scripts).
+
+See PR [#818](https://github.com/ministryofjustice/hmpps-template-typescript/pull/818)
+
+**September 3rd 2026** - Enforce strict typing
+
+Enforcing strict typescript typing and ensuring that all args are used
+
+See PR [#817](https://github.com/ministryofjustice/hmpps-template-typescript/pull/817)
+
 **August 26th 2026** - Adding audit client library
 
 Removing the local version of the audit client and replacing with the hmpps-audit-client.
@@ -26,6 +39,8 @@ See [here](https://docs.npmjs.com/cli/v12/commands/npm-install-scripts) for more
 Note: ensure `engine-strict=true` is set in .npmrc so installs fail on npm < 12; the allowlist script functionality relies on disabling `ignore-scripts`, which is unsafe in npm < 12.
 
 See PR [#806](https://github.com/ministryofjustice/hmpps-template-typescript/pull/806)
+
+Also see PR [#818](https://github.com/ministryofjustice/hmpps-template-typescript/pull/818) to force [strict script allowlisting](https://docs.npmjs.com/cli/v11/commands/npm-install#strict-allow-scripts).
 
 **July 29th 2026** - Move to devsecops-hooks 2.0.2
 
