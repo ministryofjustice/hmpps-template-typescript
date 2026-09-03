@@ -8,7 +8,7 @@ See PR [#818](https://github.com/ministryofjustice/hmpps-template-typescript/pul
 
 **September 3rd 2026** - Enforce strict typing
 
-Enforcing strict typescript typing
+Enforcing strict typescript typing and ensuring that all args are used
 
 See PR [#817](https://github.com/ministryofjustice/hmpps-template-typescript/pull/817)
 
