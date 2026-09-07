@@ -32,7 +32,7 @@
   "dependencies": {
     "@aws-sdk/client-sqs": "^3.1114.0",
     "@ministryofjustice/frontend": "^9.0.0",
-    "@ministryofjustice/hmpps-audit-client": "2.0.0-beta.4",
+    "@ministryofjustice/hmpps-audit-client": "2.0.0-beta.5",
     "@ministryofjustice/hmpps-auth-clients": "3.0.0",
     "@ministryofjustice/hmpps-azure-telemetry": "^1.0.2",
     "@ministryofjustice/hmpps-monitoring": "^2.1.0",

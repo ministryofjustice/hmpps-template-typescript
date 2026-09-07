@@ -13,7 +13,7 @@ describe('auditSearchRequest', () => {
     auditService: { logAuditEvent },
   } as unknown as Services
 
-  const req = { id: 'request123', query: { searchTerm: 'X123456' } } as unknown as Request
+  const req = { id: 'request123', body: { searchTerm: 'X123456' } } as unknown as Request
 
   const res = {
     locals: {
@@ -31,7 +31,7 @@ describe('auditSearchRequest', () => {
     expect(logAuditEvent).toHaveBeenCalledWith({
       correlationId: 'request123',
       who: 'user1',
-      action: Page.SEARCH_OFFENDERS,
+      what: Page.SEARCH_OFFENDERS,
       subjectType: 'SEARCH_TERM',
       subjectId: 'X123456',
       details: { build: 'abc1234', userRoles: ['ROLE_EXAMPLE'] },
@@ -45,7 +45,7 @@ describe('auditSearchRequest', () => {
   })
 
   it('does not audit when search query body param is missing', async () => {
-    const reqWithoutSearchTerm = { query: {} } as unknown as Request
+    const reqWithoutSearchTerm = { body: {} } as unknown as Request
 
     await auditSearchRequest({ services, page: Page.SEARCH_OFFENDERS })(reqWithoutSearchTerm, res, next)
     expect(logAuditEvent).not.toHaveBeenCalled()
