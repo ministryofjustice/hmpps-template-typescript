@@ -62,12 +62,13 @@ describe('GET /', () => {
   })
 })
 
-describe('GET /perform-search', () => {
-  it('should render index page', () => {
+describe('POST /perform-search', () => {
+  it('should trigger audit request and redirect to /', () => {
     exampleService.getCurrentTime.mockResolvedValue('2025-01-01T12:00:00.000')
 
     return request(app)
-      .get('/perform-search?searchTerm=12345')
+      .post('/perform-search')
+      .send({ searchTerm: '12345' })
       .expect('Content-Type', /text\/plain/)
       .expect(302)
       .expect('Location', '/')
@@ -77,7 +78,7 @@ describe('GET /perform-search', () => {
           details: { build: 'abc123', userRoles: [] },
           subjectId: '12345',
           subjectType: 'SEARCH_TERM',
-          action: 'SEARCH_OFFENDERS',
+          what: 'SEARCH_OFFENDERS',
           who: 'user1',
         })
       })
