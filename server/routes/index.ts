@@ -22,7 +22,8 @@ export default function routes(services: Services): Router {
     return res.render('pages/index', { currentTime })
   })
 
-  router.get(
+  // Example of an audited route.
+  router.post(
     '/perform-search',
     auditSearchRequest({ services, page: Page.SEARCH_OFFENDERS }),
     async (_req, res, _next) => {
