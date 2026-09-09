@@ -1,5 +1,13 @@
 # Change log
 
+**September 9th 2026** - Add user metadata to app insights telemetry
+
+Basic user metadata is added to app insights telemetry out of the box, including the user UUID stored in HMPPS Auth
+and, for prison users, the activeCaseLoadId.  This should be considered the minimal set of data to be added to
+telemetry for tactical audit and debugging user specific issues.
+
+See PR [#822](https://github.com/ministryofjustice/hmpps-template-typescript/pull/822)
+
 **September 3rd 2026** - Enforce strict allowscripts
 
 To ensure that builds fail if there are packages with scripts that haven't been explicitly allowed/denied.
