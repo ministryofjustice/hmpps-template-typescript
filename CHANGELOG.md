@@ -2,9 +2,9 @@
 
 **September 9th 2026** - Add user metadata to app insights telemetry
 
-Basic user metadata is added to app insights telemetry out of the box, including the user UUID stored in HMPPS Auth
-and, for prison users, the activeCaseLoadId.  This should be considered the minimal set of data to be added to
-telemetry for tactical audit and debugging user specific issues.
+Basic user metadata is added to app insights telemetry out of the box, including the auth source specific user id,
+the user UUID stored in HMPPS Auth and, for prison users, the activeCaseLoadId.  This should be considered the
+minimal set of data to be added to telemetry for tactical audit and debugging user specific issues.
 
 See PR [#822](https://github.com/ministryofjustice/hmpps-template-typescript/pull/822)
 

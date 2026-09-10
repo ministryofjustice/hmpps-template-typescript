@@ -8,6 +8,11 @@ import { HmppsUser } from '../interfaces/hmppsUser'
  *
  * The following attributes are added to the active span where relevant:
  *
+ * - userId:            This is the auth source specific user ID. This may be one of:
+ *                      nomis    - the staffId linked to the user
+ *                      delius   - a numeric Delius user ID
+ *                      external - the UUID assigned to the user by HMPPS Auth, same as the userUuid below
+ *
  * - userUuid:          This is the UUID created by HMPPS Auth upon first user login that is unique to the user
  *                      across all authSources.  Using this in telemetry is prefered over username.
  *
@@ -18,6 +23,7 @@ export default function addUserMetadataToTelemetry(): RequestHandler {
     const user = (res.locals?.user ?? {}) as HmppsUser
 
     telemetry.setSpanAttributes({
+      ...(user.userId && { userId: user.userId }),
       ...(user.userUuid && { userUuid: user.userUuid }),
       ...(user.authSource === 'nomis' && user.activeCaseLoadId && { activeCaseLoadId: user.activeCaseLoadId }),
     })
