@@ -34,7 +34,7 @@
     "@ministryofjustice/frontend": "^11.0.0",
     "@ministryofjustice/hmpps-audit-client": "2.0.0-beta.5",
     "@ministryofjustice/hmpps-auth-clients": "3.0.0",
-    "@ministryofjustice/hmpps-azure-telemetry": "^1.0.2",
+    "@ministryofjustice/hmpps-azure-telemetry": "1.1.0",
     "@ministryofjustice/hmpps-monitoring": "^2.1.0",
     "@ministryofjustice/hmpps-rest-client": "^2.2.0",
     "bunyan": "^1.8.15",
