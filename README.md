@@ -5,6 +5,8 @@
 
 Template github repo used for new Typescript based projects.
 
+This branch uses Forge for page journeys and supports containerised development, production builds, and integration tests. HMPPS user sign-in is disabled; HMPPS Auth is still used for service-to-service API tokens.
+
 # Instructions
 
 If this is a HMPPS project then the creation of new services is automated and cloning/forking this repository is not required.
@@ -106,7 +108,7 @@ To start the app and supporting services in development mode:
 
 `make dev-up`
 
-Install dependencies using `npm run setup`, ensuring you are using `node v24`
+Install dependencies using `npm run setup`, ensuring you are using Node 24.15 or later in the Node 24 series and npm 12
 
 Note: Using `nvm` (or [fnm](https://github.com/Schniz/fnm)), run `nvm install --latest-npm` within the repository folder
 to use the correct version of node, and the latest version of npm. This matches the `engines` config in `package.json`
@@ -129,10 +131,9 @@ for the in-memory DB used by Auth
 
 ### Installing dependencies
 
-By default no pre or post install scripts will be run during `npm install`.
-Instead a list of configured install scripts will be run via the [npm script allowlist](https://github.com/ministryofjustice/hmpps-typescript-lib/tree/main/packages/npm-script-allowlist) tool.
+Run `npm run setup` to install the locked dependencies with npm 12. Dependency install scripts are controlled by `allowScripts` in `package.json` and the strict settings in `.npmrc`.
 
-Instead of running `npm install`, run `npm run setup` - this will run an `npm ci` to install any dependencies and then run any configured install scripts.
+Container dependency installs use the development image’s npm version and keep install scripts disabled. `make install-node-modules` refreshes the dependency volume when the package files or `.npmrc` change.
 
 ### Making changes
 

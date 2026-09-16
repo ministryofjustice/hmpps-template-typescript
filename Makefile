@@ -31,7 +31,6 @@ prod-up: ## Starts/restarts the app in a production container.
 
 dev-build: ## Builds a development image of the app and installs Node dependencies.
 	@make install-node-modules
-	@docker compose ${DEV_COMPOSE_FILES} build ${SERVICE_NAME}
 
 dev-up: ## Starts/restarts a development container. A remote debugger can be attached on port 9229.
 	@make install-node-modules
@@ -64,17 +63,17 @@ lint-fix: ## Automatically fixes linting issues.
 	@npm run lint-fix
 
 install-node-modules: ## Installs Node modules into the Docker volume.
+	@docker compose ${DEV_COMPOSE_FILES} build ${SERVICE_NAME}
 	@docker volume create ${PROJECT_NAME}_node_modules > /dev/null 2>&1 || true
 	@docker run --rm \
 	  -v ./package.json:/app/package.json:ro \
 	  -v ./package-lock.json:/app/package-lock.json:ro \
-	  -v ./.allowed-scripts.mjs:/app/.allowed-scripts.mjs:ro \
 	  -v ./.npmrc:/app/.npmrc:ro \
 	  -v ~/.npm:/npm_cache \
 	  -v ${PROJECT_NAME}_node_modules:/app/node_modules \
-	  node:24-slim \
+	  ${PROJECT_NAME}-development \
 	  /bin/sh -c '\
-	    CURRENT_HASH=$$( (cat /app/package.json /app/package-lock.json; echo "${NODE_MODULES_LAYOUT_VERSION}") | sha256sum | cut -d" " -f1); \
+	    CURRENT_HASH=$$( (cat /app/package.json /app/package-lock.json /app/.npmrc; echo "${NODE_MODULES_LAYOUT_VERSION}") | sha256sum | cut -d" " -f1); \
 	    STORED_HASH=$$(cat /app/node_modules/.package-hash 2>/dev/null || echo ""); \
 	    if [ "$$CURRENT_HASH" != "$$STORED_HASH" ]; then \
 	      echo "Package files changed, running npm ci..."; \

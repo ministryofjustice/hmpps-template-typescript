@@ -6,6 +6,10 @@ services:
       context: ..
       dockerfile: Dockerfile
       target: production
+      args:
+        BUILD_NUMBER: "test"
+        GIT_REF: "local"
+        GIT_BRANCH: "local"
     command: npm run start
     depends_on:
       - redis
@@ -37,7 +41,7 @@ services:
     command: --global-response-templating
 
   playwright:
-    image: mcr.microsoft.com/playwright:v1.59.1-noble
+    image: mcr.microsoft.com/playwright:v1.62.1-noble
     networks:
       - hmpps
     depends_on:

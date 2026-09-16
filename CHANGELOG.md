@@ -1,5 +1,69 @@
 # Change log
 
+**September 9th 2026** - Add user metadata to app insights telemetry
+
+Basic user metadata is added to app insights telemetry out of the box, including the auth source specific user id,
+the user UUID stored in HMPPS Auth and, for prison users, the activeCaseLoadId.  This should be considered the
+minimal set of data to be added to telemetry for tactical audit and debugging user specific issues.
+
+This uses the middleware provided by `@ministryofjustice/hmpps-azure-telemetry` 1.1.0.
+
+See PR [#822](https://github.com/ministryofjustice/hmpps-template-typescript/pull/822)
+
+**September 3rd 2026** - Enforce strict allowscripts
+
+To ensure that builds fail if there are packages with scripts that haven't been explicitly allowed/denied.
+Related npm docs [here](https://docs.npmjs.com/cli/v11/commands/npm-install#strict-allow-scripts).
+
+See PR [#818](https://github.com/ministryofjustice/hmpps-template-typescript/pull/818)
+
+**September 3rd 2026** - Enforce strict typing
+
+Enforcing strict typescript typing and ensuring that all args are used
+
+See PR [#817](https://github.com/ministryofjustice/hmpps-template-typescript/pull/817)
+
+**August 26th 2026** - Adding audit client library
+
+Removing the local version of the audit client and replacing with the hmpps-audit-client.
+
+There's a breaking change: the `what` field has been replaced with `action`.
+The audit client is disabled by default in the hosted version of the template project.
+
+See PR [#810](https://github.com/ministryofjustice/hmpps-template-typescript/pull/810)
+
+Or the diff [here](https://github.com/ministryofjustice/hmpps-template-typescript/compare/7382729%5E...8c85af6)
+
+**August 19th 2026** - Allow setting default log level per environment
+
+Provide a mechanism to specify the log level via environmental variables.
+Note: this also changes the default log level to be `debug`
+
+See PR [#804](https://github.com/ministryofjustice/hmpps-template-typescript/pull/804)
+
+**August 14th 2026** - Move to npm 12
+
+As part of this we can remove reliance on the [hmpps allowlist scripts library](https://github.com/ministryofjustice/hmpps-typescript-lib/tree/main/packages/npm-script-allowlist) as this functionality is included in npm.
+See [here](https://docs.npmjs.com/cli/v12/commands/npm-install-scripts) for more information
+
+Note: ensure `engine-strict=true` is set in .npmrc so installs fail on npm < 12; the allowlist script functionality relies on disabling `ignore-scripts`, which is unsafe in npm < 12.
+
+See PR [#806](https://github.com/ministryofjustice/hmpps-template-typescript/pull/806)
+
+Also see PR [#818](https://github.com/ministryofjustice/hmpps-template-typescript/pull/818) to force [strict script allowlisting](https://docs.npmjs.com/cli/v11/commands/npm-install#strict-allow-scripts).
+
+**July 29th 2026** - Move to devsecops-hooks 2.0.2
+
+There's been a big rewrite of the [secret scanner precommit hook](https://github.com/ministryofjustice/devsecops-hooks) to simplify things.
+
+It now no longer uses docker which is much quicker but requires gitleaks to be installed locally on dev machines.
+
+The hook will prevent the commit if gitleaks isn't installed and provide a prompt to visit: https://github.com/gitleaks/gitleaks#installing
+
+For Mac users, gitleaks can be installed via brew: `brew install gitleaks`
+
+See PR [#792](https://github.com/ministryofjustice/hmpps-template-typescript/pull/792)
+
 **June 25th 2026** - Fancier wiremock interface
 
 Should make it easier to write stubs correctly, especially when you want to match query parameters

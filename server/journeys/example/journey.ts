@@ -1,7 +1,7 @@
 import { access, Data, Format, journey, step } from '@ministryofjustice/hmpps-forge/core/authoring'
 import { GovUKBody, GovUKHeading } from '@ministryofjustice/hmpps-forge/govuk-components'
 import { ExampleEffects } from './effects'
-import { Page } from '../../services/auditService'
+import { Page } from './types'
 
 const exampleStep = step({
   path: '/',

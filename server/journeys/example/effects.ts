@@ -1,5 +1,5 @@
 import { EffectRegistry } from '@ministryofjustice/hmpps-forge/core/authoring'
-import { Page } from '../../services/auditService'
+import { Page } from './types'
 import type { ExampleDeps, ExampleEffectFunctionContext } from './types'
 
 export const exampleEffectRegistry = new EffectRegistry<ExampleDeps>()

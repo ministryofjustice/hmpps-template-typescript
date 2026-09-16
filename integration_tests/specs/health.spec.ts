@@ -3,7 +3,7 @@ import exampleApi from '../mockApis/exampleApi'
 import hmppsAuth from '../mockApis/hmppsAuth'
 import tokenVerification from '../mockApis/tokenVerification'
 
-import { resetStubs } from '../testUtils'
+import { resetStubs } from '../mockApis/wiremock'
 
 // NB: add new mock apis here:
 const mockApis = [hmppsAuth, tokenVerification, exampleApi]

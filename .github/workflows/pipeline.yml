@@ -19,9 +19,6 @@ on:
 
 permissions:
   contents: read
-  packages: write
-  id-token: write
-  attestations: write
 
 concurrency:
   # Only cancel in progress when on a branch - use SHA on main to ensure uniqueness.
@@ -37,6 +34,7 @@ jobs:
   check_publish:
     name: Check publish flag
     runs-on: ubuntu-latest
+    permissions: {}
     outputs:
       enabled: ${{ github.ref == 'refs/heads/main' && (inputs.push || inputs.push == null) }}
     steps:
@@ -46,28 +44,39 @@ jobs:
   node_build:
     name: node build
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_build.yml@v2 # WORKFLOW_VERSION
-    secrets: inherit
-    with: 
+    with:
       install_command: 'npm run setup'
+      npm_version: '12.0.2'
   # generic node unit tests - feel free to override with local tests if required
   node_unit_tests:
     name: node unit tests
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_unit_tests.yml@v2 # WORKFLOW_VERSION
     needs: [node_build]
-    secrets: inherit
-  # generic node integration tests using wiremock - feel free to override with local tests if required
   node_integration_tests:
     name: node integration tests
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/node_integration_tests.yml@v2 # WORKFLOW_VERSION
+    runs-on: ubuntu-latest
     needs: [node_build]
-    secrets: inherit
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Run container integration tests
+        run: make e2e-ci
+      - name: Upload integration test results
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: npm_integration_test_artifacts
+          path: test_results/
+      - name: Stop test containers
+        if: always()
+        run: docker compose -f docker/docker-compose.base.yml -f docker/docker-compose.test.yml down --volumes
   helm_lint:
     strategy:
       matrix:
         environments: ['dev', 'preprod', 'prod']
     name: helm lint
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/test_helm_lint.yml@v2 # WORKFLOW_VERSION
-    secrets: inherit
     with:
       environment: ${{ matrix.environments }}
   build:
@@ -77,6 +86,11 @@ jobs:
       - node_integration_tests
       - node_unit_tests
       - check_publish
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
     with:
       docker_registry: 'ghcr.io'
       registry_org: 'ministryofjustice'

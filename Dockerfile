@@ -4,17 +4,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends wget && rm -rf 
     groupadd --gid 2000 appgroup && \
     useradd --uid 2000 --gid appgroup --create-home appuser
 
+RUN npm install -g npm@12.0.2
+
 WORKDIR /app
 
 # Stage: install ALL dependencies (dev + prod) for building
 FROM base AS deps
-COPY package.json package-lock.json .allowed-scripts.mjs .npmrc ./
+COPY package.json package-lock.json .npmrc ./
 RUN --mount=type=cache,target=/npm_cache \
     npm ci --cache /npm_cache --prefer-offline --ignore-scripts
 
 # Stage: install ONLY production dependencies
 FROM base AS prod-deps
-COPY package.json package-lock.json .allowed-scripts.mjs .npmrc ./
+COPY package.json package-lock.json .npmrc ./
 RUN --mount=type=cache,target=/npm_cache \
     npm ci --cache /npm_cache --prefer-offline --omit=dev --ignore-scripts
 

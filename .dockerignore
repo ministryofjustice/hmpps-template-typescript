@@ -3,9 +3,9 @@ kubectl_deploy*
 helm_deploy*
 README.md
 node_modules
+experiments
 npm-debug.log
 .*
-!.allowed-scripts.mjs
 !.npmrc
 **/*.test.js
 scss-report.txt

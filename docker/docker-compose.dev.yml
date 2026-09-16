@@ -13,6 +13,7 @@ services:
       - "9091:8080"
 
   ui:
+    image: ${COMPOSE_PROJECT_NAME}-development
     build:
       context: ..
       dockerfile: Dockerfile
