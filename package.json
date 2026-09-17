@@ -57,7 +57,7 @@
     "superagent": "^10.3.0"
   },
   "devDependencies": {
-    "@jgoz/esbuild-plugin-typecheck": "^4.0.5",
+    "@jgoz/esbuild-plugin-typecheck": "^5.0.0",
     "@ministryofjustice/eslint-config-hmpps": "^1.0.3",
     "@ministryofjustice/frontend-types": "2.0.2",
     "@ministryofjustice/hmpps-precommit-hooks": "3.0.2",
