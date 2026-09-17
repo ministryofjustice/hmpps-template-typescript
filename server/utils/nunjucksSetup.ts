@@ -3,6 +3,7 @@ import path from 'path'
 import nunjucks from 'nunjucks'
 import express from 'express'
 import fs from 'fs'
+import { registerForgeGovUKComponentsGlobals } from '@ministryofjustice/hmpps-forge/govuk-components'
 import { initialiseName } from './utils'
 import config from '../config'
 import logger from '../logger'
@@ -40,6 +41,8 @@ export default function nunjucksSetup(app: express.Express): nunjucks.Environmen
       noCache: process.env.NODE_ENV !== 'production',
     },
   )
+
+  registerForgeGovUKComponentsGlobals(njkEnv)
 
   njkEnv.addFilter('initialiseName', initialiseName)
   njkEnv.addFilter('assetMap', (url: string) => assetManifest[url] || url)
