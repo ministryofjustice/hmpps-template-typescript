@@ -1,0 +1,27 @@
+import { Page } from '@playwright/test'
+import tokenVerification from './mockApis/tokenVerification'
+import hmppsAuth, { type UserToken } from './mockApis/hmppsAuth'
+
+const DEFAULT_ROLES = ['ROLE_SOME_REQUIRED_ROLE']
+
+export const attemptHmppsAuthLogin = async (page: Page) => {
+  await page.goto('/')
+  const url = await hmppsAuth.getSignInUrl()
+
+  return page.goto(url)
+}
+
+export const login = async (
+  page: Page,
+  { name, roles = DEFAULT_ROLES, active = true, authSource = 'nomis' }: UserToken & { active?: boolean } = {},
+) => {
+  await Promise.all([
+    hmppsAuth.favicon(),
+    hmppsAuth.stubSignInPage(),
+    hmppsAuth.stubSignOutPage(),
+    hmppsAuth.token({ name, roles, authSource }),
+    tokenVerification.stubVerifyToken(active),
+  ])
+
+  return attemptHmppsAuthLogin(page)
+}

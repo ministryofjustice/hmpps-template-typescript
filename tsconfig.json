@@ -17,6 +17,6 @@
     "types": ["node", "jest"],
     "rootDir": "."
   },
-  "exclude": ["experiments", "node_modules", "assets", "integration_tests", "dist", "esbuild", "eslint.config.mjs"],
+  "exclude": ["node_modules", "assets", "integration_tests", "dist", "esbuild", "eslint.config.mjs"],
   "include": ["**/*.js", "**/*.ts"]
 }

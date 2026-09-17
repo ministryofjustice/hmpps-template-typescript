@@ -5,7 +5,7 @@
 
 Template github repo used for new Typescript based projects.
 
-This branch uses Forge for page journeys and supports containerised development, production builds, and integration tests. HMPPS user sign-in is disabled; HMPPS Auth is still used for service-to-service API tokens.
+This branch uses Forge for page journeys and supports containerised development, production builds, and integration tests. HMPPS Auth provides user sign-in and service-to-service API tokens.
 
 # Instructions
 

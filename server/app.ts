@@ -6,10 +6,9 @@ import { createExpressRouter } from '@ministryofjustice/hmpps-forge/express-nunj
 import nunjucksSetup from './utils/nunjucksSetup'
 import errorHandler from './errorHandler'
 import setUpCsrf from './middleware/setUpCsrf'
-// TODO: Disabled these middleware as they are HMPPS Auth specific
-// import authorisationMiddleware from './middleware/authorisationMiddleware'
-// import setUpAuthentication from './middleware/setUpAuthentication'
-// import setUpCurrentUser from './middleware/setUpCurrentUser'
+import authorisationMiddleware from './middleware/authorisationMiddleware'
+import setUpAuthentication from './middleware/setUpAuthentication'
+import setUpCurrentUser from './middleware/setUpCurrentUser'
 import setUpHealthChecks from './middleware/setUpHealthChecks'
 import setUpStaticResources from './middleware/setUpStaticResources'
 import setUpWebRequestParsing from './middleware/setUpRequestParsing'
@@ -40,10 +39,9 @@ export default function createApp(services: Services): express.Application {
     exampleService: services.exampleService,
   })
 
-  // TODO: Disabled these middleware as they are HMPPS Auth specific
-  // app.use(setUpAuthentication())
-  // app.use(authorisationMiddleware())
-  // app.use(setUpCurrentUser())
+  app.use(setUpAuthentication())
+  app.use(authorisationMiddleware())
+  app.use(setUpCurrentUser())
   app.use(setUpCsrf())
   app.use(telemetryMiddleware.addUserMetadataToTelemetry())
 

@@ -4,7 +4,6 @@ export default {
   },
   collectCoverageFrom: ['server/**/*.{ts,js,jsx,mjs}'],
   testMatch: ['<rootDir>/(server|job)/**/?(*.)(cy|test).{ts,js,jsx,mjs}'],
-  modulePathIgnorePatterns: ['<rootDir>/experiments/'],
   testEnvironment: 'node',
   reporters: [
     'default',

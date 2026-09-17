@@ -35,7 +35,7 @@ export default function setUpWebSecurity(): Router {
           ],
           fontSrc: ["'self'"],
           formAction: [`'self' ${config.apis.hmppsAuth.externalUrl}`],
-          ...(config.production ? {} : { upgradeInsecureRequests: null }),
+          ...(config.https ? {} : { upgradeInsecureRequests: null }),
         },
       },
       crossOriginEmbedderPolicy: true,

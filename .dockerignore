@@ -3,7 +3,6 @@ kubectl_deploy*
 helm_deploy*
 README.md
 node_modules
-experiments
 npm-debug.log
 .*
 !.npmrc
