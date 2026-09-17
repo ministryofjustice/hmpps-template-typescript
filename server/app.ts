@@ -3,8 +3,6 @@ import { telemetryMiddleware } from '@ministryofjustice/hmpps-azure-telemetry'
 import createError from 'http-errors'
 import { Forge } from '@ministryofjustice/hmpps-forge/core'
 import { createExpressRouter } from '@ministryofjustice/hmpps-forge/express-nunjucks'
-import { govukComponents } from '@ministryofjustice/hmpps-forge/govuk-components'
-import { mojComponents } from '@ministryofjustice/hmpps-forge/moj-components'
 import routes from './routes'
 import nunjucksSetup from './utils/nunjucksSetup'
 import errorHandler from './errorHandler'
@@ -37,8 +35,6 @@ export default function createApp(services: Services): express.Application {
   const nunjucksEnv = nunjucksSetup(app)
 
   const forge = new Forge({ logger })
-  forge.registerGlobalComponents(govukComponents)
-  forge.registerGlobalComponents(mojComponents)
   forge.registerPackage(examplePackage, {
     auditService: services.auditService,
     exampleService: services.exampleService,

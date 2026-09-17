@@ -1,6 +1,6 @@
 import { access, Data, Format, journey, step } from '@ministryofjustice/hmpps-forge/core/authoring'
 import { GovUKBody, GovUKHeading } from '@ministryofjustice/hmpps-forge/govuk-components'
-import { ExampleEffects } from './effects'
+import { LoadCurrentTime, LogPageView } from './effects'
 import { Page } from './types'
 
 const exampleStep = step({
@@ -9,7 +9,7 @@ const exampleStep = step({
   reachability: { entryWhen: true },
   onAccess: [
     access({
-      effects: [ExampleEffects.LogPageView(Page.EXAMPLE_PAGE), ExampleEffects.LoadCurrentTime()],
+      effects: [LogPageView(Page.EXAMPLE_PAGE), LoadCurrentTime()],
     }),
   ],
   blocks: [

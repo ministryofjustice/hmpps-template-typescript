@@ -4,8 +4,6 @@ import { NotFound } from 'http-errors'
 import { AuditService } from '@ministryofjustice/hmpps-audit-client'
 import { Forge } from '@ministryofjustice/hmpps-forge/core'
 import { createExpressRouter } from '@ministryofjustice/hmpps-forge/express-nunjucks'
-import { govukComponents } from '@ministryofjustice/hmpps-forge/govuk-components'
-import { mojComponents } from '@ministryofjustice/hmpps-forge/moj-components'
 import routes from '../routes'
 import ExampleService from '../services/exampleService'
 import type ExampleApiClient from '../data/exampleApiClient'
@@ -51,8 +49,6 @@ function appSetup(services: Services, production: boolean, userSupplier: () => H
   const nunjucksEnv = nunjucksSetup(app)
 
   const forge = new Forge({})
-  forge.registerGlobalComponents(govukComponents)
-  forge.registerGlobalComponents(mojComponents)
   forge.registerPackage(examplePackage, {
     auditService: services.auditService,
     exampleService: services.exampleService,
