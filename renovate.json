@@ -19,11 +19,6 @@
       "enabled": false
     },
     {
-      "matchPackageNames": ["typescript", "govuk-frontend"],
-      "rangeStrategy": "bump",
-      "minimumReleaseAge": null
-    },
-    {
       "matchManagers": ["npm"],
       "matchPackageNames": ["@types/node"],
       "matchUpdateTypes": ["major"],
