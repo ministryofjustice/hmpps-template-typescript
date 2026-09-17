@@ -15,9 +15,12 @@
         }) }}
       {% endif %}
 
-      {% for block in blocks %}
-        {{ block | safe }}
-      {% endfor %}
+      <form method="post" novalidate>
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+        {% for block in blocks %}
+          {{ block | safe }}
+        {% endfor %}
+      </form>
     </div>
   </div>
 {% endblock %}

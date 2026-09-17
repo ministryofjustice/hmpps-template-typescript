@@ -9,11 +9,10 @@ export const LogPageView = effect({
     ({ auditService }: ExampleDeps) =>
     async (context: ExampleEffectFunctionContext, page: Page) => {
       const user = context.getState('user')
-      const requestId = context.getRequestHeader('x-request-id')
 
       await auditService.logPageView(page, {
         who: user?.username ?? 'unknown',
-        correlationId: typeof requestId === 'string' ? requestId : undefined,
+        correlationId: context.getState('requestId'),
       })
     },
 })
@@ -27,5 +26,25 @@ export const LoadCurrentTime = effect({
       const currentTime = await exampleService.getCurrentTime()
 
       context.setData('currentTime', currentTime)
+    },
+})
+
+/** Audits the submitted search term before the journey redirects. */
+export const LogSearch = effect({
+  name: 'LogSearch',
+  factory:
+    ({ auditService, applicationInfo }: ExampleDeps) =>
+    async (context: ExampleEffectFunctionContext) => {
+      const user = context.getState('user')
+      const searchTerm = context.getAnswer('searchTerm')
+
+      await auditService.logAuditEvent({
+        correlationId: context.getState('requestId'),
+        who: user?.username ?? 'unknown',
+        what: Page.SEARCH_OFFENDERS,
+        subjectType: 'SEARCH_TERM',
+        subjectId: searchTerm,
+        details: { build: applicationInfo.gitRef, userRoles: user?.userRoles ?? [] },
+      })
     },
 })

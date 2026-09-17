@@ -3,7 +3,6 @@ import { telemetryMiddleware } from '@ministryofjustice/hmpps-azure-telemetry'
 import createError from 'http-errors'
 import { Forge } from '@ministryofjustice/hmpps-forge/core'
 import { createExpressRouter } from '@ministryofjustice/hmpps-forge/express-nunjucks'
-import routes from './routes'
 import nunjucksSetup from './utils/nunjucksSetup'
 import errorHandler from './errorHandler'
 import setUpCsrf from './middleware/setUpCsrf'
@@ -36,6 +35,7 @@ export default function createApp(services: Services): express.Application {
 
   const forge = new Forge({ logger })
   forge.registerPackage(examplePackage, {
+    applicationInfo: services.applicationInfo,
     auditService: services.auditService,
     exampleService: services.exampleService,
   })
@@ -46,7 +46,6 @@ export default function createApp(services: Services): express.Application {
   // app.use(setUpCurrentUser())
   app.use(setUpCsrf())
   app.use(telemetryMiddleware.addUserMetadataToTelemetry())
-  app.use(routes(services))
 
   app.use(createExpressRouter(forge, { nunjucksEnv }))
 

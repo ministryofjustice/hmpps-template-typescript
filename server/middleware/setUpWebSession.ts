@@ -36,6 +36,7 @@ export default function setUpWebSession(): Router {
 
     res.set(headerName, id)
     req.id = id
+    res.locals.requestId = id
 
     next()
   })

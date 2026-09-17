@@ -4,7 +4,6 @@ import { NotFound } from 'http-errors'
 import { AuditService } from '@ministryofjustice/hmpps-audit-client'
 import { Forge } from '@ministryofjustice/hmpps-forge/core'
 import { createExpressRouter } from '@ministryofjustice/hmpps-forge/express-nunjucks'
-import routes from '../routes'
 import ExampleService from '../services/exampleService'
 import type ExampleApiClient from '../data/exampleApiClient'
 import type { ApplicationInfo } from '../applicationInfo'
@@ -50,6 +49,7 @@ function appSetup(services: Services, production: boolean, userSupplier: () => H
 
   const forge = new Forge({})
   forge.registerPackage(examplePackage, {
+    applicationInfo: services.applicationInfo,
     auditService: services.auditService,
     exampleService: services.exampleService,
   })
@@ -69,13 +69,13 @@ function appSetup(services: Services, production: boolean, userSupplier: () => H
     }
     next()
   })
-  app.use((req, _res, next) => {
+  app.use((req, res, next) => {
     req.id = '4d0fd4da-ecc1-454d-8308-cdee6b8b91f7'
+    res.locals.requestId = req.id
     next()
   })
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
-  app.use(routes(services))
   app.use(createExpressRouter(forge, { nunjucksEnv }))
   app.use((_req, _res, next) => next(new NotFound()))
   app.use(errorHandler(production))

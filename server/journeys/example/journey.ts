@@ -1,6 +1,17 @@
-import { access, Data, Format, journey, step } from '@ministryofjustice/hmpps-forge/core/authoring'
-import { GovUKBody, GovUKHeading } from '@ministryofjustice/hmpps-forge/govuk-components'
-import { LoadCurrentTime, LogPageView } from './effects'
+import {
+  access,
+  Condition,
+  Data,
+  Format,
+  journey,
+  redirect,
+  Self,
+  step,
+  submit,
+  validation,
+} from '@ministryofjustice/hmpps-forge/core/authoring'
+import { GovUKBody, GovUKButton, GovUKHeading, GovUKTextInput } from '@ministryofjustice/hmpps-forge/govuk-components'
+import { LoadCurrentTime, LogPageView, LogSearch } from './effects'
 import { Page } from './types'
 
 const exampleStep = step({
@@ -12,6 +23,15 @@ const exampleStep = step({
       effects: [LogPageView(Page.EXAMPLE_PAGE), LoadCurrentTime()],
     }),
   ],
+  onSubmission: [
+    submit({
+      validate: true,
+      onValid: {
+        effects: [LogSearch()],
+        next: [redirect({ goto: '/' })],
+      },
+    }),
+  ],
   blocks: [
     GovUKHeading({ text: 'This site is under construction...', size: 'l' }),
     GovUKBody({ text: 'Please check back later when there is content to view.' }),
@@ -19,6 +39,13 @@ const exampleStep = step({
       text: Format('The time is currently %1', Data('currentTime')),
       attributes: { 'data-qa': 'timestamp' },
     }),
+    GovUKTextInput({
+      code: 'searchTerm',
+      label: 'Search term',
+      hint: 'This example records an audit event; it does not return search results.',
+      validWhen: [validation({ condition: Self().match(Condition.IsRequired()), message: 'Enter a search term' })],
+    }),
+    GovUKButton({ text: 'Search' }),
   ],
 })
 

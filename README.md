@@ -25,7 +25,7 @@ found [here](https://dsdmoj.atlassian.net/wiki/spaces/NDSS/pages/3488677932/Type
 
 This branch pins Forge to `0.5.0-alpha.1`. Journeys created with `createForgePackage()` automatically collect the components and functions they use. Define effects with `effect()` and use them in journey hooks; there is no global component registration or effect registry to maintain.
 
-The example package receives `auditService` and `exampleService` through `registerPackage()`. Forge binds the effect factories for each request, while the Express adapter supplies the configured Nunjucks environment to components. Pages continue to use `view.template` and the existing Nunjucks layout.
+The example package receives `applicationInfo`, `auditService` and `exampleService` through `registerPackage()`. Forge binds the effect factories for each request, while the Express adapter supplies the configured Nunjucks environment to components. Pages continue to use `view.template` and the existing Nunjucks layout. The home page includes an example search form: Forge validates the search term, runs the audit effect on submission, and redirects back home. It records the search for auditing without calling a search API.
 
 The upgrade also brings the release's source-mapped diagnostics, HTTP error propagation, and expression fixes. Request dependencies, custom step renderers, generator-backed validation, and the browser adapter are available when a journey needs them. See the [release changelog](https://github.com/ministryofjustice/hmpps-forge/blob/hmpps-forge-0.5.0-alpha.1/CHANGELOG.md) for the full API and behaviour changes.
 
