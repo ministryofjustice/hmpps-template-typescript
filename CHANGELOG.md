@@ -6,7 +6,7 @@ Note: this requires a "scheduled-downtime.tf" service account in your dev and pr
 
 See [here](https://github.com/ministryofjustice/hmpps-helm-charts/tree/main/charts/generic-service#scheduled-downtime) for more details.
 
-See PR [#822](https://github.com/ministryofjustice/hmpps-template-typescript/pull/822)
+See PR [#829](https://github.com/ministryofjustice/hmpps-template-typescript/pull/829)
 
 **September 9th 2026** - Add user metadata to app insights telemetry
 
