@@ -1,5 +1,13 @@
 # Change log
 
+**September 24th 2026** - Enabling auto-shutdown for dev and preprod out of hours
+
+Note: this requires a "scheduled-downtime.tf" service account in your dev and preprod namespaces.
+
+See [here](https://github.com/ministryofjustice/hmpps-helm-charts/tree/main/charts/generic-service#scheduled-downtime) for more details.
+
+See PR [#829](https://github.com/ministryofjustice/hmpps-template-typescript/pull/829)
+
 **September 9th 2026** - Add user metadata to app insights telemetry
 
 Basic user metadata is added to app insights telemetry out of the box, including the auth source specific user id,

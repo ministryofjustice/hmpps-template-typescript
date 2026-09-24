@@ -15,6 +15,9 @@ generic-service:
     EXAMPLE_API_URL: 'https://template-kotlin-dev.hmpps.service.justice.gov.uk'
     ENVIRONMENT_NAME: DEV
 
+  scheduledDowntime:
+    enabled: true
+
   allowlist:
     # Configure groups as appropriate to give the minimum ingress access required:
     #   digital_staff_and_mojo: devices on the MoJ network
@@ -36,3 +39,4 @@ generic-service:
 
 generic-prometheus-alerts:
   alertSeverity: hmpps_alerts_nonprod
+  businessHoursOnly: true
