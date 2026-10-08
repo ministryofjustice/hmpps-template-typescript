@@ -13,6 +13,7 @@ generic-service:
     HMPPS_AUTH_URL: "https://sign-in-dev.hmpps.service.justice.gov.uk/auth"
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api-dev.prison.service.justice.gov.uk"
     EXAMPLE_API_URL: 'https://template-kotlin-dev.hmpps.service.justice.gov.uk'
+    COMPONENT_API_URL: 'https://probation-frontend-components-dev.hmpps.service.justice.gov.uk'
     ENVIRONMENT_NAME: DEV
 
   allowlist:
