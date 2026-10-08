@@ -55,6 +55,7 @@ services:
       - TOKEN_VERIFICATION_ENABLED=false
       - INGRESS_URL=http://localhost:3000
       - NO_HTTPS=true
+      - COMPONENT_API_URL=https://probation-frontend-components-dev.hmpps.service.justice.gov.uk
 
 networks:
   hmpps:
