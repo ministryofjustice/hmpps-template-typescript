@@ -4,6 +4,7 @@ export default class ExampleService {
   constructor(private readonly exampleApiClient: ExampleApiClient) {}
 
   getCurrentTime() {
-    return this.exampleApiClient.getCurrentTime()
+    // return this.exampleApiClient.getCurrentTime()
+    return new Date().toISOString()
   }
 }
