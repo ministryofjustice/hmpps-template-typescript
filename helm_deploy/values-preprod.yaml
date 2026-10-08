@@ -15,6 +15,9 @@ generic-service:
     COMPONENT_API_URL: 'https://probation-frontend-components-preprod.hmpps.service.justice.gov.uk'
     ENVIRONMENT_NAME: PRE-PRODUCTION
 
+  scheduledDowntime:
+    enabled: true
+
   allowlist:
     # Configure groups as appropriate to give the minimum ingress access required:
     #   digital_staff_and_mojo: devices on the MoJ network
@@ -37,3 +40,4 @@ generic-service:
 
 generic-prometheus-alerts:
   alertSeverity: hmpps_alerts_nonprod
+  businessHoursOnly: true

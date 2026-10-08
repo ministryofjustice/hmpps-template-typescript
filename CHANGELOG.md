@@ -1,5 +1,20 @@
 # Change log
 
+**September 25th 2026** - Using the latest version of npm 12 for build and test
+
+Replacing the pinned version of npm 12.0.2 with the latest version of npm 12 to reduce cognitive load
+of remembering to update the pinned version when a new version of npm 12 is released.
+
+See PR [#830](https://github.com/ministryofjustice/hmpps-template-typescript/pull/830)
+
+**September 24th 2026** - Enabling auto-shutdown for dev and preprod out of hours
+
+Note: this requires a "scheduled-downtime.tf" service account in your dev and preprod namespaces.
+
+See [here](https://github.com/ministryofjustice/hmpps-helm-charts/tree/main/charts/generic-service#scheduled-downtime) for more details.
+
+See PR [#829](https://github.com/ministryofjustice/hmpps-template-typescript/pull/829)
+
 **September 9th 2026** - Add user metadata to app insights telemetry
 
 Basic user metadata is added to app insights telemetry out of the box, including the auth source specific user id,
