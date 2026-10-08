@@ -10,6 +10,7 @@ import authorisationMiddleware from './middleware/authorisationMiddleware'
 import setUpAuthentication from './middleware/setUpAuthentication'
 import setUpCsrf from './middleware/setUpCsrf'
 import setUpCurrentUser from './middleware/setUpCurrentUser'
+import setUpFrontendComponents from './middleware/setUpFrontendComponents'
 import setUpHealthChecks from './middleware/setUpHealthChecks'
 import setUpStaticResources from './middleware/setUpStaticResources'
 import setUpWebRequestParsing from './middleware/setUpRequestParsing'
@@ -38,6 +39,14 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpCurrentUser())
   // For prison users, register the `addUserMetadataToTelemetry` middleware after middleware that retrieves caseload data.
   app.use(telemetryMiddleware.addUserMetadataToTelemetry())
+
+  const frontendComponentsMiddleware = setUpFrontendComponents()
+  app.use((req, res, next) => {
+    if (req.method !== 'GET') {
+      return next()
+    }
+    return frontendComponentsMiddleware(req, res, next)
+  })
 
   app.use(routes(services))
 
