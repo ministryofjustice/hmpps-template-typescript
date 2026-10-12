@@ -155,7 +155,15 @@ The secret scanner hook can also be configured as described [here](https://githu
 
 ### Run unit tests
 
-`npm run test`
+Unit tests use [Vitest](https://vitest.dev/).
+
+- `npm run test` runs the unit tests.
+- `npm run test:ci` runs the unit tests serially (used by CI).
+- `npm run test:coverage` runs the unit tests with coverage (reports written to `test_results/coverage`).
+- `npm run test:watch` runs the unit tests in watch mode.
+
+A JUnit report is written to `test_results/jest/results.xml` and an HTML report to
+`test_results/unit-test-reports/index.html`.
 
 ### Running integration tests
 
