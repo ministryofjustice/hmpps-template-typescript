@@ -30,7 +30,7 @@
     "npm": "^12"
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.1145.0",
+    "@aws-sdk/client-sqs": "^3.1146.0",
     "@ministryofjustice/frontend": "^11.1.0",
     "@ministryofjustice/hmpps-audit-client": "2.0.0",
     "@ministryofjustice/hmpps-auth-clients": "3.0.0",
@@ -90,7 +90,7 @@
     "jsonwebtoken": "^9.0.3",
     "lint-staged": "^17.6.0",
     "nock": "^14.0.17",
-    "supertest": "^7.3.0",
+    "supertest": "^7.3.1",
     "ts-jest": "^29.4.14",
     "typescript": "^6.0.3"
   },
