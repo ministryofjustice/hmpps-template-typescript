@@ -1,16 +1,17 @@
 import type { Express } from 'express'
 import { AuditService } from '@ministryofjustice/hmpps-audit-client'
 import request from 'supertest'
+import { vi, type Mocked } from 'vitest'
 import { appWithAllRoutes, user } from './testutils/appSetup'
 import ExampleService from '../services/exampleService'
 import ExampleApiClient from '../data/exampleApiClient'
 import { Page } from '.'
 
-jest.mock('@ministryofjustice/hmpps-audit-client')
-jest.mock('../services/exampleService')
+vi.mock('@ministryofjustice/hmpps-audit-client')
+vi.mock('../services/exampleService')
 
-const auditService = new AuditService({} as never) as jest.Mocked<AuditService>
-const exampleService = new ExampleService({} as ExampleApiClient) as jest.Mocked<ExampleService>
+const auditService = new AuditService({} as never) as Mocked<AuditService>
+const exampleService = new ExampleService({} as ExampleApiClient) as Mocked<ExampleService>
 
 let app: Express
 
@@ -25,7 +26,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  jest.resetAllMocks()
+  vi.resetAllMocks()
 })
 
 describe('GET /', () => {
