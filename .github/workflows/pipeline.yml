@@ -86,6 +86,9 @@ jobs:
       sign_image: ${{ needs.check_publish.outputs.enabled == 'true' }}
   deploy_dev:
     name: Deploy to the development environment
+    permissions:
+      contents: read
+      id-token: write
     if: needs.check_publish.outputs.enabled == 'true'
     needs:
       - build
