@@ -67,7 +67,7 @@ jobs:
       environment: ${{ matrix.environments }}
   build:
     name: Build docker image from hmpps-github-actions
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/docker_build.yml@v2 # WORKFLOW_VERSION
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/docker_build_ecr.yml@v2 # WORKFLOW_VERSION
     needs:
       - node_integration_tests
       - node_unit_tests
@@ -78,8 +78,6 @@ jobs:
       id-token: write
       attestations: write
     with:
-      docker_registry: 'ghcr.io'
-      registry_org: 'ministryofjustice'
       additional_docker_tag: ${{ inputs.additional_docker_tag }}
       push: ${{ needs.check_publish.outputs.enabled == 'true' }}
       docker_multiplatform: false
@@ -93,31 +91,34 @@ jobs:
       - build
       - helm_lint
       - check_publish
-    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2 # WORKFLOW_VERSION
+    uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_to_env.yml@v2 # WORKFLOW_VERSION
     secrets: inherit
     with:
       environment: 'dev'
       app_version: '${{ needs.build.outputs.app_version }}'
+      helm_additional_args: '--set generic-service.image.repository=${{ vars.CLOUD_PLATFORM_ECR_REGISTRY_URL }}/${{ vars.ECR_REPOSITORY }}'
       slack_notification: 'false' # if 'true', it needs a valid NONPROD_RELEASES_SLACK_CHANNEL variable to be set
   # deploy_preprod:
   #   name: Deploy to pre-production environment
   #   needs:
   #     - build
   #     - deploy_dev
-  #   uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2 # WORKFLOW_VERSION
+  #   uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_to_env.yml@v2 # WORKFLOW_VERSION
   #   secrets: inherit
   #   with:
   #     environment: 'preprod'
-  #     app_version: '${{ needs.build.outputs.app_version }}'
+  #     app_version: '${{ needs.build.outputs.app_version }}
+  #     helm_additional_args: '--set generic-service.image.repository=${{ vars.CLOUD_PLATFORM_ECR_REGISTRY_URL }}/${{ vars.ECR_REPOSITORY }}'
   #     slack_notification: 'false' # if 'true', it needs a valid NONPROD_RELEASES_SLACK_CHANNEL variable to be set
   # deploy_prod:
   #   name: Deploy to production environment
   #   needs:
   #     - build
   #     - deploy_preprod
-  #   uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_env.yml@v2 # WORKFLOW_VERSION
+  #   uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_to_env.yml@v2 # WORKFLOW_VERSION
   #   secrets: inherit
   #   with:
   #     environment: 'prod'
   #     app_version: '${{ needs.build.outputs.app_version }}'
+  #     helm_additional_args: '--set generic-service.image.repository=${{ vars.CLOUD_PLATFORM_ECR_REGISTRY_URL }}/${{ vars.ECR_REPOSITORY }}'
   #     slack_notification: 'false' # if 'true', it needs a valid PROD_RELEASES_SLACK_CHANNEL variable to be set
