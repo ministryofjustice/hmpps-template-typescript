@@ -8,7 +8,7 @@ generic-service:
   replicaCount: 4
 
   image:
-    repository: ghcr.io/ministryofjustice/hmpps-template-typescript
+    repository: ecr_repository # override at deployment time
     tag: app_version # override at deployment time
     port: 3000
 
