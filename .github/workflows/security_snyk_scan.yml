@@ -20,6 +20,7 @@ jobs:
       severity: 'HIGH,CRITICAL'
       scan_type: 'image' # or 'fs'
       location: '.'
+      image_ref: '${{ vars.CLOUD_PLATFORM_ECR_REGISTRY_URL }}/${{ vars.ECR_REPOSITORY }}:latest'
       slack_include_summary: true
       snyk_policy_path: '' # Optional path to a custom Snyk policy file
     secrets:
