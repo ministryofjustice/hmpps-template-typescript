@@ -1,5 +1,6 @@
 import type { Express } from 'express'
 import request from 'supertest'
+import { vi } from 'vitest'
 import { appWithAllRoutes } from './routes/testutils/appSetup'
 
 let app: Express
@@ -9,7 +10,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  jest.resetAllMocks()
+  vi.resetAllMocks()
 })
 
 describe('GET 404', () => {

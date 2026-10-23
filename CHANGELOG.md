@@ -1,5 +1,24 @@
 # Change log
 
+**October 12th 2026** - Migrate unit tests from Jest to Vitest
+
+Unit tests now run with [Vitest](https://vitest.dev/) instead of Jest. Vitest transforms TypeScript natively (via
+esbuild, which is already used for the build), so `jest`, `ts-jest`, `@types/jest`, `jest-junit` and
+`jest-html-reporter` have been replaced by `vitest`, `@vitest/coverage-v8` and `@vitest/ui`.
+
+To migrate an existing project:
+
+- Replace `jest.config.mjs` with `vitest.config.mts`.
+- In test files replace `jest.fn`/`jest.mock`/`jest.resetAllMocks` etc. with `vi.*` imported from `vitest`, and
+  `jest.Mocked<T>` with `Mocked<T>` imported from `vitest`.
+- Replace `"jest"` in `tsconfig.json` `types` with a `/// <reference types="vitest/globals" />` in `server/@types`
+  (required because the custom `typeRoots` setting prevents `types: ["vitest/globals"]` from resolving).
+- Add `extraPathsAllowingDevDependencies: ['vitest.config.mts']` to `eslint.config.mjs`.
+- Update the `test`, `test:ci` scripts and add `test:coverage` / `test:watch`.
+
+The JUnit output path (`test_results/jest/results.xml`) is unchanged so the shared
+`hmpps-github-actions` unit test workflow continues to publish test reports without modification.
+
 **September 25th 2026** - Using the latest version of npm 12 for build and test
 
 Replacing the pinned version of npm 12.0.2 with the latest version of npm 12 to reduce cognitive load
