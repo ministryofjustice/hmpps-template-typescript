@@ -1,7 +1,6 @@
 # hmpps-template-typescript
 
 [![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/hmpps-template-typescript/badge?style=flat)](https://github-community.service.justice.gov.uk/repository-standards/hmpps-template-typescript)
-[![Docker Repository on ghcr](https://img.shields.io/badge/ghcr.io-repository-2496ED.svg?logo=docker)](https://ghcr.io/ministryofjustice/hmpps-template-typescript)
 
 Template github repo used for new Typescript based projects.
 
