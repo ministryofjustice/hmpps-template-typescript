@@ -1,5 +1,11 @@
 # Change log
 
+**October 30th 2026** - Switch to Node 26 LTS
+
+Move over to Node 26 now it is the current LTS version.
+
+See PR [#857](https://github.com/ministryofjustice/hmpps-template-typescript/pull/857)
+
 **September 25th 2026** - Using the latest version of npm 12 for build and test
 
 Replacing the pinned version of npm 12.0.2 with the latest version of npm 12 to reduce cognitive load
