@@ -35,6 +35,7 @@ const getAssetsConfig = buildConfig => ({
   plugins: [
     cleanPlugin(globSync(buildConfig.assets.clear)),
     manifestPlugin({
+      filename: 'asset-manifest.json',
       generate: entries =>
         Object.fromEntries(Object.entries(entries).map(paths => paths.map(p => p.replace(/^dist\//, '/')))),
     }),
