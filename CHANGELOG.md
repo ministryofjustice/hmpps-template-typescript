@@ -1,5 +1,16 @@
 # Change log
 
+**November 4th 2026** - Rename the asset map to stop it overriding the GOV.UK web app manifest
+
+The esbuild asset map was written to `dist/assets/manifest.json`, which is served at `/assets/manifest.json` ahead of
+the GOV.UK Frontend web app manifest referenced by `govuk/template.njk`. It is now written to
+`dist/assets/asset-manifest.json` and `nunjucksSetup.ts` reads it from there.
+
+Also removed unused images (`hmpps_logo_small.png`, `logo.svg`) and the local `favicon.ico`, so the GOV.UK Frontend
+icons referenced by the page template are used instead.
+
+See PR [#861](https://github.com/ministryofjustice/hmpps-template-typescript/pull/861)
+
 **October 30th 2026** - Switch to Node 26 LTS
 
 Move over to Node 26 now it is the current LTS version.

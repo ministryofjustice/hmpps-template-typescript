@@ -41,7 +41,7 @@ const getBuildConfig = () => {
           watch: isWatchMode,
         },
       ],
-      clear: globSync([path.join(cwd, 'dist/assets/{css,js}')]),
+      clear: globSync([path.join(cwd, 'dist/assets/{css,js,manifest.json}')]),
     },
   }
 }
