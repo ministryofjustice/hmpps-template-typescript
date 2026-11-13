@@ -30,7 +30,7 @@
     "npm": "^12"
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.1162.0",
+    "@aws-sdk/client-sqs": "^3.1163.0",
     "@ministryofjustice/frontend": "^12.0.0",
     "@ministryofjustice/hmpps-audit-client": "2.0.0",
     "@ministryofjustice/hmpps-auth-clients": "3.0.0",
@@ -61,7 +61,7 @@
     "@ministryofjustice/eslint-config-hmpps": "^1.0.4",
     "@ministryofjustice/frontend-types": "2.0.3",
     "@ministryofjustice/hmpps-precommit-hooks": "3.0.2",
-    "@playwright/test": "^1.64.1",
+    "@playwright/test": "^1.65.0",
     "@tsconfig/node26": "^26.0.1",
     "@types/bunyan": "^1.8.11",
     "@types/bunyan-format": "^0.2.9",
@@ -89,7 +89,7 @@
     "jest-junit": "^17.0.0",
     "jsonwebtoken": "^9.0.3",
     "lint-staged": "^17.6.0",
-    "nock": "^15.0.5",
+    "nock": "^15.0.6",
     "supertest": "^7.3.1",
     "ts-jest": "^29.4.15",
     "typescript": "^6.0.3"
