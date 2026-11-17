@@ -29,6 +29,9 @@ jobs:
       environment: ${{ inputs.environment }}
   deploy_env:
     name: Deploy to environment
+    permissions:
+      contents: read
+      id-token: write
     needs:
       - helm_lint
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/deploy_to_env.yml@v2 # WORKFLOW_VERSION
