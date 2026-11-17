@@ -1,8 +1,14 @@
 export default {
-  transform: {
-    '^.+\\.tsx?$': ['ts-jest'],
+  preset: 'ts-jest',
+  collectCoverageFrom: ['server/**/*.{ts,js,jsx,mjs}', '!server/**/*.d.ts', '!server/**/*.test.ts'],
+  coverageThreshold: {
+    './server/middleware/setUpFrontendComponents.ts': {
+      branches: 80,
+      functions: 80,
+      lines: 80,
+      statements: 80,
+    },
   },
-  collectCoverageFrom: ['server/**/*.{ts,js,jsx,mjs}'],
   testMatch: ['<rootDir>/(server|job)/**/?(*.)(cy|test).{ts,js,jsx,mjs}'],
   testEnvironment: 'node',
   reporters: [

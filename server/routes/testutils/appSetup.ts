@@ -53,6 +53,12 @@ function appSetup(services: Partial<Services>, production: boolean, userSupplier
       applicationName: '',
       environmentName: '',
       environmentNameColour: '',
+      feComponents: {
+        header: '',
+        footer: '',
+        cssIncludes: [],
+        jsIncludes: [],
+      },
     }
     next()
   })

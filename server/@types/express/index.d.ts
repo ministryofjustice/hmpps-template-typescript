@@ -32,6 +32,12 @@ export declare global {
       appInsightsConnectionString?: string
       appInsightsApplicationName?: string
       buildNumber?: string
+      feComponents: {
+        header: string
+        footer: string
+        cssIncludes: string[]
+        jsIncludes: string[]
+      }
     }
   }
 }

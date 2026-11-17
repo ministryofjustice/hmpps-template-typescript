@@ -4,8 +4,10 @@ $path: "/assets/images/";
 $moj-page-width: 1170px;
 $govuk-page-width: $moj-page-width;
 
+@import 'node_modules/@ministryofjustice/hmpps-probation-frontend-components/dist/assets/footer';
+@import 'node_modules/@ministryofjustice/hmpps-probation-frontend-components/dist/assets/header';
+
 @import "govuk-frontend/dist/govuk/index";
 @import "@ministryofjustice/frontend/moj/all";
 
-@import './components/header-bar';
 @import './overrides/local';
