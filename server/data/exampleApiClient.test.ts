@@ -20,6 +20,10 @@ describe('ExampleApiClient', () => {
     jest.resetAllMocks()
   })
 
+  afterAll(() => {
+    nock.restore()
+  })
+
   describe('getCurrentTime', () => {
     it('should make a GET request to /example/time using system token and return the response body', async () => {
       nock(config.apis.exampleApi.url)
