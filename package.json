@@ -30,7 +30,7 @@
     "npm": "^12"
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.1166.0",
+    "@aws-sdk/client-sqs": "^3.1169.0",
     "@ministryofjustice/frontend": "^12.0.0",
     "@ministryofjustice/hmpps-audit-client": "2.0.0",
     "@ministryofjustice/hmpps-auth-clients": "3.0.0",
@@ -61,8 +61,8 @@
     "@ministryofjustice/eslint-config-hmpps": "^1.0.4",
     "@ministryofjustice/frontend-types": "2.0.3",
     "@ministryofjustice/hmpps-precommit-hooks": "3.0.2",
-    "@playwright/test": "^1.65.0",
-    "@tsconfig/node26": "^26.0.1",
+    "@playwright/test": "^1.65.1",
+    "@tsconfig/node26": "^26.0.2",
     "@types/bunyan": "^1.8.11",
     "@types/bunyan-format": "^0.2.9",
     "@types/compression": "^1.8.1",
@@ -96,7 +96,7 @@
   },
   "overrides": {
     "@opentelemetry/core": "2.12.1",
-    "brace-expansion": "5.0.12",
+    "brace-expansion": "5.0.13",
     "js-yaml": "3.15.2"
   },
   "allowScripts": {
