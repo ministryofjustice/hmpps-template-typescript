@@ -30,7 +30,6 @@
     "npm": "^12"
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.1169.0",
     "@ministryofjustice/frontend": "^12.0.0",
     "@ministryofjustice/hmpps-audit-client": "2.0.0",
     "@ministryofjustice/hmpps-auth-clients": "3.0.0",
@@ -78,7 +77,6 @@
     "@types/superagent": "^8.1.11",
     "@types/supertest": "^7.2.1",
     "audit-ci": "^7.1.0",
-    "aws-sdk-client-mock": "^4.1.0",
     "del": "9.0.1",
     "esbuild": "^0.28.2",
     "esbuild-plugin-copy": "^2.1.1",
