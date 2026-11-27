@@ -18,8 +18,9 @@ export default function routes(services: Services): Router {
       correlationId: req.id,
     })
 
-    const currentTime = await exampleService.getCurrentTime()
-    return res.render('pages/index', { currentTime })
+    // const currentTime = await exampleService.getCurrentTime()
+    // return res.render('pages/index', { currentTime })
+    return res.render('pages/index', {})
   })
 
   // Example of an audited route.

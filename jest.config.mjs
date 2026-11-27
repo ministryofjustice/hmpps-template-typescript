@@ -27,4 +27,5 @@ export default {
     ],
   ],
   moduleFileExtensions: ['web.js', 'js', 'json', 'node', 'ts'],
+  transformIgnorePatterns: ['node_modules/(?!nock)/'],
 }

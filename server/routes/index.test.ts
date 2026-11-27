@@ -39,12 +39,11 @@ describe('GET /', () => {
       .expect(200)
       .expect(res => {
         expect(res.text).toContain('This site is under construction...')
-        expect(res.text).toContain('The time is currently')
         expect(auditService.logPageView).toHaveBeenCalledWith(Page.EXAMPLE_PAGE, {
           who: user.username,
           correlationId: expect.any(String),
         })
-        expect(exampleService.getCurrentTime).toHaveBeenCalled()
+        // expect(exampleService.getCurrentTime).toHaveBeenCalled()
       })
   })
 

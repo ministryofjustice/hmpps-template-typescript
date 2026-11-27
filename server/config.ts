@@ -85,6 +85,19 @@ export default {
       agent: new AgentConfig(Number(get('TOKEN_VERIFICATION_API_TIMEOUT_RESPONSE', 5000))),
       enabled: get('TOKEN_VERIFICATION_ENABLED', 'false') === 'true',
     },
+    componentApi: {
+      url: get(
+        'COMPONENT_API_URL',
+        'https://probation-frontend-components-dev.hmpps.service.justice.gov.u/components',
+        requiredInProduction,
+      ),
+      healthPath: '/health/ping',
+      timeout: {
+        response: Number(get('COMPONENT_API_TIMEOUT_RESPONSE', 5000)),
+        deadline: Number(get('COMPONENT_API_TIMEOUT_DEADLINE', 5000)),
+      },
+      agent: new AgentConfig(Number(get('COMPONENT_API_TIMEOUT_RESPONSE', 5000))),
+    },
     exampleApi: {
       url: get('EXAMPLE_API_URL', 'http://localhost:8080', requiredInProduction),
       healthPath: '/health/ping',
@@ -99,5 +112,5 @@ export default {
     audit: auditConfig(),
   },
   ingressUrl: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
-  environmentName: get('ENVIRONMENT_NAME', ''),
+  environmentName: get('ENVIRONMENT_NAME', 'LOCAL'),
 }
